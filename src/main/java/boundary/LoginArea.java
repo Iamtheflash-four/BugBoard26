@@ -19,7 +19,6 @@ public class LoginArea extends JFrame
     private JTextField passwordField;
     
     private JButton btnAccedi;
-    private JButton btnRecuperoPassword;
     private JLabel messageLabel;
     
     public LoginArea(LoginController controller)
@@ -58,14 +57,7 @@ public class LoginArea extends JFrame
         });
         buttonPanel.add(btnAccedi);
         
-        btnRecuperoPassword = createNewButtonPainted("Recupera Password",  new Color(255, 255, 255),  new Color(0, 0, 255),  new Color(0, 0, 255)); 
-        btnRecuperoPassword.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, 
-                "Funzione in sviluppo", 
-                "Info", 
-                JOptionPane.INFORMATION_MESSAGE);
-        });
-        buttonPanel.add(btnRecuperoPassword);
+        
         
         mainPanel.add(formPanel);
         mainPanel.add(buttonPanel);
