@@ -1,6 +1,8 @@
 package boundary;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
+
 import java.awt.*;
 import Controller.LoginController;
 
@@ -8,12 +10,13 @@ public class LoginArea extends JFrame
 {
     private LoginController controller;
     private JPanel mainPanel;
+    private JPanel formPanel;
     
     private JLabel emailLabel;
     private JTextField emailField;
     
     private JLabel passwordLabel;
-    private JPasswordField passwordField;
+    private JTextField passwordField;
     
     private JButton btnAccedi;
     private JButton btnRecuperoPassword;
@@ -37,48 +40,12 @@ public class LoginArea extends JFrame
     
     private void creaGUI()
     {
-        mainPanel = new JPanel(new GridBagLayout());
+        mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        
-        // Label e campo Email
-        emailLabel = createLabel("Email:");
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.WEST;
-        mainPanel.add(emailLabel, gbc);
-        
-        emailField = new JTextField(20);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        mainPanel.add(emailField, gbc);
-        
-        // Label e campo Password
-        passwordLabel = createLabel("Password:");
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        mainPanel.add(passwordLabel, gbc);
-        
-        passwordField = new JPasswordField(20);
-        passwordField.setEchoChar('*'); // Carattere per nascondere la password
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        mainPanel.add(passwordField, gbc);
-        
-        // Messaggio di errore/successo
-        messageLabel = new JLabel("");
-        messageLabel.setForeground(Color.RED);
-        messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 3;
-        mainPanel.add(messageLabel, gbc);
+        // Initialize Form panel
+        creaForm();
+
         
         // Pannello per i bottoni
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
@@ -101,11 +68,8 @@ public class LoginArea extends JFrame
         });
         buttonPanel.add(btnRecuperoPassword);
         
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 3;
-        gbc.insets = new Insets(15, 5, 5, 5);
-        mainPanel.add(buttonPanel, gbc);
+        mainPanel.add(formPanel);
+        mainPanel.add(buttonPanel);
         
         // Permette di premere Enter dopo aver digitato la password
         passwordField.addActionListener(e -> {
@@ -118,12 +82,52 @@ public class LoginArea extends JFrame
         this.add(mainPanel);
     }
     
-    private JLabel createLabel(String text)
+    private void creaForm() {
+		formPanel = new JPanel(new GridBagLayout());
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        //Email
+		emailLabel = createLabel("Indirizzo e-mail", gbc, 0);
+		emailField = new JTextField();
+		createLoginField(emailField, "nome@gmail.com", gbc, 1);
+		
+		//Password
+		passwordLabel = createLabel("Password", gbc, 2);
+		passwordField = new JPasswordField();
+		createLoginField(passwordField, "xxxxxxxx", gbc, 3);
+	}
+
+	private JLabel createLabel(String text, GridBagConstraints gbc, int row)
     {
         JLabel label = new JLabel(text);
         label.setFont(new Font("Arial", Font.BOLD, 12));
+        label.setForeground(Color.BLUE);
+        
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(label, gbc);
+        
         return label;
     }
+    
+    private void createLoginField(JTextField field, String text, GridBagConstraints gbc, int row) {
+		field.setText(text);
+		field.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLUE));
+	    field.setAlignmentX(Component.LEFT_ALIGNMENT);
+		
+	    // Size
+	    Dimension dim = new Dimension(350, 30);
+	    field.setPreferredSize(dim);
+	    field.setMaximumSize(dim); 
+	    field.setMinimumSize(dim);
+	    
+	    gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(field, gbc);
+	}
 }
 
     
@@ -170,4 +174,4 @@ public class LoginArea extends JFrame
         messageLabel.setForeground(Color.BLUE);
         messageLabel.setText(recuperoMessage);
     } */   //commentato per evitare errori di compilazione
-}
+//}
