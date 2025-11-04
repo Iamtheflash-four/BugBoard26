@@ -49,7 +49,7 @@ public class LoginArea extends JFrame
         // Pannello per i bottoni
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         
-        btnAccedi = createNewButtonPainted("Accedi", new Color(0, 191, 255), new Color(0,0,0), new Color(0, 0, 255)); 
+        btnAccedi = createNewButtonPainted("Accedi", new Color(0, 0, 255), new Color(255,255,255), new Color(0, 0, 255)); 
         btnAccedi.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, 
                 "Funzione in sviluppo", 
@@ -58,7 +58,7 @@ public class LoginArea extends JFrame
         });
         buttonPanel.add(btnAccedi);
         
-        btnRecuperoPassword = createNewButtonPainted("Recupera Password",  new Color(211, 211, 211), new Color(0,0,0), new Color(0, 0, 255)); 
+        btnRecuperoPassword = createNewButtonPainted("Recupera Password",  new Color(255, 255, 255),  new Color(0, 0, 255),  new Color(0, 0, 255)); 
         btnRecuperoPassword.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, 
                 "Funzione in sviluppo", 
