@@ -34,6 +34,7 @@ public class LoginArea extends JFrame
         
         // Inizializza il pannello principale
         creaGUI();
+        
         setVisible(true);
     }
     
@@ -87,12 +88,12 @@ public class LoginArea extends JFrame
         //Email
         emailLabel = createLabel("Indirizzo e-mail", gbc, 0);
         emailField = new JTextField();
-        createLoginField(emailField, "nome@gmail.com", gbc, 1);
+        createLoginField(emailField, "", gbc, 1); //rimosso il campo di default nome@gmail.com
         
         //Password
         passwordLabel = createLabel("Password", gbc, 2);
         passwordField = new JPasswordField();
-        createLoginField(passwordField, "xxxxxxxx", gbc, 3);
+        createLoginField(passwordField, "", gbc, 3); //rimosso il campo di default xxxxxxx
     }
 
     private JLabel createLabel(String text, GridBagConstraints gbc, int row)
