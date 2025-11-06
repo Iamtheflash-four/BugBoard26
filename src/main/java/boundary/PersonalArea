@@ -58,14 +58,20 @@ public class PersonalArea extends JFrame
             
 	    btnLogout.addActionListener(e -> dispose());
 
-	    buttonPanel = createPanel(btnIssue, btnChangePassword, btnLogout);
-	    mainPanel.add(buttonPanel, BorderLayout.CENTER);
+	    JButton btnUtenze= AdminOptions(); 
 
+	    if(btnUtenze == null)
+	    {
+		   buttonPanel = createPanel(btnIssue, btnChangePassword, btnLogout, null);
+	    } else 	    buttonPanel = createPanel(btnIssue, btnChangePassword, btnUtenze, btnLogout);
+
+	    mainPanel.add(buttonPanel, BorderLayout.CENTER);
+	    
 	    this.setContentPane(mainPanel);
 	}
 
 	
-	private JPanel createPanel(JButton b1, JButton b2, JButton b3) 
+	private JPanel createPanel(JButton b1, JButton b2, JButton b3, JButton b4) 
 	{
 	    JPanel panel = new JPanel(new GridBagLayout());
 	    GridBagConstraints gbc = new GridBagConstraints();
@@ -81,9 +87,31 @@ public class PersonalArea extends JFrame
 
 	    gbc.gridy = 2;
 	    panel.add(b3, gbc);
-
+	    
+	    if(b4 != null)
+	    {
+	    	gbc.gridy = 3; 
+	    	panel.add(b4, gbc);
+	    }
+	    
 	    panel.setBackground(Color.WHITE);
 	    return panel;
 	}
-
+	
+	private JButton AdminOptions()
+	{
+		if(true) //ho messo true/false per testarlo. Da sostituire con il metodo del controller
+		{
+			JButton btnUtenze; 
+			btnUtenze = ModernButton.createNewButtonPainted("Area Utenze", new Color(138, 43, 226), new Color(30, 30, 30), new Color(138, 43, 226));
+			btnUtenze.addActionListener(e -> {
+	            JOptionPane.showMessageDialog(this, 
+	                    "Funzione in sviluppo", 
+	                    "Info", 
+	                    JOptionPane.INFORMATION_MESSAGE);
+	            });
+			return btnUtenze; 
+		}
+		else return null;
+	}
 }
