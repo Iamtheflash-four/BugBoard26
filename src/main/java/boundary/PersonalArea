@@ -37,9 +37,9 @@ public class PersonalArea extends JFrame
 	    mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 	    mainPanel.setBackground(Color.WHITE);
 
-	    btnIssue = createNewButtonPainted("Area Issue", new Color(138, 43, 226), new Color(30, 30, 30), new Color(138, 43, 226));
-	    btnChangePassword = createNewButtonPainted("Cambia Password", new Color(138, 43, 226), new Color(30, 30, 30), new Color(138, 43, 226));
-	    btnLogout = createNewButtonPainted("Logout", new Color(255, 0, 0), new Color(30,30,30), new Color(255, 0, 0));
+	    btnIssue = ModernButton.createNewButtonPainted("Area Issue", new Color(138, 43, 226), new Color(30, 30, 30), new Color(138, 43, 226));
+	    btnChangePassword = ModernButton.createNewButtonPainted("Cambia Password", new Color(138, 43, 226), new Color(30, 30, 30), new Color(138, 43, 226));
+	    btnLogout = ModernButton.createNewButtonPainted("Logout", new Color(255, 0, 0), new Color(30,30,30), new Color(255, 0, 0));
 
 	    btnIssue.addActionListener(e -> {
             JOptionPane.showMessageDialog(this, 
@@ -64,17 +64,6 @@ public class PersonalArea extends JFrame
 	    this.setContentPane(mainPanel);
 	}
 
-
-	private JButton createNewButtonPainted(String textArea, Color colorButton, Color colorText, Color colorBorder) 
-    { 
-        JButton nuovoBottone = new JButton(textArea);
-        nuovoBottone.setBackground(colorButton);
-        nuovoBottone.setFont(new Font("Arial", Font.BOLD, 14));
-        nuovoBottone.setForeground(colorText);
-        nuovoBottone.setBorder(BorderFactory.createLineBorder(colorBorder, 2));
-        nuovoBottone.setPreferredSize(new Dimension(160, 40)); // puoi aumentare questi valori
-        return nuovoBottone;
-    }
 	
 	private JPanel createPanel(JButton b1, JButton b2, JButton b3) 
 	{
