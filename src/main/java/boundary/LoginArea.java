@@ -1,19 +1,15 @@
-package boundary;
+package Boundary;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
 import java.awt.*;
-import controller.LoginController;
-
+import Controller.LoginController;
 public class LoginArea extends JFrame 
 {
     private LoginController controller;
     private JPanel mainPanel;
     private JPanel formPanel;
-    
-    private JLabel titleLabel;
-    private JPanel titlePanel;
     
     private JLabel emailLabel;
     private JTextField emailField;
@@ -29,12 +25,11 @@ public class LoginArea extends JFrame
         this.controller = controller;
         
         // Configurazione finestra principale
-        this.setTitle("Login - UninaSwap");
+        this.setTitle("Login - Unina BugBoard26");
         this.setSize(400, 350);
-        this.setMinimumSize(new Dimension(400, 350));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // Centra la finestra
-        this.setResizable(true);
+        this.setResizable(false);
         
         // Inizializza il pannello principale
         creaGUI();
@@ -44,12 +39,8 @@ public class LoginArea extends JFrame
     
     private void creaGUI()
     {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        //Title
-        creaTitolo();
         
         // Initialize Form panel
         creaForm();
@@ -65,6 +56,8 @@ public class LoginArea extends JFrame
                 JOptionPane.INFORMATION_MESSAGE);
         });
         buttonPanel.add(btnAccedi);
+        
+        
         
         mainPanel.add(formPanel);
         mainPanel.add(buttonPanel);
@@ -84,19 +77,7 @@ public class LoginArea extends JFrame
         this.add(mainPanel);
     }
     
-    private void creaTitolo() {
-		titleLabel = new JLabel("BugBoard26", SwingConstants.CENTER);
-		titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-		titleLabel.setForeground(Color.BLUE);
-		
-		titlePanel = new JPanel();
-		titlePanel.setBackground(Color.WHITE);
-		
-		titlePanel.add(titleLabel);
-		mainPanel.add(titlePanel);
-	}
-
-	private void creaForm() {
+    private void creaForm() {
         formPanel = new JPanel(new GridBagLayout());
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -105,11 +86,13 @@ public class LoginArea extends JFrame
         
         //Email
         emailLabel = createLabel("Indirizzo e-mail", gbc, 0);
-        emailField =  createLoginField("nome@gmail.com", gbc); //rimosso il campo di default nome@gmail.com
+        emailField = new JTextField();
+        createLoginField(emailField, "", gbc, 1); //rimosso il campo di default nome@gmail.com
         
         //Password
         passwordLabel = createLabel("Password", gbc, 2);
-        passwordField = createLoginField("xxxxx", gbc); //rimosso il campo di default xxxxxxx
+        passwordField = new JPasswordField();
+        createLoginField(passwordField, "", gbc, 3); //rimosso il campo di default xxxxxxx
     }
 
     private JLabel createLabel(String text, GridBagConstraints gbc, int row)
@@ -118,56 +101,30 @@ public class LoginArea extends JFrame
         label.setFont(new Font("Arial", Font.BOLD, 12));
         label.setForeground(Color.BLUE);
         
-        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridy = row;
         formPanel.add(label, gbc);
         
         return label;
     }
     
-    private JTextField createLoginField(String text, GridBagConstraints gbc) {
-    	JTextField field = new JTextField(20);
-    	styleTextField(field, text, gbc);
-    	return field;
-    }
-    
-    private JPasswordField createPasswordField(String text, GridBagConstraints gbc)
-    {
-    	JPasswordField field = new JPasswordField(20);
-    	styleTextField(field, text, gbc);
-    	return field;
-    }
-
-	private void styleTextField(JTextField field, String text, GridBagConstraints gbc) 
-	{
-		field.setText(text);
-		field.setForeground(Color.GRAY);
-        field.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLUE));	//Solo bordo inferiore
+    private void createLoginField(JTextField field, String text, GridBagConstraints gbc, int row) {
+        field.setText(text);
+        field.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLUE));
         field.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         // Size
-        Dimension dim = new Dimension(350, 40);
+        Dimension dim = new Dimension(350, 30);
+        field.setPreferredSize(dim);
+        field.setMaximumSize(dim); 
+        field.setMinimumSize(dim);
         
-        field.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
-                if (field.getForeground().equals(Color.GRAY)) {
-                    field.setText("");
-                    field.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
-                if (field.getText().isEmpty()) {
-                    field.setText(text);
-                    field.setForeground(Color.GRAY);
-                }
-            }
-        });
-        
-        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridy = row;
         formPanel.add(field, gbc);
-	}
+    }
+    
+
 }
 
 /*  private void provaLogin()
