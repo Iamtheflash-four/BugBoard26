@@ -17,9 +17,6 @@ public class ModernButton
         nuovoBottone.setForeground(colorText);
         nuovoBottone.setBorder(BorderFactory.createLineBorder(colorBorder, 2));
         nuovoBottone.setPreferredSize(new Dimension(160, 40)); // puoi aumentare questi valori
-		nuovoBottone.setFocusPainted(false);
-
         return nuovoBottone;
     }
 }
-

@@ -1,21 +1,25 @@
-package Boundary;
+package boundary;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
 import java.awt.*;
-import Controller.LoginController;
+import controller.LoginController;
+
 public class LoginArea extends JFrame 
 {
     private LoginController controller;
     private JPanel mainPanel;
     private JPanel formPanel;
     
+    private JLabel titleLabel;
+    private JPanel titlePanel;
+    
     private JLabel emailLabel;
     private JTextField emailField;
     
     private JLabel passwordLabel;
-    private JTextField passwordField;
+    private JPasswordField passwordField;
     
     private JButton btnAccedi;
     private JLabel messageLabel;
@@ -25,11 +29,12 @@ public class LoginArea extends JFrame
         this.controller = controller;
         
         // Configurazione finestra principale
-        this.setTitle("Login - Unina BugBoard26");
+        this.setTitle("Login - UninaSwap");
         this.setSize(400, 350);
+        this.setMinimumSize(new Dimension(400, 350));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // Centra la finestra
-        this.setResizable(false);
+        this.setResizable(true);
         
         // Inizializza il pannello principale
         creaGUI();
@@ -39,8 +44,12 @@ public class LoginArea extends JFrame
     
     private void creaGUI()
     {
-        mainPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        //Title
+        creaTitolo();
         
         // Initialize Form panel
         creaForm();
@@ -50,24 +59,16 @@ public class LoginArea extends JFrame
         
         btnAccedi = ModernButton.createNewButtonPainted("Accedi", new Color(0, 0, 255), new Color(255,255,255), new Color(0, 0, 255)); 
         btnAccedi.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, 
-                "Funzione in sviluppo", 
-                "Info", 
-                JOptionPane.INFORMATION_MESSAGE);
+            provaLogin();
         });
         buttonPanel.add(btnAccedi);
-        
-        
         
         mainPanel.add(formPanel);
         mainPanel.add(buttonPanel);
         
         // Permette di premere Enter dopo aver digitato la password
         passwordField.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, 
-                "Funzione in sviluppo", 
-                "Info", 
-                JOptionPane.INFORMATION_MESSAGE);
+            provaLogin();
         });
         
         mainPanel.setBackground(Color.WHITE);
@@ -77,7 +78,19 @@ public class LoginArea extends JFrame
         this.add(mainPanel);
     }
     
-    private void creaForm() {
+    private void creaTitolo() {
+		titleLabel = new JLabel("BugBoard26", SwingConstants.CENTER);
+		titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+		titleLabel.setForeground(Color.BLUE);
+		
+		titlePanel = new JPanel();
+		titlePanel.setBackground(Color.WHITE);
+		
+		titlePanel.add(titleLabel);
+		mainPanel.add(titlePanel);
+	}
+
+	private void creaForm() {
         formPanel = new JPanel(new GridBagLayout());
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -86,13 +99,12 @@ public class LoginArea extends JFrame
         
         //Email
         emailLabel = createLabel("Indirizzo e-mail", gbc, 0);
-        emailField = new JTextField();
-        createLoginField(emailField, "", gbc, 1); //rimosso il campo di default nome@gmail.com
+        emailField =  createLoginField("nome@gmail.com", gbc); //rimosso il campo di default nome@gmail.com
         
         //Password
         passwordLabel = createLabel("Password", gbc, 2);
-        passwordField = new JPasswordField();
-        createLoginField(passwordField, "", gbc, 3); //rimosso il campo di default xxxxxxx
+        passwordField = createPasswordField(gbc); //rimosso il campo di default xxxxxxx
+ 
     }
 
     private JLabel createLabel(String text, GridBagConstraints gbc, int row)
@@ -101,72 +113,84 @@ public class LoginArea extends JFrame
         label.setFont(new Font("Arial", Font.BOLD, 12));
         label.setForeground(Color.BLUE);
         
-        gbc.gridx = 0;
-        gbc.gridy = row;
+        gbc.gridy++;
         formPanel.add(label, gbc);
         
         return label;
     }
     
-    private void createLoginField(JTextField field, String text, GridBagConstraints gbc, int row) {
-        field.setText(text);
-        field.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLUE));
+    private JTextField createLoginField(String text, GridBagConstraints gbc) {
+    	JTextField field = new JTextField(20);
+    	styleTextField(field, text, gbc);
+    	
+    	field.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (field.getForeground().equals(Color.GRAY)) {
+                    field.setText("");
+                    field.setForeground(Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setText(text);
+                    field.setForeground(Color.GRAY);
+                }
+            }
+        });
+    	
+    	return field;
+    }
+    
+    private JPasswordField createPasswordField(GridBagConstraints gbc)
+    {
+    	JPasswordField field = new JPasswordField(20);
+    	styleTextField(field, "", gbc);
+    	field.setForeground(Color.BLACK);
+    	return field;
+    }
+
+	private void styleTextField(JTextField field, String text, GridBagConstraints gbc) 
+	{
+		field.setText(text);
+		field.setForeground(Color.GRAY);
+        field.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLUE));	//Solo bordo inferiore
         field.setAlignmentX(Component.LEFT_ALIGNMENT);
         
         // Size
-        Dimension dim = new Dimension(350, 30);
-        field.setPreferredSize(dim);
-        field.setMaximumSize(dim); 
-        field.setMinimumSize(dim);
+        Dimension dim = new Dimension(350, 40);
         
-        gbc.gridx = 0;
-        gbc.gridy = row;
+        gbc.gridy++;
         formPanel.add(field, gbc);
-    }
-    
+	}
 
+	private void provaLogin()
+	{
+	    String email = emailField.getText().trim();
+	    String password = new String(passwordField.getPassword());
+	    
+	    // Chiamata al metodo di validazione del controller
+	    if (!controller.verificaDatiCampiLogin(email, password)) 
+		    JOptionPane.showMessageDialog(this, "Campi non compilati");
+	    
+	    // Chiamata al controller per verificare le credenziali nel database
+	    boolean loginSuccess=false;
+		try 
+		{
+			loginSuccess = controller.verificaCredenziali(email, password);
+			if (loginSuccess) 
+				JOptionPane.showMessageDialog(this, "Riuscito");
+			else 
+				JOptionPane.showMessageDialog(this, "Credenziali errate");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore Server", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
+	    
+	    
+	    
+	} //commentato per evitare errori di compilazione
+	
 }
-
-/*  private void provaLogin()
-{
-    String email = emailField.getText().trim();
-    String password = new String(passwordField.getPassword());
-    
-    // Chiamata al metodo di validazione del controller
-    if (!controller.verificaDatiCampiLogin(email, password)) 
-    {
-        messageLabel.setForeground(Color.RED);
-        messageLabel.setText("Attenzione! Verifica i dati inseriti");
-        return;
-    }
-    
-    // Chiamata al controller per verificare le credenziali nel database
-    boolean loginSuccess = controller.verificaCredenziali(email, password);
-    
-    if (loginSuccess) {
-        messageLabel.setForeground(Color.GREEN);
-        messageLabel.setText("Login effettuato con successo!");
-        // dispose();
-        // new MainWindow(controller).setVisible(true);
-    } else {
-        messageLabel.setForeground(Color.RED);
-        messageLabel.setText("Email o password errati!");
-        passwordField.setText(""); // Pulisci il campo password
-    }
-} */ //commentato per evitare errori di compilazione
-
-/* private void gestisciRecuperoPassword()
-{
-    String email = emailField.getText().trim();
-    
-    if (!controller.VerificaEmail(email)) {
-        messageLabel.setForeground(Color.RED);
-        messageLabel.setText("Attenzione! Verificare la mail inserita");
-        return;
-    }
-    
-    // Chiamata al controller per il recupero password
-    String recuperoMessage = controller.recuperaPassword(email);
-    messageLabel.setForeground(Color.BLUE);
-    messageLabel.setText(recuperoMessage);
-} */   //commentato per evitare errori di compilazione
