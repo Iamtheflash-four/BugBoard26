@@ -54,6 +54,7 @@ public class CreateNewIssueArea extends JFrame {
         gbc.gridx = 1;
         comboProgetto = new JComboBox<>(new String[] { "Progetto A", "Progetto B", "Progetto C" });
         comboProgetto.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        comboProgetto.setBackground(Color.WHITE);
         formPanel.add(comboProgetto, gbc);
 
         gbc.gridx = 0;
@@ -62,11 +63,8 @@ public class CreateNewIssueArea extends JFrame {
         gbc.gridx = 1;
         comboPriorita = new JComboBox<>(new String[] { "Bassa", "Media", "Alta" });
         comboPriorita.setFont(new Font("SansSerif", Font.PLAIN, 13));
-        formPanel.add(comboPriorita, gbc);
-        
-        comboProgetto.setBackground(Color.WHITE);
         comboPriorita.setBackground(Color.WHITE);
-
+        formPanel.add(comboPriorita, gbc);
 
         gbc.gridx = 0;
         gbc.gridy++;
@@ -74,6 +72,7 @@ public class CreateNewIssueArea extends JFrame {
         gbc.gridx = 1;
         txtSubject = new JTextField(20);
         txtSubject.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        txtSubject.setBorder(BorderFactory.createLineBorder(new Color(0, 120, 215), 2)); // bordo blu
         formPanel.add(txtSubject, gbc);
 
         gbc.gridx = 0;
@@ -84,8 +83,9 @@ public class CreateNewIssueArea extends JFrame {
         txtMessaggio.setFont(new Font("SansSerif", Font.PLAIN, 13));
         txtMessaggio.setLineWrap(true);
         txtMessaggio.setWrapStyleWord(true);
+        txtMessaggio.setBorder(BorderFactory.createLineBorder(new Color(0, 120, 215), 2)); // bordo blu
         JScrollPane scroll = new JScrollPane(txtMessaggio);
-        scroll.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+        scroll.setBorder(BorderFactory.createEmptyBorder()); // rimuove bordo scroll
         formPanel.add(scroll, gbc);
 
         gbc.gridx = 0;
@@ -107,6 +107,8 @@ public class CreateNewIssueArea extends JFrame {
         buttonPanel.add(btnIndietro);
         buttonPanel.add(btnSegnala);
         formPanel.add(buttonPanel, gbc);
+        
+
     }
 
     private JLabel creaLabel(String text, Font font, Color color) {
@@ -115,4 +117,7 @@ public class CreateNewIssueArea extends JFrame {
         label.setForeground(color);
         return label;
     }
+
+
+
 }
