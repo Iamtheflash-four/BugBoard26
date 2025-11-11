@@ -1,0 +1,13 @@
+package Controller;
+
+import javax.swing.JFrame;
+
+public class CreateNewIssueController 
+{
+	private JFrame frame;
+	
+	public CreateNewIssueController()
+	{
+		frame = new Boundary.CreateNewIssueArea(this);
+	}
+}
