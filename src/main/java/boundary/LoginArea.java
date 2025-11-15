@@ -11,6 +11,7 @@ public class LoginArea extends JFrame
     private LoginController controller;
     private JPanel mainPanel;
     private JPanel formPanel;
+    private GridBagConstraints gbc;
     
     private JLabel titleLabel;
     private JPanel titlePanel;
@@ -19,7 +20,7 @@ public class LoginArea extends JFrame
     private JTextField emailField;
     
     private JLabel passwordLabel;
-    private JPasswordField passwordField;
+    private JTextField passwordField;
     
     private JButton btnAccedi;
     private JLabel messageLabel;
@@ -30,8 +31,8 @@ public class LoginArea extends JFrame
         
         // Configurazione finestra principale
         this.setTitle("Login - UninaSwap");
-        this.setSize(400, 350);
-        this.setMinimumSize(new Dimension(400, 350));
+        this.setSize(500, 450);
+        this.setMinimumSize(new Dimension(500, 450));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // Centra la finestra
         this.setResizable(true);
@@ -79,11 +80,10 @@ public class LoginArea extends JFrame
     }
     
     private void creaTitolo() {
-		titleLabel = new JLabel("BugBoard26", SwingConstants.CENTER);
-		titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-		titleLabel.setForeground(Color.BLUE);
-		
+    	titleLabel = ModernLabel.createTitleLabel("BugBoard26");
 		titlePanel = new JPanel();
+		titlePanel.setPreferredSize(new Dimension(200, 60));
+		titlePanel.setMaximumSize(new Dimension(200, 60));
 		titlePanel.setBackground(Color.WHITE);
 		
 		titlePanel.add(titleLabel);
@@ -92,105 +92,75 @@ public class LoginArea extends JFrame
 
 	private void creaForm() {
         formPanel = new JPanel(new GridBagLayout());
+        formPanel.setMaximumSize(new Dimension(500, 400));
         
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
         //Email
-        emailLabel = createLabel("Indirizzo e-mail", gbc, 0);
-        emailField =  createLoginField("nome@gmail.com", gbc); //rimosso il campo di default nome@gmail.com
+        emailLabel = createLoginLabel("Indirizzo e-mail");
+        emailField =  createLoginField("nome@gmail.com"); //rimosso il campo di default nome@gmail.com
+        
+        addForm(Box.createVerticalStrut(20));
         
         //Password
-        passwordLabel = createLabel("Password", gbc, 2);
-        passwordField = createPasswordField(gbc); //rimosso il campo di default xxxxxxx
- 
+        passwordLabel = createLoginLabel("Password");
+        passwordField = createPasswordField(); //rimosso il campo di default xxxxxxx
+        
+        addForm(Box.createVerticalStrut(20));
     }
 
-    private JLabel createLabel(String text, GridBagConstraints gbc, int row)
+    private JLabel createLoginLabel(String text)
     {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Arial", Font.BOLD, 12));
-        label.setForeground(Color.BLUE);
-        
-        gbc.gridy++;
-        formPanel.add(label, gbc);
+        JLabel label = ModernLabel.createLabel(text);
+        addForm(label);
         
         return label;
     }
     
-    private JTextField createLoginField(String text, GridBagConstraints gbc) {
-    	JTextField field = new JTextField(20);
-    	styleTextField(field, text, gbc);
-    	
-    	field.addFocusListener(new java.awt.event.FocusAdapter() {
-            @Override
-            public void focusGained(java.awt.event.FocusEvent e) {
-                if (field.getForeground().equals(Color.GRAY)) {
-                    field.setText("");
-                    field.setForeground(Color.BLACK);
-                }
-            }
-
-            @Override
-            public void focusLost(java.awt.event.FocusEvent e) {
-                if (field.getText().isEmpty()) {
-                    field.setText(text);
-                    field.setForeground(Color.GRAY);
-                }
-            }
-        });
-    	
+ 
+	private JTextField createLoginField(String text) {
+		JTextField field = ModernTextField.createLoginField(text);
+    	addForm(field);
     	return field;
     }
-    
-    private JPasswordField createPasswordField(GridBagConstraints gbc)
-    {
-    	JPasswordField field = new JPasswordField(20);
-    	styleTextField(field, "", gbc);
-    	field.setForeground(Color.BLACK);
-    	return field;
-    }
-
-	private void styleTextField(JTextField field, String text, GridBagConstraints gbc) 
+	
+	private JPasswordField createPasswordField()
 	{
-		field.setText(text);
-		field.setForeground(Color.GRAY);
-        field.setBorder(new MatteBorder(0, 0, 2, 0, Color.BLUE));	//Solo bordo inferiore
-        field.setAlignmentX(Component.LEFT_ALIGNMENT);
-        
-        // Size
-        Dimension dim = new Dimension(350, 40);
-        
-        gbc.gridy++;
-        formPanel.add(field, gbc);
+		JPasswordField field = ModernTextField.createPasswordField("");
+		addForm(field);
+		return field;
 	}
+    
+    private void addForm(Component component)
+    {
+    	gbc.gridy++;
+    	formPanel.add(component, gbc);	
+    }
 
 	private void provaLogin()
 	{
 	    String email = emailField.getText().trim();
-	    String password = new String(passwordField.getPassword());
+	    String password = new String(passwordField.getText());
 	    
 	    // Chiamata al metodo di validazione del controller
 	    if (!controller.verificaDatiCampiLogin(email, password)) 
 		    JOptionPane.showMessageDialog(this, "Campi non compilati");
 	    
 	    // Chiamata al controller per verificare le credenziali nel database
-	    boolean loginSuccess=false;
+	    String loginSuccess;
 		try 
 		{
 			loginSuccess = controller.verificaCredenziali(email, password);
-			if (loginSuccess) 
-				JOptionPane.showMessageDialog(this, "Riuscito");
+			if (loginSuccess != null) 
+				JOptionPane.showMessageDialog(this, "Token: "+ loginSuccess);
 			else 
 				JOptionPane.showMessageDialog(this, "Credenziali errate");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore Server", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
-	    
-	    
-	    
 	} //commentato per evitare errori di compilazione
 	
 }
