@@ -24,7 +24,8 @@ public class ModernLabel
 		titleLabel.setForeground(Color.BLUE);
 		
 		titleLabel.setSize(titleLabel.getText().length()*20, 20);
-		
+		titleLabel.setPreferredSize(titleLabel.getSize());
+		titleLabel.setMaximumSize(titleLabel.getSize());
 		return titleLabel;
 	}
 }

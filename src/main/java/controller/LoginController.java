@@ -1,29 +1,17 @@
 package controller;
 
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
+import entity.*;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
-import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
-import org.glassfish.grizzly.http.server.HttpServer;
+import boundary.LoginArea;
 
-import javax.swing.JFrame;
 
-public class LoginController 
-{
-	private HttpServer server;
-    private WebTarget target;
-    private static final String SERVER_URL = "http://localhost:8080";
-	
-    private JFrame frame;
-	
+public class LoginController extends Controller
+{	
 	public LoginController()
 	{
-		frame = new boundary.LoginArea(this);
+		this.frame = new boundary.LoginArea(this);
 	}
 
     public boolean verificaDatiCampiLogin(String email, String password) {
@@ -31,19 +19,17 @@ public class LoginController
                password != null && !password.isBlank();
     }
     
-    public boolean verificaCredenziali(String email, String password) {
-        Client client = ClientBuilder.newClient();	
-        target = client.target(this.SERVER_URL);	//URL server
-        
+    public Utente verificaCredenziali(String email, String password) {
         //JSON credenziali
         String json = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
 
         //Invio HTTP request
-        String response = target.path("auth/login")
-                .request(MediaType.TEXT_PLAIN) 
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), String.class);	//Method post
-        
-        return "Riuscito".equals(response);
+        Utente response = server.path("auth/login")
+                .request(MediaType.APPLICATION_JSON) 
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), Utente.class);	//Method post
+        if (response != null && response.equals(""))
+        	response = null;
+        return response;
     }
 
     public boolean verificaEmail(String email) {
@@ -54,4 +40,9 @@ public class LoginController
    	{
 	   new LoginController();
    	}
+
+	public void switchAreaPersonale(Utente utente) {
+		this.frame.dispose();
+		new AreaUtenteController(this, utente);
+	}
 }

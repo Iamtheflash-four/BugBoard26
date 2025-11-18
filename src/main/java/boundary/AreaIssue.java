@@ -4,7 +4,8 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 
-public class AreaIssue extends JFrame {
+public class AreaIssue extends JPanel
+{
 
     private JTable issueTable;
     private DefaultTableModel tableModel;
@@ -24,19 +25,20 @@ public class AreaIssue extends JFrame {
     private boolean showingRicevute = true;
 
     public AreaIssue() {
-        setTitle("Gestione Issue - BugBoard26");
+     //   setTitle("Gestione Issue - BugBoard26");
         setSize(700, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
-        componiGUI();
-        titolo = new JLabel("Benvenuto nell'area Issue");
-        titolo.setFont(new Font("Arial", Font.BOLD, 16));
-        titolo.setForeground(new Color(30, 30, 30));
-        titolo.setHorizontalAlignment(SwingConstants.CENTER);
-        mainPanel.add(titolo, BorderLayout.NORTH);
-
-        setVisible(true);
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setLocationRelativeTo(null);
+//        setResizable(false);
+        createTable();
+        
+//        titolo = new JLabel("Benvenuto nell'area Issue");
+//        titolo.setFont(new Font("Arial", Font.BOLD, 16));
+//        titolo.setForeground(new Color(30, 30, 30));
+//        titolo.setHorizontalAlignment(SwingConstants.CENTER);
+//        mainPanel.add(titolo, BorderLayout.NORTH);
+//
+//        setVisible(true);
     }
 
     private void componiGUI() {
@@ -90,18 +92,18 @@ public class AreaIssue extends JFrame {
                     JOptionPane.INFORMATION_MESSAGE);
             }); }
         
-        if(btnLogout != null) { btnLogout.addActionListener(e -> dispose()); } 
-         buttonPanel = createPanel();
+//        
+
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-        setContentPane(mainPanel);
+//        setContentPane(mainPanel);
 
         caricaIssueRicevute();
     }
 
 	private void createTable() {
 		issueTable = new JTable(tableModel);
-     // Font e altezza righe
+		// Font e altezza righe
         issueTable.setFont(new Font("Arial", Font.PLAIN, 14));
         issueTable.setRowHeight(28);
 

@@ -149,12 +149,12 @@ public class LoginArea extends JFrame
 		    JOptionPane.showMessageDialog(this, "Campi non compilati");
 	    
 	    // Chiamata al controller per verificare le credenziali nel database
-	    String loginSuccess;
+	    entity.Utente utente;
 		try 
 		{
-			loginSuccess = controller.verificaCredenziali(email, password);
-			if (loginSuccess != null) 
-				JOptionPane.showMessageDialog(this, "Token: "+ loginSuccess);
+			utente = controller.verificaCredenziali(email, password);
+			if (utente != null) 
+				controller.switchAreaPersonale(utente);
 			else 
 				JOptionPane.showMessageDialog(this, "Credenziali errate");
 		} catch (Exception e) {
