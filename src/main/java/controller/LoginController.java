@@ -3,7 +3,8 @@ package controller;
 import entity.*;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
-
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import boundary.LoginArea;
 
 
@@ -19,17 +20,21 @@ public class LoginController extends Controller
                password != null && !password.isBlank();
     }
     
-    public Utente verificaCredenziali(String email, String password) {
+    public Utente verificaCredenziali(String email, String password) throws Exception{
         //JSON credenziali
         String json = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
 
         //Invio HTTP request
-        Utente response = server.path("auth/login")
+        Response response = server.path("auth/login")
                 .request(MediaType.APPLICATION_JSON) 
-                .post(Entity.entity(json, MediaType.APPLICATION_JSON), Utente.class);	//Method post
-        if (response != null && response.equals(""))
-        	response = null;
-        return response;
+                .post(Entity.entity(json, MediaType.APPLICATION_JSON), Response.class);	//Method post
+        
+        LoginResponse loginResponse = response.readEntity(LoginResponse.class);
+        
+        if (!loginResponse.isSuccess()) 
+        	throw new Exception("Errore:" + response.getStatus() + " " + loginResponse.getMessage());
+        System.out.println(loginResponse.getUtente());
+        return loginResponse.getUtente();
     }
 
     public boolean verificaEmail(String email) {

@@ -150,15 +150,11 @@ public class LoginArea extends JFrame
 	    
 	    // Chiamata al controller per verificare le credenziali nel database
 	    entity.Utente utente;
-		try 
-		{
+		try {
 			utente = controller.verificaCredenziali(email, password);
-			if (utente != null) 
-				controller.switchAreaPersonale(utente);
-			else 
-				JOptionPane.showMessageDialog(this, "Credenziali errate");
+			controller.switchAreaPersonale(utente);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore Server", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	} //commentato per evitare errori di compilazione

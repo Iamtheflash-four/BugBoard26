@@ -4,4 +4,58 @@
   <artifactId>BugBoard26</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>BugBoard</name>
+  <dependencies>
+    <!-- API Jakarta RESTful Web Services -->
+    <dependency>
+        <groupId>jakarta.ws.rs</groupId>
+        <artifactId>jakarta.ws.rs-api</artifactId>
+        <version>3.1.0</version> <!-- oppure 4.x se usi Jakarta EE 10 -->
+        <scope>provided</scope>
+    </dependency>
+
+    <!-- Implementazione Jersey Client -->
+    <dependency>
+        <groupId>org.glassfish.jersey.core</groupId>
+        <artifactId>jersey-client</artifactId>
+        <version>3.1.5</version>
+    </dependency>
+
+    <!-- Supporto JSON -->
+    <dependency>
+        <groupId>org.glassfish.jersey.media</groupId>
+        <artifactId>jersey-media-json-binding</artifactId>
+        <version>3.1.5</version>
+    </dependency>
+	<dependency>
+	    <groupId>org.glassfish.jersey.containers</groupId>
+	    <artifactId>jersey-container-grizzly2-http</artifactId>
+	    <version>3.1.5</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.glassfish.grizzly</groupId>
+	    <artifactId>grizzly-http-server</artifactId>
+	    <version>4.0.2</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>jakarta.activation</groupId>
+	    <artifactId>jakarta.activation-api</artifactId>
+	    <version>2.1.2</version>
+	</dependency>
+	
+	<dependency>
+    <groupId>org.glassfish.jersey.inject</groupId>
+    <artifactId>jersey-hk2</artifactId>
+    <version>3.1.5</version>
+</dependency>
+</dependencies>
+
+
+
+<snapshotRepository>
+    <id>ossrh</id>
+    <name>Sonatype Nexus Snapshots</name>
+    <url>https://jakarta.oss.sonatype.org/content/repositories/snapshots/</url>
+</snapshotRepository>
 </project>
