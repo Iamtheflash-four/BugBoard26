@@ -28,7 +28,7 @@ public class ModernButton
 		button.setForeground(Color.BLACK);
 		button.setVisible(true);
 		//Size
-		Dimension size = new Dimension(10*text.length(), 30);
+		Dimension size = new Dimension(100, 30);
 		button.setSize(size);
 		button.setPreferredSize(size);
 		button.setMaximumSize(size);

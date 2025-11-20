@@ -33,7 +33,6 @@ public class LoginController extends Controller
         
         if (!loginResponse.isSuccess()) 
         	throw new Exception("Errore:" + response.getStatus() + " " + loginResponse.getMessage());
-        System.out.println(loginResponse.getUtente());
         return loginResponse.getUtente();
     }
 

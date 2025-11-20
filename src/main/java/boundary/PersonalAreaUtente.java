@@ -40,7 +40,7 @@ public class PersonalAreaUtente extends JFrame
 		//mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 	    mainPanel.setBackground(Color.WHITE);
 	    
-	    titlePanel = new BarraUtente(utente);
+	    titlePanel = new BarraUtente(utente, controller);
 	    mainPanel.add(titlePanel);
 	    
 	    areaIssueSegnalte = new AreaIssue();
