@@ -18,6 +18,7 @@ public class ModernButton
         nuovoBottone.setFont(new Font("Arial", Font.BOLD, 14));
         nuovoBottone.setForeground(colorText);
         nuovoBottone.setBorder(BorderFactory.createLineBorder(colorBorder, 2));
+        nuovoBottone.setSize(160, 40);
         nuovoBottone.setPreferredSize(new Dimension(160, 40)); // puoi aumentare questi valori
         return nuovoBottone;
     }

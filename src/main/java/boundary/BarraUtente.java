@@ -27,6 +27,7 @@ public class BarraUtente extends JPanel
 	private JButton segnalaIssueButton;
 	private JPanel buttonPanel;
 	private JButton logoutButton;
+	private JButton profiloButton;
 	
 	public BarraUtente(Utente utente, AreaUtenteController controller)
 	{
@@ -46,6 +47,8 @@ public class BarraUtente extends JPanel
 		
 		segnalaIssueButton = ModernButton.createNavbarButton("<html>Segnala<br>issue</html>");
 		logoutButton = ModernButton.createNavbarButton("Logout");
+		profiloButton = ModernButton.createNavbarButton("Profilo 👤");
+		
 		addButtonEvents();
 		createTitlePanel();
 	}
@@ -58,7 +61,7 @@ public class BarraUtente extends JPanel
 		
 		buttonPanel.add(segnalaIssueButton);
 		buttonPanel.add(logoutButton);
-		buttonPanel.add(new JButton("Prova"));
+		buttonPanel.add(profiloButton);
 			
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		add(title);
@@ -68,6 +71,7 @@ public class BarraUtente extends JPanel
 	private void addButtonEvents()
 	{
 		addSegnalaIssueEvent();
+		addProfiloEvent();
 		addLogoutEvent();
 	}
 
@@ -76,6 +80,14 @@ public class BarraUtente extends JPanel
 			controller.segnalaIssue(utente);
 		});
 	}
+	
+	private void addProfiloEvent() 
+	{
+		profiloButton.addActionListener(e->{
+			controller.showProfilo(utente);
+		});
+	}
+
 	
 	private void addLogoutEvent()
 	{

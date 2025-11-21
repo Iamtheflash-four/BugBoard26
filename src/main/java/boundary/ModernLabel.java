@@ -11,21 +11,44 @@ public class ModernLabel
 {
 	public static JLabel createLabel(String text)
     {
-        JLabel label = new JLabel(text);
-        label.setFont(new Font("Arial", Font.BOLD, 15));
-        label.setForeground(Color.BLUE);
-        return label;
+        return createLabel(text, new Font("Arial", Font.BOLD, 15), Color.BLUE);
     }
 	
 	public static JLabel createTitleLabel(String text)
 	{
-		JLabel titleLabel = new JLabel(text, SwingConstants.CENTER);
-		titleLabel.setFont(new Font("Arial", Font.BOLD, 20));
-		titleLabel.setForeground(Color.BLUE);
+		return createLabel(text, new Font("Arial", Font.BOLD, 20) , Color.BLUE, SwingConstants.CENTER);
+	}
+	
+	public static JLabel createBoldLabel(String text, int size, Color foreground)
+	{
+		return createLabel(text, new Font("Arial", Font.BOLD, size), foreground);
+	}
+	
+	public static JLabel createLabel(String text, Color foreground)
+	{
+		return createLabel(text, new Font("Arial", Font.BOLD, 15), foreground);
+	}
+	
+	public static JLabel createBoldLabel(String text, Color foreground)
+	{
+		return createLabel(text, new Font("Arial", Font.BOLD, 15), foreground);
+	}
+	
+	public static JLabel createLabel(String text, Font font, Color foreground)
+	{
+		return createLabel(text, font, foreground, SwingConstants.LEFT);
+	}
+	
+	public static JLabel createLabel(String text, Font font, Color foreground, int alignmentX)
+	{
+		JLabel label = new JLabel(text, alignmentX);
+		label.setFont(font);
+		label.setForeground(foreground);
 		
-		titleLabel.setSize(titleLabel.getText().length()*20, 20);
-		titleLabel.setPreferredSize(titleLabel.getSize());
-		titleLabel.setMaximumSize(titleLabel.getSize());
-		return titleLabel;
+		int textSize = label.getFont().getSize();
+		label.setSize(text.length()*textSize, textSize + textSize/2);
+		//label.setPreferredSize(label.getSize());
+		label.setMaximumSize(label.getSize());
+		return label;
 	}
 }

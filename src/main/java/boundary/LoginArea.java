@@ -155,7 +155,7 @@ public class LoginArea extends JFrame
 			controller.switchAreaPersonale(utente);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 	} //commentato per evitare errori di compilazione
 	
