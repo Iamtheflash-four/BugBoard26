@@ -23,13 +23,16 @@ public class AreaUtenteController extends Controller
 	
 	public static void main(String[] args)
 	{
-		Utente utente = new Utente();
-		utente.setNome("Sasy");
+		Utente utente = new Utente("Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", "shdfh");
 		new AreaUtenteController(new Controller(), utente);
 	}
 
 	public void switchLogin() {
 		frame.dispose();
 		new LoginController();
+	}
+
+	public void showProfilo(Utente utente) {
+		new ProfiloController(this, utente);
 	}
 }

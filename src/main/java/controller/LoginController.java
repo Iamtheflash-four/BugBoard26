@@ -32,7 +32,7 @@ public class LoginController extends Controller
         LoginResponse loginResponse = response.readEntity(LoginResponse.class);
         
         if (!loginResponse.isSuccess()) 
-        	throw new Exception("Errore:" + response.getStatus() + " " + loginResponse.getMessage());
+        	throw new Exception(loginResponse.getMessage());
         return loginResponse.getUtente();
     }
 
