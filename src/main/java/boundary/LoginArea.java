@@ -3,6 +3,10 @@ package boundary;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 
+import boundary.theme.ModernButton;
+import boundary.theme.ModernLabel;
+import boundary.theme.ModernTextField;
+
 import java.awt.*;
 import controller.LoginController;
 
@@ -128,7 +132,7 @@ public class LoginArea extends JFrame
 	
 	private JPasswordField createPasswordField()
 	{
-		JPasswordField field = ModernTextField.createPasswordField("");
+		JPasswordField field = ModernTextField.createPasswordField();
 		addForm(field);
 		return field;
 	}

@@ -16,13 +16,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import boundary.ModernButton;
-import boundary.ModernLabel;
+import boundary.theme.ModernButton;
+import boundary.theme.ModernLabel;
 import controller.ProfiloController;
 import entity.Utente;
 
 public class ProfiloDialog extends JDialog 
 {
+	private ProfiloController controller;
 	private JPanel mainPanel;
 	private JPanel titlePanel;
 	private JLabel title;
@@ -39,11 +40,11 @@ public class ProfiloDialog extends JDialog
 		this.setSize(500, 300);
 		this.setMinimumSize(new Dimension(500, 300));
 		this.setLocationRelativeTo(null);
+		this.controller = controller;
 		
 		mainPanel = new JPanel();
 		mainPanel.setBackground(Color.WHITE);
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		 
 		creaGui(utente);
 		
 		setContentPane(mainPanel);
@@ -58,7 +59,9 @@ public class ProfiloDialog extends JDialog
 		emailPanel = creaInfoPanel("Email: ", utente.getEmail());
 		
 		buttonsPanel = creaButtonsPanel();
-	}
+		changePasswordButton.addActionListener(e->{
+			controller.showChangePasswordDialog(this, utente);
+		});	}
 
 	private JPanel creaButtonsPanel() {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));

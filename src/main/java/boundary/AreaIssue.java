@@ -2,6 +2,9 @@ package boundary;
 
 import javax.swing.*;
 import javax.swing.table.*;
+
+import boundary.theme.ModernButton;
+
 import java.awt.*;
 
 public class AreaIssue extends JPanel

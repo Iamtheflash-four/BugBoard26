@@ -1,8 +1,8 @@
 package boundary.dialog;
 
 import javax.swing.*;
+import boundary.theme.*;
 
-import boundary.ModernButton;
 import controller.SegnalaIssueController;
 
 import java.awt.*;
