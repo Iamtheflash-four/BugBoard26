@@ -1,4 +1,7 @@
-package Boundary;
+/*    file inutilizzato */ 
+
+
+/*ackage Boundary;
 import Controller.PersonalAreaController;
 import javax.swing.*;
 import java.awt.*;
@@ -115,3 +118,4 @@ public class PersonalArea extends JFrame
 		else return null;
 	}
 }
+*/
