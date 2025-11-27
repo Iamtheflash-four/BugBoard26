@@ -7,9 +7,10 @@ public class Utente
 	private String cognome;
 	private String email;
 	private String password;
+	private boolean amministratore;
 	private String token;
-	private boolean isAdmin; 
-	public Utente(int idUtente, String nome, String cognome, String email, String password, String token, boolean isAdmin) {
+	
+	public Utente(int idUtente, String nome, String cognome, String email, String password, boolean amministratore, String token) {
 		super();
 		this.idUtente = idUtente;
 		this.nome = nome;
@@ -17,11 +18,19 @@ public class Utente
 		this.email = email;
 		this.password = password;
 		this.token = token;
-		this.isAdmin = isAdmin;
+		this.amministratore = amministratore;
 	}
 
 	public Utente() {}
 	
+	public boolean isAmministratore() {
+		return amministratore;
+	}
+
+	public void setAmministratore(boolean amministratore) {
+		this.amministratore = amministratore;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -81,15 +90,9 @@ public class Utente
 		this.idUtente = idUtente;
 	}
 
-	public void setAdminStatus(boolean status) { this.isAdmin = status; }
-	
-	public boolean getAdminStatus() { return isAdmin; }
-	
 	@Override
 	public String toString() {
 		return "Utente [nome=" + nome + ", cognome=" + cognome + ", email=" + email + ", password=" + password
 				+ ", token=" + token + "]";
 	}
 }
-
-

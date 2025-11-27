@@ -46,6 +46,7 @@ public class ChangePasswordDialog extends JDialog
 	private JButton sendButton;
 	private JPanel buttonPanel;
 	private Utente utente;
+	private JButton closeButton;
 	
 	public ChangePasswordDialog(JFrame frame, ChangePasswordController controller, Utente utente)
 	{
@@ -111,22 +112,35 @@ public class ChangePasswordDialog extends JDialog
 	private void creaBottons() 
 	{
 		sendButton = ModernButton.createNewButtonPainted("Conferma", Color.BLUE,  Color.WHITE, Color.BLUE);
+		closeButton = ModernButton.createNewButtonPainted("Chiudi", Color.WHITE,  Color.BLUE, Color.BLUE);
+		
 		buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
 		buttonPanel.setBackground(Color.WHITE);
-		sendButton.addActionListener(e -> actionSend()); 
+		
+		addListeners(); 
+		
         buttonPanel.add(sendButton);
+        buttonPanel.add(closeButton);
+	}
+
+	private void addListeners() {
+		sendButton.addActionListener(e -> actionSend()); 
+		closeButton.addActionListener(e -> {
+			this.dispose();
+		});
 	}
 
 	private void actionSend()
 	{
-	    String pwOld = passwordAttualeField.getText().trim();
-	    String pwNew1 = nuovaPasswordField1.getText().trim();
-	    String pwNew2 = nuovaPasswordField2.getText().trim();
+	    String oldPassword = passwordAttualeField.getText().trim();
+	    String newPassword1 = nuovaPasswordField1.getText().trim();
+	    String newPassword2 = nuovaPasswordField2.getText().trim();
 
-	    boolean success = controller.executeChange(utente, pwOld, pwNew1, pwNew2);
+	    boolean success = controller.executeChange(utente, oldPassword, newPassword1, newPassword2);
 
 	    if (success) {
 	        javax.swing.JOptionPane.showMessageDialog(this, "Password cambiata con successo!");
+	        controller.showProfiloDialog(this);
 	    } else {
 	        javax.swing.JOptionPane.showMessageDialog(this, "Errore nel cambio password. Controlla i dati inseriti.");
 	    }

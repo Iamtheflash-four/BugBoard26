@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -61,37 +62,39 @@ public class ProfiloDialog extends JDialog
 		buttonsPanel = creaButtonsPanel();
 		changePasswordButton.addActionListener(e->{
 			controller.showChangePasswordDialog(this, utente);
-		});	}
+		});	
+	}
 
 	private JPanel creaButtonsPanel() {
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		panel.setBackground(Color.WHITE);
 		
-		changePasswordButton = ModernButton.createNewButtonPainted("Cambia password", Color.WHITE, Color.BLUE, Color.BLUE);
-		chiudiButton = ModernButton.createNewButtonPainted("Chiudi", Color.BLUE, Color.WHITE, Color.BLUE);
+		changePasswordButton = ModernButton.createNewButtonPainted("Cambia password", Color.WHITE, Color.BLUE, Color.BLUE, 140, 40);
+		chiudiButton = ModernButton.createNewButtonPainted("Chiudi", Color.BLUE, Color.WHITE, Color.BLUE, 100, 40);
 		
 		panel.add(changePasswordButton);
 		panel.add(Box.createHorizontalStrut(10));
 		panel.add(chiudiButton);
-		panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+		panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 		mainPanel.add(panel);
 		return panel;
 	}
 
 	private void creaTitle()
 	{
-		title = ModernLabel.createTitleLabel("Info utente");
+		title = ModernLabel.createTitleLabel("BugBoard26");
 		titlePanel = new JPanel();
+		titlePanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
+		titlePanel.setBackground(Color.WHITE);
+		
 		titlePanel.add(title);
-		title.setPreferredSize( new Dimension(Integer.MAX_VALUE, title.getHeight()) );
-		title.setMaximumSize( new Dimension(Integer.MAX_VALUE, title.getHeight()) );
-		mainPanel.add(title);
+		mainPanel.add(titlePanel);
 	}
 	
 	private JPanel creaInfoPanel(String fieldName, String value)
 	{
-		JLabel fieldNameLabel = ModernLabel.createBoldLabel(fieldName, 15, new Color(135, 206, 235));
-		JLabel valueLabel = ModernLabel.createLabel(value, Color.BLACK);
+		JLabel fieldNameLabel = ModernLabel.createLabel(fieldName, 15, new Color(135, 206, 235));
+		JLabel valueLabel = ModernLabel.createLabel(value, 15 , Color.BLACK);
 		fieldNameLabel.setAlignmentX(LEFT_ALIGNMENT);
 		valueLabel.setAlignmentX(LEFT_ALIGNMENT);
 		
@@ -99,8 +102,8 @@ public class ProfiloDialog extends JDialog
 		panel.setAlignmentX(LEFT_ALIGNMENT);
 		panel.setBackground(Color.WHITE);
 
-		panel.setSize(new Dimension( fieldNameLabel.getWidth() + valueLabel.getWidth(), 
-											fieldNameLabel.getHeight()));
+		panel.setSize(new Dimension(Integer.MAX_VALUE, 30));
+		panel.setMinimumSize(panel.getSize());
 		panel.setPreferredSize(panel.getSize());
 		panel.setMaximumSize(panel.getSize());
 		

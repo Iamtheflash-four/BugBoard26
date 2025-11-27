@@ -80,7 +80,7 @@ public class LoginArea extends JFrame
         formPanel.setBackground(Color.WHITE);
         buttonPanel.setBackground(Color.WHITE);
         
-        this.add(mainPanel);
+        this.setContentPane(mainPanel);
     }
     
     private void creaTitolo() {
@@ -125,7 +125,7 @@ public class LoginArea extends JFrame
     
  
 	private JTextField createLoginField(String text) {
-		JTextField field = ModernTextField.createLoginField(text);
+		JTextField field = ModernTextField.createField(text);
     	addForm(field);
     	return field;
     }
@@ -159,7 +159,7 @@ public class LoginArea extends JFrame
 			controller.switchAreaPersonale(utente);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 	} //commentato per evitare errori di compilazione
 	

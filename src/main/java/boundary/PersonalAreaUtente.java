@@ -36,19 +36,17 @@ public class PersonalAreaUtente extends JFrame
 	private void componiGUI() {
 	    mainPanel = new JPanel();
 	    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+	    //mainPanel = new JPanel(); 
+		//mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 	    mainPanel.setBackground(Color.WHITE);
-
+	    
 	    titlePanel = new BarraUtente(utente, controller);
 	    mainPanel.add(titlePanel);
-
+	    
 	    areaIssueSegnalte = new AreaIssue();
-	    areaIssueSegnalte.componiGUI(); // Chiamiamo il metodo per costruire la GUI interna di AreaIssue
-
-	    mainPanel.add(areaIssueSegnalte); // Aggiungiamo il pannello AreaIssue al contenuto principale
-
+	    
 	    this.setContentPane(mainPanel);
 	}
-
 
 
 }

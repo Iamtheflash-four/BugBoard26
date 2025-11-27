@@ -19,7 +19,7 @@ public class ModernLabel
 		return createLabel(text, new Font("Arial", Font.BOLD, 20) , Color.BLUE, SwingConstants.CENTER);
 	}
 	
-	public static JLabel createBoldLabel(String text, int size, Color foreground)
+	public static JLabel createLabel(String text, int size, Color foreground)
 	{
 		return createLabel(text, new Font("Arial", Font.BOLD, size), foreground);
 	}
@@ -45,10 +45,10 @@ public class ModernLabel
 		label.setFont(font);
 		label.setForeground(foreground);
 		
-		int textSize = label.getFont().getSize();
-		label.setSize(text.length()*textSize, textSize + textSize/2);
-		label.setPreferredSize(label.getSize());
-		label.setMaximumSize(label.getSize());
+//		int textSize = label.getFont().getSize();
+//		label.setSize(text.length()*textSize, textSize + textSize/2);
+//		label.setPreferredSize(label.getSize());
+//		label.setMaximumSize(label.getSize());
 		return label;
 	}
 }

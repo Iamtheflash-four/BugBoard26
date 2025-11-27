@@ -6,6 +6,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import boundary.LoginArea;
+import dto.LoginResponse;
 
 
 public class LoginController extends Controller
@@ -20,7 +21,8 @@ public class LoginController extends Controller
                password != null && !password.isBlank();
     }
     
-    public Utente verificaCredenziali(String email, String password) throws Exception{
+    public Utente verificaCredenziali(String email, String password) throws Exception
+    {
         //JSON credenziali
         String json = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
 
@@ -32,7 +34,7 @@ public class LoginController extends Controller
         LoginResponse loginResponse = response.readEntity(LoginResponse.class);
         
         if (!loginResponse.isSuccess()) 
-        	throw new Exception(loginResponse.getMessage());
+        	throw new Exception(response.getStatus() + " " + loginResponse.getMessage());
         return loginResponse.getUtente();
     }
 

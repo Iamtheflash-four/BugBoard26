@@ -8,9 +8,11 @@ import jakarta.ws.rs.core.Response;
 
 import javax.swing.JDialog;
 
+import boundary.dialog.ChangePasswordDialog;
+
 public class ChangePasswordController extends Controller
 {
-    private Utente utente;
+	private Utente utente;
 
     public ChangePasswordController(Controller controller, Utente utente)
     {
@@ -18,8 +20,8 @@ public class ChangePasswordController extends Controller
         this.utente = utente;
         JDialog dialog = new boundary.dialog.ChangePasswordDialog(frame, this, utente);
     }
-
-    public boolean executeChange(Utente utente, String pwOld, String pwNew1, String pwNew2)
+	
+	public boolean executeChange(Utente utente, String oldPassword, String newPassword1, String newPassword2)
     {
     	if(utente.getToken().trim().isEmpty())
     	{
@@ -27,30 +29,24 @@ public class ChangePasswordController extends Controller
     		return false; 
     	}
     	
-    	String tkn = utente.getToken();
+    	String token = utente.getToken();
     		
-        if(pwOld.trim().isEmpty() || pwNew1.trim().isEmpty() || pwNew2.trim().isEmpty())
-        {
-            System.out.println("Uno o più campi non sono compilati correttamente");
-            return false;
-        }
+        if(oldPassword.trim().isEmpty() || newPassword1.trim().isEmpty() || newPassword2.trim().isEmpty())
+        	return false;
+        
 
-        if(pwNew1.trim().equalsIgnoreCase(pwNew2.trim()))
-        {
-            return applyChange(tkn, pwOld, pwNew1);
-        }
+        if(newPassword1.equals(newPassword1) )
+        	return applyChange(token, oldPassword, newPassword1);
         else
-        {
-            System.out.println("Le password non sono uguali!");
-            return false;
-        }
+        	return false;
+        
     }
 
-    private boolean applyChange(String token, String pwOld, String newPassword)
+    private boolean applyChange(String token, String passwordOld, String newPassword) 
     {
         try {
             
-            String json = String.format("{\"token\":\"%s\", \"oldPassword\":\"%s\", \"newPassword\":\"%s\"}", token, pwOld, newPassword);
+            String json = String.format("{\"token\":\"%s\", \"oldPassword\":\"%s\", \"newPassword\":\"%s\"}", token, passwordOld, newPassword);
 
             Response response = server.path("auth/change-password")
                 .request(MediaType.APPLICATION_JSON)
@@ -70,4 +66,9 @@ public class ChangePasswordController extends Controller
             return false;
         }
     }
+
+	public void showProfiloDialog(ChangePasswordDialog dialog) {
+		dialog.dispose();
+		new ProfiloController(this, utente);
+	}
 }

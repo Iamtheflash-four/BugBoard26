@@ -23,7 +23,7 @@ public class AreaUtenteController extends Controller
 	
 	public static void main(String[] args)
 	{
-		Utente utente = new Utente("Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", "shdfh");
+		Utente utente = new Utente(1,"Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", true, "shdfh");
 		new AreaUtenteController(new Controller(), utente);
 	}
 

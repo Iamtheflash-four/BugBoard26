@@ -10,8 +10,8 @@ public class Controller
 {
 	//private HttpServer server;
     protected WebTarget server;
-    protected static final String SERVER_URL = "https://bugboardlogin.onrender.com";
-//    private static final String SERVER_URL = "http://localhost:8080";
+//    protected static final String SERVER_URL = "https://bugboardlogin.onrender.com";
+    private static final String SERVER_URL = "http://localhost:8080";
     protected Client client;
     protected JFrame frame;
     

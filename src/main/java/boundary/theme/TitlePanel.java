@@ -13,8 +13,8 @@ public class TitlePanel extends JPanel
 	public TitlePanel(String text)
 	{
 		super();
-		this.setPreferredSize(new Dimension(200, 60));
-		this.setMaximumSize(new Dimension(200, 60));
+		this.setPreferredSize(new Dimension(Integer.MAX_VALUE, 60));//Prima 200, 60
+		this.setMaximumSize(new Dimension(Integer.MAX_VALUE, 60));
 		this.setBackground(Color.WHITE);
 		
 		titleLabel = ModernLabel.createTitleLabel(text);

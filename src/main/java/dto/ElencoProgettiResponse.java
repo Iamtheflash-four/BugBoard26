@@ -2,42 +2,34 @@ package dto;
 
 import java.util.ArrayList;
 
+import entity.Progetto;
+
 public class ElencoProgettiResponse 
 {
-	private int status;
 	private String message;
-	private ArrayList<String> elencoProgetti;
+	private ArrayList<Progetto> elencoProgetti;
 	
 	public ElencoProgettiResponse() {}
 
-	public ElencoProgettiResponse(int status, String message, ArrayList<String> elencoProgetti) {
+	public ElencoProgettiResponse(String message, ArrayList<Progetto> elencoProgetti) {
 		super();
-		this.status = status;
 		this.message = message;
 		this.elencoProgetti = elencoProgetti;
-	}
-
-	public int getStatus() {
-		return status;
 	}
 
 	public String getMessage() {
 		return message;
 	}
 
-	public ArrayList<String> getElencoProgetti() {
+	public ArrayList<Progetto> getElencoProgetti() {
 		return elencoProgetti;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
 	}
 
 	public void setMessage(String message) {
 		this.message = message;
 	}
 
-	public void setElencoProgetti(ArrayList<String> elencoProgetti) {
+	public void setElencoProgetti(ArrayList<Progetto> elencoProgetti) {
 		this.elencoProgetti = elencoProgetti;
 	}
 }
