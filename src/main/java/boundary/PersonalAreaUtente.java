@@ -7,13 +7,13 @@ import java.awt.*;
 
 public class PersonalAreaUtente extends JFrame
 {
-	private AreaUtenteController controller; 
-	private JPanel mainPanel;
+	protected AreaUtenteController controller; 
+	protected JPanel mainPanel;
 	private JPanel buttonPanel; 
 	private JButton btnIssue, btnChangePassword, btnLogout; 
 	private JLabel titolo; 
-	private JPanel titlePanel;
-	private Utente utente;
+	protected JPanel titlePanel;
+	protected Utente utente;
 	private AreaIssue areaIssueSegnalte;
 	
 	public PersonalAreaUtente(AreaUtenteController controller, Utente utente)
@@ -36,17 +36,25 @@ public class PersonalAreaUtente extends JFrame
 	private void componiGUI() {
 	    mainPanel = new JPanel();
 	    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-	    //mainPanel = new JPanel(); 
-		//mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 	    mainPanel.setBackground(Color.WHITE);
-	    
-	    titlePanel = new BarraUtente(utente, controller);
+		
+	    if (utente.getAdminStatus()) {
+	        titlePanel = new BarraUtenteAdmin(utente, controller);
+	    } else {
+	        titlePanel = new BarraUtente(utente, controller);
+	    }
+
 	    mainPanel.add(titlePanel);
-	    
+
 	    areaIssueSegnalte = new AreaIssue();
-	    
+	    areaIssueSegnalte.componiGUI(); // Chiamiamo il metodo per costruire la GUI interna di AreaIssue
+
+	    mainPanel.add(areaIssueSegnalte); // Aggiungiamo il pannello AreaIssue al contenuto principale
+
 	    this.setContentPane(mainPanel);
 	}
+	
+
 
 
 }
