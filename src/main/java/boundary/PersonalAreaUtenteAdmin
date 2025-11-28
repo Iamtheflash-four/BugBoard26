@@ -1,0 +1,16 @@
+package boundary;
+
+import controller.AreaUtenteController;
+import entity.Utente;
+
+public class PersonalAreaUtenteAdmin extends PersonalAreaUtente
+{
+	public PersonalAreaUtenteAdmin(AreaUtenteController controller, Utente utente) 
+	{ 
+		super(controller, utente); 
+		
+		this.setVisible(true);
+	} 
+	
+	
+}
