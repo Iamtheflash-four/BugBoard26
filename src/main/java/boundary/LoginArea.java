@@ -34,7 +34,7 @@ public class LoginArea extends JFrame
         this.controller = controller;
         
         // Configurazione finestra principale
-        this.setTitle("Login - UninaSwap");
+        this.setTitle("Login - Unina BugBoard26");
         this.setSize(500, 450);
         this.setMinimumSize(new Dimension(500, 450));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,7 +80,7 @@ public class LoginArea extends JFrame
         formPanel.setBackground(Color.WHITE);
         buttonPanel.setBackground(Color.WHITE);
         
-        this.setContentPane(mainPanel);
+        this.add(mainPanel);
     }
     
     private void creaTitolo() {
@@ -154,7 +154,8 @@ public class LoginArea extends JFrame
 	    
 	    // Chiamata al controller per verificare le credenziali nel database
 	    entity.Utente utente;
-		try {
+		try 
+		{
 			utente = controller.verificaCredenziali(email, password);
 			controller.switchAreaPersonale(utente);
 		} catch (Exception e) {
