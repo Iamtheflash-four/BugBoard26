@@ -49,6 +49,9 @@ public class LoginController extends Controller
 
 	public void switchAreaPersonale(Utente utente) {
 		this.frame.dispose();
-		new AreaUtenteController(this, utente);
+		if(utente.isAmministratore())
+			new AreaAmministratoreController(this, utente);
+		else
+			new AreaUtenteController(this, utente);
 	}
 }

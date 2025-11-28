@@ -22,7 +22,8 @@ public class PersonalAreaUtente extends JFrame
 		this.utente = utente;
 		
 		this.setTitle("Area Personale - Unina BugBoard26");
-        this.setSize(800, 600);
+        this.setSize(900, 600);
+        this.setMinimumSize(new Dimension(600, 300));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null); // Centra la finestra
        // this.setResizable(false);
@@ -38,20 +39,20 @@ public class PersonalAreaUtente extends JFrame
 	    mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 	    mainPanel.setBackground(Color.WHITE);
 		
-	    if (utente.getAdminStatus()) {
-	        titlePanel = new BarraUtenteAdmin(utente, controller);
-	    } else {
-	        titlePanel = new BarraUtente(utente, controller);
-	    }
+	    creaNavBar();
 
 	    mainPanel.add(titlePanel);
 
 	    areaIssueSegnalte = new AreaIssue();
-	    areaIssueSegnalte.componiGUI(); // Chiamiamo il metodo per costruire la GUI interna di AreaIssue
+	    //areaIssueSegnalte.componiGUI(); // Chiamiamo il metodo per costruire la GUI interna di AreaIssue
 
 	    mainPanel.add(areaIssueSegnalte); // Aggiungiamo il pannello AreaIssue al contenuto principale
 
 	    this.setContentPane(mainPanel);
+	}
+
+	protected void creaNavBar() {
+		  titlePanel = new BarraUtente(utente, controller);
 	}
 	
 

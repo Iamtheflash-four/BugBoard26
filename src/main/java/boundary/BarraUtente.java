@@ -34,7 +34,7 @@ public class BarraUtente extends BarraGenerica
         logoutButton = ModernButton.createNavbarButton("Logout");
         profiloButton = ModernButton.createNavbarButton("Profilo 👤");
 
-        gestioneIssueButton = ModernButton.createNavbarButton("Gestione Issue");
+        gestioneIssueButton = ModernButton.createNavbarButton("<html>Gestione<br>issue</html>");
         gestioneIssueButton.setPreferredSize(new Dimension(160, 30));
 
     
@@ -49,12 +49,7 @@ public class BarraUtente extends BarraGenerica
         buttonPanel.setBackground(Color.WHITE);
 
         buttonPanel.add(segnalaIssueButton);
-
-        // Bottone sempre visibile
         buttonPanel.add(gestioneIssueButton);
-
-      
-
         buttonPanel.add(logoutButton);
         buttonPanel.add(profiloButton);
 

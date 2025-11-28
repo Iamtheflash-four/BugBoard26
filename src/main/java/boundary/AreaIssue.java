@@ -7,19 +7,17 @@ import boundary.theme.ModernButton;
 
 import java.awt.*;
 
-public class AreaIssue extends JPanel
-{
-
+public class AreaIssue extends JPanel {
     private JTable issueTable;
     private DefaultTableModel tableModel;
 
-    private JButton btnNuovaIssue;
-    private JButton btnGestisciIssue;
-    private JButton btnSwitch;
-    private JButton btnDettagliIssue; 
-    private JButton btnAssegna; 
-    private JButton btnAreaUtenze; 
-    private JButton btnLogout; 
+    private JButton buttonNuovaIssue;
+    private JButton buttonGestisciIssue;
+    private JButton buttonSwitch;
+    private JButton buttonDettagliIssue; 
+    private JButton buttonAssegna; 
+    private JButton buttonAreaUtenze; 
+    private JButton buttonLogout; 
     
     private JLabel titolo; 
     private JPanel mainPanel;  
@@ -27,82 +25,77 @@ public class AreaIssue extends JPanel
     
     private boolean showingRicevute = true;
 
-    public AreaIssue() {
-     //   setTitle("Gestione Issue - BugBoard26");
-        setSize(700, 400);
-//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setLocationRelativeTo(null);
-//        setResizable(false);
-        createTable();
-        
-//        titolo = new JLabel("Benvenuto nell'area Issue");
-//        titolo.setFont(new Font("Arial", Font.BOLD, 16));
-//        titolo.setForeground(new Color(30, 30, 30));
-//        titolo.setHorizontalAlignment(SwingConstants.CENTER);
-//        mainPanel.add(titolo, BorderLayout.NORTH);
-//
-//        setVisible(true);
+    public AreaIssue() 
+    {
+       setSize(700, 400);
+       componiGUI();
     }
 
-    private void componiGUI() {
-        mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        mainPanel.setBackground(Color.WHITE);
+   private void componiGUI() {
+       mainPanel = new JPanel(new BorderLayout());
+       mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+       mainPanel.setBackground(Color.WHITE);
 
-        String[] colonne = { "Nome Progetto", "Priorità", "Tipo" };
-        tableModel = new DefaultTableModel(colonne, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) { return false; }
-        };
-        
+       String[] colonne = { "Nome Progetto", "Priorità", "Tipo" };
+       tableModel = new DefaultTableModel(colonne, 0) {
+           @Override
+           public boolean isCellEditable(int row, int column) { return false; }
+       };
+       
         createTable();
 
         JScrollPane scrollPane = new JScrollPane(issueTable);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
-        btnNuovaIssue = ModernButton.createNewButtonPainted("Nuova Issue", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215));
-        btnGestisciIssue = ModernButton.createNewButtonPainted("Gestisci Issue", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215));
-        btnSwitch = ModernButton.createNewButtonPainted("Issue Inviate", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215));
-        btnDettagliIssue = ModernButton.createNewButtonPainted("Dettagli Issue", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215)); 
-        btnAssegna = CreateSpecialButton("Assegna Issue");
-        btnAreaUtenze = CreateSpecialButton("Gestione Utenze");
-        btnLogout = ModernButton.createNewButtonPainted("Logout", new Color(255, 0, 0), new Color(255,255,255), new Color(255, 0, 0));
+        initializeButtons();
 
-        if (btnNuovaIssue != null) { btnNuovaIssue.addActionListener(e -> creaIssue()); }
-
-        if (btnGestisciIssue != null) {  btnGestisciIssue.addActionListener(e -> gestisciIssue()); }
-
-        if (btnSwitch != null) { btnSwitch.addActionListener(e -> switchView()); }
-        
-        if(btnDettagliIssue != null) { btnDettagliIssue.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, 
-                    "Funzione in sviluppo", 
-                    "Info", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            }); }
-        
-        if(btnAssegna != null) { btnAssegna.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, 
-                    "Funzione in sviluppo", 
-                    "Info", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            }); }
-
-        if(btnAreaUtenze != null) { btnAreaUtenze.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, 
-                    "Funzione in sviluppo", 
-                    "Info", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            }); }
-        
-//        
-
+        addListeners();
 
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-//        setContentPane(mainPanel);
 
         caricaIssueRicevute();
     }
+
+	private void initializeButtons() {
+		buttonNuovaIssue = ModernButton.createNewButtonPainted("Nuova Issue", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215));
+        buttonGestisciIssue = ModernButton.createNewButtonPainted("Gestisci Issue", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215));
+        buttonSwitch = ModernButton.createNewButtonPainted("Issue Inviate", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215));
+        buttonDettagliIssue = ModernButton.createNewButtonPainted("Dettagli Issue", new Color(0, 120, 215), new Color(255, 255, 255), new Color(0, 120, 215)); 
+        buttonAssegna = CreateSpecialButton("Assegna Issue");
+        buttonAreaUtenze = CreateSpecialButton("Gestione Utenze");
+        buttonLogout = ModernButton.createNewButtonPainted("Logout", new Color(255, 0, 0), new Color(255,255,255), new Color(255, 0, 0));
+	}
+
+	private void addListeners() {
+		if (buttonNuovaIssue != null) { buttonNuovaIssue.addActionListener(e -> creaIssue()); }
+
+        if (buttonGestisciIssue != null) {  buttonGestisciIssue.addActionListener(e -> gestisciIssue()); }
+
+        if (buttonSwitch != null) { buttonSwitch.addActionListener(e -> switchView()); }
+        
+        if(buttonDettagliIssue != null) { buttonDettagliIssue.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, 
+                    "Funzione in sviluppo", 
+                    "Info", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            }); }
+        
+        if(buttonAssegna != null) { buttonAssegna.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, 
+                    "Funzione in sviluppo", 
+                    "Info", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            }); }
+
+        if(buttonAreaUtenze != null) { buttonAreaUtenze.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, 
+                    "Funzione in sviluppo", 
+                    "Info", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            }); }
+        
+         buttonPanel = createPanel();
+	}
 
 	private void createTable() {
 		issueTable = new JTable(tableModel);
@@ -133,13 +126,13 @@ public class AreaIssue extends JPanel
 	private JPanel createPanel() 
 	{
 		JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 15, 10));
-		if (btnNuovaIssue != null) buttonPanel.add(btnNuovaIssue);
-        if (btnGestisciIssue != null) buttonPanel.add(btnGestisciIssue);
-        if (btnSwitch != null) buttonPanel.add(btnSwitch);
-        if (btnDettagliIssue != null) buttonPanel.add(btnDettagliIssue);
-        if (btnAssegna != null) buttonPanel.add(btnAssegna);
-        if (btnAreaUtenze != null) buttonPanel.add(btnAreaUtenze);
-        if (btnLogout != null) buttonPanel.add(btnLogout);
+		if (buttonNuovaIssue != null) buttonPanel.add(buttonNuovaIssue);
+        if (buttonGestisciIssue != null) buttonPanel.add(buttonGestisciIssue);
+        if (buttonSwitch != null) buttonPanel.add(buttonSwitch);
+        if (buttonDettagliIssue != null) buttonPanel.add(buttonDettagliIssue);
+        if (buttonAssegna != null) buttonPanel.add(buttonAssegna);
+        if (buttonAreaUtenze != null) buttonPanel.add(buttonAreaUtenze);
+        if (buttonLogout != null) buttonPanel.add(buttonLogout);
         buttonPanel.setBackground(Color.WHITE);
 		return buttonPanel;
 	}
@@ -160,8 +153,8 @@ public class AreaIssue extends JPanel
 
     private void switchView() {
         showingRicevute = !showingRicevute;
-        if (btnSwitch != null) {
-            btnSwitch.setText(showingRicevute ? "Visualizza Inviate" : "Visualizza Ricevute");
+        if (buttonSwitch != null) {
+            buttonSwitch.setText(showingRicevute ? "Visualizza Inviate" : "Visualizza Ricevute");
         }
         tableModel.setRowCount(0);
 
@@ -176,15 +169,15 @@ public class AreaIssue extends JPanel
 	{
 		if(true) //ho messo true/false per testarlo. Da sostituire con il metodo del controller
 		{
-			JButton btn; 
-			btn = ModernButton.createNewButtonPainted(text, new Color(0, 120, 215) , new Color(255, 255, 255), new Color(0, 120, 215));
-			btn.addActionListener(e -> {
+			JButton button; 
+			button = ModernButton.createNewButtonPainted(text, new Color(0, 120, 215) , new Color(255, 255, 255), new Color(0, 120, 215));
+			button.addActionListener(e -> {
 	            JOptionPane.showMessageDialog(this, 
 	                    "Funzione in sviluppo", 
 	                    "Info", 
 	                    JOptionPane.INFORMATION_MESSAGE);
 	            });
-			return btn; 
+			return button; 
 		}
 		else return null;
 	}

@@ -31,6 +31,7 @@ public class ModernButton
 		//Size
 		Dimension size = new Dimension(100, 30);
 		button.setSize(size);
+		button.setMinimumSize(size);
 		button.setPreferredSize(size);
 		button.setMaximumSize(size);
 		
