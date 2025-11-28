@@ -8,7 +8,7 @@ import boundary.theme.ModernLabel;
 import controller.AreaUtenteController;
 import entity.Utente;
 
-public class BarraUtente extends JPanel
+public class BarraUtente extends BarraGenerica
 {
     private AreaUtenteController controller;
     private Utente utente;
@@ -25,12 +25,7 @@ public class BarraUtente extends JPanel
         super();
         this.controller = controller;
         this.utente = utente;
-        setSize(Integer.MAX_VALUE, 70);
-        setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
-        setPreferredSize(new Dimension(0, 70));
-        setAlignmentX(CENTER_ALIGNMENT);
-        setBackground(Color.WHITE);
-        setBorder(new MatteBorder(0, 0, 2, 0, new Color(200,200,200)));
+        
 
         title = ModernLabel.createTitleLabel("Benvenuto " + utente.getNome());
         title.setPreferredSize(new Dimension(300, 30));
