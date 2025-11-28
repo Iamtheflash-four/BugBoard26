@@ -6,6 +6,7 @@ import javax.swing.*;
 import boundary.theme.ModernButton;
 import controller.AreaUtenzeController;
 import entity.Utente; 
+import boundary.dialog.CreaUtenteDialog;  
 
 public class BarraUtenteAreaUtenze extends BarraGenerica {
 
@@ -15,7 +16,7 @@ public class BarraUtenteAreaUtenze extends BarraGenerica {
     private JPanel buttonPanel;
     private Utente utente;
     private AreaUtenzeController controller;
-
+    private AreaUtenze_AdminOptions parentFrame;  
     public BarraUtenteAreaUtenze(Utente utente, AreaUtenzeController controller) {
         super();
         this.utente = utente;
@@ -30,6 +31,12 @@ public class BarraUtenteAreaUtenze extends BarraGenerica {
         setBackground(Color.WHITE);
         setVisible(true);
     }
+    
+    public BarraUtenteAreaUtenze(Utente utente, AreaUtenzeController controller, AreaUtenze_AdminOptions parent)
+    {
+    	this(utente, controller); 
+    	parentFrame = parent;
+    }
 
     private void creaButton() {
         creaUtenza = ModernButton.createNavbarButton("Crea Utenza");
@@ -38,7 +45,7 @@ public class BarraUtenteAreaUtenze extends BarraGenerica {
     }
 
     private void addActionButton() {
-        //addActionCreaUtenza();
+        addActionCreaUtenza();
         addActionBackButton();
     }
 
@@ -57,8 +64,12 @@ public class BarraUtenteAreaUtenze extends BarraGenerica {
     }
 
     private void addActionCreaUtenza() {
-        // da implementare
+        creaUtenza.addActionListener(e -> {
+            CreaUtenteDialog dialog = new CreaUtenteDialog(parentFrame);  // ← USA ESISTENTE!
+            dialog.setVisible(true);
+        });
     }
+
 
     private void addActionBackButton() {
         // da implementare
