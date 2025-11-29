@@ -22,6 +22,7 @@ public class SegnalaIssueDialog extends JDialog {
     private JComboBox<String> comboBoxProgetto;
     
     private JComboBox<String> comboBoxPriorita;
+    private JScrollPane scrollMainPanel;
     private JPanel mainPanel;
     private JPanel formPanel;
 
@@ -42,13 +43,14 @@ public class SegnalaIssueDialog extends JDialog {
 	
 	private JButton sendButton;
 
+	private ImageInput imageField;
+
     public SegnalaIssueDialog(JFrame frame, SegnalaIssueController controller)
     {
     	super(frame, "Segnala issue", true);
     	this.controller = controller;
         setSize(700, 500);
         setLocationRelativeTo(null);
-//        setResizable(false);
         
         componiGUI();
         
@@ -61,13 +63,14 @@ public class SegnalaIssueDialog extends JDialog {
         mainPanel.setBackground(Color.WHITE);
         
         titlePanel = new TitlePanel("Segnala issue");
-        
         creaForm();
         addEvents();
         
         mainPanel.add(titlePanel);
         mainPanel.add(formPanel);
-        setContentPane(mainPanel);
+//        mainPanel.add(imageField);
+        avvolgiScrollPane(mainPanel);
+        setContentPane(scrollMainPanel);
     }
 
 	private void creaForm() {
@@ -91,6 +94,7 @@ public class SegnalaIssueDialog extends JDialog {
         descrizioneLabel = ModernLabel.createLabel("Descrizione", 12, Color.BLACK);
         descrizioneField = ModernTextField.createFieldBox("Nuova issue", 250, 130);
         descrizionePanel = ModernTextField.avvolgiScrollPane(descrizioneField, 250, 130);
+        imageField = new ImageInput();
         sendButton = ModernButton.createNewButtonPainted("Segnala", 80, 40);
         sendButton.setMinimumSize(sendButton.getSize());
 	}
@@ -139,18 +143,32 @@ public class SegnalaIssueDialog extends JDialog {
     	addFormRow(progettoLabel, comboBoxProgetto);
         addFormRow(prioritaLabel, comboBoxPriorita);
         addFormRow(subjectLabel, subjectField);
-        //Descrizione
-        formPanel.add(descrizioneLabel, gridBag);
-        
-        gridBag.gridx++;
-        formPanel.add(descrizionePanel, gridBag); 
-        gridBag.gridy++;
+        gridBag.fill = GridBagConstraints.BOTH;
+        addDescrizoneField();
+        addImageField();
         gridBag.gridx=0;
         gridBag.fill = GridBagConstraints.NONE;
         gridBag.gridwidth=2;
         formPanel.add(sendButton, gridBag);
     }
 
+	private void addDescrizoneField() {
+		formPanel.add(descrizioneLabel, gridBag);
+        gridBag.gridx++;
+        formPanel.add(descrizioneField, gridBag); 
+        gridBag.gridy++;
+	}
+    
+    private void addImageField()
+    {
+    	gridBag.gridx=0;
+    	gridBag.gridwidth = 2;
+    	gridBag.anchor = gridBag.WEST;
+    	gridBag.fill = gridBag.BOTH;
+    	formPanel.add(imageField, gridBag);
+    	gridBag.gridy++;
+    }
+	
     private void addEvents()
     {
     	sendButton.addActionListener(e->{
@@ -165,5 +183,15 @@ public class SegnalaIssueDialog extends JDialog {
 		String descrizione = descrizioneField.getText();
 		controller.segnalaIssue(new Issue(progetto, priorita, titolo, descrizione));
 	}
-
+	
+	private void avvolgiScrollPane(JPanel panel)
+	{
+		scrollMainPanel = new JScrollPane(panel);
+		scrollMainPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scrollMainPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		mainPanel.setSize(700, 500);
+		mainPanel.setMinimumSize(scrollMainPanel.getSize());
+		mainPanel.setPreferredSize(scrollMainPanel.getSize());
+	}
 }
