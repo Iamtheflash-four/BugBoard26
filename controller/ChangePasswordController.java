@@ -48,7 +48,7 @@ public class ChangePasswordController extends Controller
             
             String json = String.format("{\"token\":\"%s\", \"oldPassword\":\"%s\", \"newPassword\":\"%s\"}", token, passwordOld, newPassword);
 
-            Response response = server.path("auth/change-password")
+            Response response = client.target(this.USER_SERVER_URL).path("auth/change-password")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON), Response.class);
 

@@ -33,14 +33,14 @@ public class SegnalaIssueController extends Controller
 
 	public ArrayList<Progetto> getElencoProgetti() throws Exception 
 	{
-		Response response = client.target("http://localhost:8081").path("elenchi/progetti")
+		Response response = client.target(ISSUE_PROGETTI_URL).path("elenchi/progetti")
 			.request(MediaType.APPLICATION_JSON)
 		    .header("Token", utente.getToken()) // allega il token
 		    .get();
 		
 		ElencoProgettiResponse elencoResponse = response.readEntity(ElencoProgettiResponse.class);
 		
-		if(response.getStatus()==200)
+		if(response !=null && response.getStatus()==200)
 			return elencoResponse.getElencoProgetti();
 		else
 			throw new Exception(elencoResponse.getMessage());
@@ -73,7 +73,7 @@ public class SegnalaIssueController extends Controller
 		IssueWithImagesDTO issueDTO = new IssueWithImagesDTO(issue, imagesDTO);
 		Jsonb jsonb = JsonbBuilder.create();
 
-		Response response = client.target("http://localhost:8082/issue/segnalazioni")
+		Response response = client.target(ISSUE_SERVER_URL).path("issue/segnalazioni")
                 .request(MediaType.APPLICATION_JSON) 
                 .post(Entity.entity(jsonb.toJson(issueDTO), MediaType.APPLICATION_JSON), Response.class);
 		return response;

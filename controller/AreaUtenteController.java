@@ -1,8 +1,14 @@
 package controller;
 
+import java.net.ResponseCache;
+import java.util.ArrayList;
+
 import javax.swing.JDialog;
 
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import boundary.dialog.SegnalaIssueDialog;
+import entity.IssueWithImages;
 import entity.Utente;
 
 public class AreaUtenteController extends Controller
@@ -37,5 +43,13 @@ public class AreaUtenteController extends Controller
 
 	public void showProfilo(Utente utente) {
 		new ProfiloController(this, utente);
+	}
+
+	public ArrayList<IssueWithImages> getElencoIssue() {
+//		Response response = client.target(ISSUE_SERVER_URL).path("issue/elencoIssueAssegnate")
+//			.request(MediaType.APPLICATION_JSON)
+//			.header("Token", utente.getToken())
+//			.get();
+		return null;
 	}
 }

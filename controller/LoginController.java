@@ -27,7 +27,7 @@ public class LoginController extends Controller
         String json = String.format("{\"email\":\"%s\", \"password\":\"%s\"}", email, password);
 
         //Invio HTTP request
-        Response response = server.path("auth/login")
+        Response response = client.target(USER_SERVER_URL).path("auth/login")
                 .request(MediaType.APPLICATION_JSON) 
                 .post(Entity.entity(json, MediaType.APPLICATION_JSON), Response.class);	//Method post
         
