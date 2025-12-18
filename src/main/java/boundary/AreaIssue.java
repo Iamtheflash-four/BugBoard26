@@ -4,13 +4,17 @@ import javax.swing.*;
 import javax.swing.table.*;
 
 import boundary.theme.ModernButton;
+import controller.AreaUtenteController;
+import dto.IssueDTO;
+import entity.Utente;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class AreaIssue extends JPanel {
     private JTable issueTable;
     private DefaultTableModel tableModel;
-
+    private ArrayList<IssueDTO> elencoIssue;
     private JButton buttonNuovaIssue;
     private JButton buttonGestisciIssue;
     private JButton buttonSwitch;
@@ -20,23 +24,27 @@ public class AreaIssue extends JPanel {
     private JButton buttonLogout; 
     
     private JLabel titolo; 
-    private JPanel mainPanel;  
+//    private JPanel this;  
     private JPanel buttonPanel; 
     
     private boolean showingRicevute = true;
+	private AreaUtenteController controller;
 
-    public AreaIssue() 
+    public AreaIssue(controller.AreaUtenteController controller) 
     {
-       setSize(700, 400);
-       componiGUI();
+    	super(new BorderLayout());
+    	this.controller = controller;
+    	setSize(700, 400);
+    	componiGUI();
+    	caricaIssueRicevute();
     }
 
    private void componiGUI() {
-       mainPanel = new JPanel(new BorderLayout());
-       mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-       mainPanel.setBackground(Color.WHITE);
+//       this = new JPanel(new BorderLayout());
+       this.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+       this.setBackground(Color.WHITE);
 
-       String[] colonne = { "Nome Progetto", "Priorità", "Tipo" };
+       String[] colonne = { "Progetto", "Priorità", "Tipo", "Titolo", "Data", "Dettagli" };
        tableModel = new DefaultTableModel(colonne, 0) {
            @Override
            public boolean isCellEditable(int row, int column) { return false; }
@@ -45,15 +53,13 @@ public class AreaIssue extends JPanel {
         createTable();
 
         JScrollPane scrollPane = new JScrollPane(issueTable);
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        this.add(scrollPane, BorderLayout.CENTER);
 
         initializeButtons();
 
         addListeners();
-
-        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        caricaIssueRicevute();
+        this.add(scrollPane);
+        this.add(buttonPanel, BorderLayout.SOUTH);
     }
 
 	private void initializeButtons() {
@@ -101,7 +107,7 @@ public class AreaIssue extends JPanel {
 		issueTable = new JTable(tableModel);
 		// Font e altezza righe
         issueTable.setFont(new Font("Arial", Font.PLAIN, 14));
-        issueTable.setRowHeight(28);
+        issueTable.setRowHeight(30);
 
         // Colori di sfondo e testo
         issueTable.setBackground(new Color(245, 250, 255)); // azzurro chiarissimo
@@ -184,12 +190,32 @@ public class AreaIssue extends JPanel {
 
     //DATI DI TEST --ESEMPIO--
     private void caricaIssueRicevute() {
+//    	Object[] row = createRow("Progetto" Alpha", "Alta", "Bug" ); 
         tableModel.addRow(new Object[] { "Progetto Alpha", "Alta", "Bug" });
         tableModel.addRow(new Object[] { "Progetto Beta", "Media", "Richiesta" });
+    	try {
+			elencoIssue = controller.getElencoIssue();
+			for(IssueDTO issue : elencoIssue)
+				createRow(issue);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
-    //DATI DI TEST --ESEMPIO--
+    private Object[] createRow(IssueDTO issue) {
+		Object[] row = new Object[6];
+		row[0] = issue.getProgetto();
+		row[1] = issue.getTipo();
+		row[2] = issue.getPriorita();
+		row[3] = issue.getTipo();
+		row[4] = issue.getData();
+		JButton dettagliButton = new DettagliButton(issue, controller);
+		return row;
+	}
+
+	//DATI DI TEST --ESEMPIO--
     private void caricaIssueInviate() {
-        tableModel.addRow(new Object[] { "Progetto Gamma", "Bassa", "Suggerimento" });
+        tableModel.addRow(new Object[] { "Progetto Gamma", "" ,"Bassa", "Suggerimento" });
         tableModel.addRow(new Object[] { "Progetto Delta", "Alta", "Bug" });
     }
 }

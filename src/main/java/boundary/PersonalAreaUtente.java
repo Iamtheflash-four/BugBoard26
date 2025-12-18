@@ -43,9 +43,9 @@ public class PersonalAreaUtente extends JFrame
 
 	    mainPanel.add(titlePanel);
 
-	    areaIssueSegnalte = new AreaIssue();
-	    //areaIssueSegnalte.componiGUI(); // Chiamiamo il metodo per costruire la GUI interna di AreaIssue
-
+	    areaIssueSegnalte = new AreaIssue(controller);
+	    areaIssueSegnalte.setVisible(true);    
+	    
 	    mainPanel.add(areaIssueSegnalte); // Aggiungiamo il pannello AreaIssue al contenuto principale
 
 	    this.setContentPane(mainPanel);
@@ -54,8 +54,4 @@ public class PersonalAreaUtente extends JFrame
 	protected void creaNavBar() {
 		  titlePanel = new BarraUtente(utente, controller);
 	}
-	
-
-
-
 }

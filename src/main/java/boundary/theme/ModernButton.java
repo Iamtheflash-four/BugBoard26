@@ -13,13 +13,6 @@ public class ModernButton
 {
 	public static JButton createNewButtonPainted(String text, Color colorButton, Color colorText, Color colorBorder) 
     { 
-//        JButton nuovoBottone = new JButton(text);
-//        nuovoBottone.setBackground(colorButton);
-//        nuovoBottone.setFont(new Font("Arial", Font.BOLD, 14));
-//        nuovoBottone.setForeground(colorText);
-//        nuovoBottone.setBorder(BorderFactory.createLineBorder(colorBorder, 2));
-//        nuovoBottone.setSize(160, 40);
-//        nuovoBottone.setPreferredSize(new Dimension(160, 40)); // puoi aumentare questi valori
         return createNewButtonPainted(text, Color.BLUE, Color.WHITE, Color.BLUE, 160, 40);
     }
 
@@ -42,15 +35,25 @@ public class ModernButton
 		return createNewButtonPainted(text, Color.BLUE, Color.WHITE, Color.BLUE, i, j);
 	}
 
+	public static JButton createNewButtonPainted(String text, Color backGround, Color textColor, int i, int j) {
+		return createNewButtonPainted(text, backGround, textColor, backGround, i, j);
+	}
+	
 	public static JButton createNewButtonPainted(String text, Color colorButton, Color colorText, Color colorBorder, int i, int j) {
 		JButton nuovoBottone = new JButton(text);
-        nuovoBottone.setBackground(colorButton);
+        styleButton(colorButton, colorText, colorBorder, i, j, nuovoBottone);
+        return nuovoBottone;
+	}
+	public static void styleButton(Color colorButton, Color colorText, Color colorBorder, int i, int j,
+			JButton nuovoBottone) 
+	{
+		nuovoBottone.setFocusPainted(false);
+		nuovoBottone.setBackground(colorButton);
         nuovoBottone.setFont(new Font("Arial", Font.BOLD, 14));
         nuovoBottone.setForeground(colorText);
         nuovoBottone.setBorder(BorderFactory.createLineBorder(colorBorder, 2));
         nuovoBottone.setSize(i, j); 
         nuovoBottone.setPreferredSize(nuovoBottone.getSize()); 
         nuovoBottone.setMaximumSize(nuovoBottone.getSize());
-        return nuovoBottone;
-	}
+	}	
 }

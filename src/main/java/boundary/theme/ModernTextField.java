@@ -30,7 +30,7 @@ public class ModernTextField
 		JTextArea field = new JTextArea(5, 40);
 		field.setLineWrap(true);
 		field.setWrapStyleWord(true);
-		styleTextField(field, text, new MatteBorder(2,2,2,2, Color.BLUE));
+		styleTextField(field, text, null);
 		addListeners(field, text);
 		field.setDocument(new PlainDocument() {
 		    @Override
@@ -45,14 +45,17 @@ public class ModernTextField
 		});
 		// Size
 		field.setSize(width, heigth);
+		field.setMinimumSize(field.getSize());
 		field.setPreferredSize(field.getSize());
 		field.setMaximumSize(field.getSize());
    
     	return field;
     }
-
+	
+	
 	public static JScrollPane avvolgiScrollPane(JTextArea field, int width, int heigth) {
 		JScrollPane scrollPane = new JScrollPane(field);
+		scrollPane.setBorder(new MatteBorder(2,2,2,2, Color.BLUE));
         scrollPane.setPreferredSize(new Dimension(width, heigth));
         scrollPane.setMinimumSize(new Dimension(width, heigth));
         scrollPane.setMaximumSize(new Dimension(width, heigth));

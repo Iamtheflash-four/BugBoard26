@@ -33,20 +33,30 @@ public class ImageInput extends JPanel
 	public ImageInput()
 	{
 		super();
+		
+		initializeMainPanel();
+		
+		initializeFilePanel();
+		
+		this.images = new ArrayList<>(5);
+		initializeFields();
+	}
+
+	private void initializeMainPanel() {
 		this.setBackground(Color.WHITE);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		setSize(300, 500);
+		setSize(300, 200);
 		setMinimumSize(new Dimension(300, 300));
 		setPreferredSize(getSize());
-		setMaximumSize(new Dimension(300, Integer.MAX_VALUE));
+		setMaximumSize(new Dimension(300, 300));
+	}
+
+	private void initializeFilePanel() {
 		filePanel = new JPanel(new GridBagLayout());
 		gridBag = new GridBagConstraints();
 		gridBag.insets = new Insets(5,5,5,5);
 		gridBag.anchor = gridBag.EAST;
 		gridBag.gridx = gridBag.gridy = 0;
-		
-		this.images = new ArrayList<>(5);
-		initializeFields();
 	}
 	
 	private void initializeFields()
@@ -78,13 +88,13 @@ public class ImageInput extends JPanel
                 JOptionPane.showMessageDialog(this, "Puoi caricare al massimo 5 immagini", "Errore", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            for (File f : files) 
+            for (File file : files) 
             {
-                if (f.length() > 10 * 1024 * 1024) {
+                if (file.length() > 10 * 1024 * 1024) {
                 	JOptionPane.showMessageDialog(this, "Ogni immagine deve essere ≤ 10MB", "Errore", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                addImmage(f);
+                addImmage(file);
             }
             refreshImagePanel();
         }
@@ -135,7 +145,15 @@ public class ImageInput extends JPanel
     		JOptionPane.showMessageDialog(this, "Puoi caricare al massimo 5 immagini", 
     				"Errore", JOptionPane.ERROR_MESSAGE);
     }
+    
 	public ArrayList<File> getImages() {
         return images;
+    }
+	
+	public ArrayList<String> getImageNames() {
+		ArrayList<String> imageNames = new ArrayList<>(5);
+		for(File file : images)
+			imageNames.add(file.getName());
+		return imageNames;
     }
 }

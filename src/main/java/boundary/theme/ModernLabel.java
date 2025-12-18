@@ -51,4 +51,12 @@ public class ModernLabel
 //		label.setMaximumSize(label.getSize());
 		return label;
 	}
+
+	public static JLabel createLabel(String text, Font font, int lunghezza, int altezza) {
+		JLabel label = createLabel(text, font, Color.BLACK);
+		label.setSize(lunghezza, altezza);
+		label.setPreferredSize(label.getSize());
+		label.setMaximumSize(label.getSize());
+		return label;
+	}
 }

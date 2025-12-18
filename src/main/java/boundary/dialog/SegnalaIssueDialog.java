@@ -6,11 +6,12 @@ import boundary.theme.*;
 import controller.SegnalaIssueController;
 import entity.Issue;
 import entity.Progetto;
-import entity.Utente;
 
 import java.awt.*;
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SegnalaIssueDialog extends JDialog {
     private SegnalaIssueController controller;
@@ -20,7 +21,7 @@ public class SegnalaIssueDialog extends JDialog {
     
     private ArrayList<Progetto> elencoProgetti;
     private JComboBox<String> comboBoxProgetto;
-    
+    private JComboBox<String> comboBoxTipo;
     private JComboBox<String> comboBoxPriorita;
     private JScrollPane scrollMainPanel;
     private JPanel mainPanel;
@@ -45,19 +46,25 @@ public class SegnalaIssueDialog extends JDialog {
 
 	private ImageInput imageField;
 
+	private JLabel tipoLabel;
+
     public SegnalaIssueDialog(JFrame frame, SegnalaIssueController controller)
     {
     	super(frame, "Segnala issue", true);
     	this.controller = controller;
-        setSize(700, 500);
+        setSize(700, 600);
         setLocationRelativeTo(null);
         
-        componiGUI();
-        
-        setVisible(true);
+        try {
+			componiGUI();
+			setVisible(true);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			this.dispose();
+		}
     }
 
-    private void componiGUI() {
+    private void componiGUI() throws Exception {
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setBackground(Color.WHITE);
@@ -68,12 +75,13 @@ public class SegnalaIssueDialog extends JDialog {
         
         mainPanel.add(titlePanel);
         mainPanel.add(formPanel);
+//        mainPanel.add(sendButton);
 //        mainPanel.add(imageField);
         avvolgiScrollPane(mainPanel);
         setContentPane(scrollMainPanel);
     }
 
-	private void creaForm() {
+	private void creaForm() throws Exception {
 		initializeFornPanel();
 
         initializeFormComponents();
@@ -81,12 +89,13 @@ public class SegnalaIssueDialog extends JDialog {
         addComponentsToForm();
 	}
 
-	private void initializeFormComponents() {
+	private void initializeFormComponents() throws Exception {
 		createComboBoxProgetti();
         
         prioritaLabel = ModernLabel.createLabel("Priorità", 12, Color.BLACK);
         comboBoxPriorita = ModernComboBox.createCombobox(new String[] { "Bassa", "Media", "Alta" });
-        
+        tipoLabel = ModernLabel.createLabel("Tipologia", 12, Color.BLACK);
+        comboBoxTipo = ModernComboBox.createCombobox(new String[] { null, "Question", "Documentation", "Bug", "Feature" });
         subjectLabel = ModernLabel.createLabel("Titolo", 12, Color.BLACK);
         subjectField = ModernTextField.createField("Nuova issue");
         subjectField.setColumns(30);
@@ -99,7 +108,7 @@ public class SegnalaIssueDialog extends JDialog {
         sendButton.setMinimumSize(sendButton.getSize());
 	}
 
-	private void createComboBoxProgetti() {
+	private void createComboBoxProgetti() throws Exception {
 		progettoLabel = ModernLabel.createLabel("Progetto", 12, Color.BLACK);
         try {
 			elencoProgetti = controller.getElencoProgetti();
@@ -111,7 +120,7 @@ public class SegnalaIssueDialog extends JDialog {
         }    
         catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-			this.dispose();
+			throw e;
 		}
         comboBoxProgetto = ModernComboBox.createCombobox(elencoProgetti);
 	}
@@ -119,8 +128,8 @@ public class SegnalaIssueDialog extends JDialog {
 	private void initializeFornPanel() {
 		formPanel =  new JPanel(new GridBagLayout());
 		formPanel.setBackground(Color.WHITE);
-		formPanel.setPreferredSize(new Dimension(500, 600));
-		formPanel.setMaximumSize(new Dimension(500, 600));
+		formPanel.setPreferredSize(new Dimension(500, 800));
+		formPanel.setMaximumSize(new Dimension(500, 800));
 
         gridBag = new GridBagConstraints();
         gridBag.insets = new Insets(12, 12, 12, 12);
@@ -141,14 +150,13 @@ public class SegnalaIssueDialog extends JDialog {
     private void addComponentsToForm()
     {
     	addFormRow(progettoLabel, comboBoxProgetto);
+    	addFormRow(tipoLabel, comboBoxTipo);
         addFormRow(prioritaLabel, comboBoxPriorita);
         addFormRow(subjectLabel, subjectField);
         gridBag.fill = GridBagConstraints.BOTH;
         addDescrizoneField();
         addImageField();
-        gridBag.gridx=0;
         gridBag.fill = GridBagConstraints.NONE;
-        gridBag.gridwidth=2;
         formPanel.add(sendButton, gridBag);
     }
 
@@ -178,10 +186,21 @@ public class SegnalaIssueDialog extends JDialog {
 
 	private void segnalaIssue() {
 		String progetto = (String)comboBoxProgetto.getSelectedItem();
+		String tipo = (String)comboBoxTipo.getSelectedItem();
 		String priorita = (String)comboBoxPriorita.getSelectedItem();
 		String titolo = subjectField.getText();
 		String descrizione = descrizioneField.getText();
-		controller.segnalaIssue(new Issue(progetto, priorita, titolo, descrizione));
+		ArrayList<File> images = imageField.getImages();
+		try {
+			String risultato = controller.segnalaIssue(new Issue(progetto, tipo, priorita, titolo, descrizione, 
+				new Date()), images);
+			JOptionPane.showMessageDialog(this, risultato , "Issue caricata", JOptionPane.INFORMATION_MESSAGE);
+			this.setVisible(true);
+			this.dispose();
+		}catch(Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 	
 	private void avvolgiScrollPane(JPanel panel)
@@ -189,9 +208,10 @@ public class SegnalaIssueDialog extends JDialog {
 		scrollMainPanel = new JScrollPane(panel);
 		scrollMainPanel.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scrollMainPanel.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
-		mainPanel.setSize(700, 500);
-		mainPanel.setMinimumSize(scrollMainPanel.getSize());
-		mainPanel.setPreferredSize(scrollMainPanel.getSize());
+		scrollMainPanel.getVerticalScrollBar().setUnitIncrement(15);
+		scrollMainPanel.getHorizontalScrollBar().setUnitIncrement(15);
+//		mainPanel.setSize(700, 900);
+		mainPanel.setMinimumSize(new Dimension(700, 900));
+		mainPanel.setPreferredSize(new Dimension(700, 900));
 	}
 }
