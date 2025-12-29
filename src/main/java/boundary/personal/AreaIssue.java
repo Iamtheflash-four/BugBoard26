@@ -28,6 +28,9 @@ public class AreaIssue extends JPanel {
     private JLabel titolo; 
     private JPanel buttonPanel; 
     
+    
+
+    
     private boolean showingRicevute = true;
 	protected AreaUtenteController controller;
 
@@ -161,6 +164,14 @@ private void initializeButtons() {
 		issueTable.addRow(row);
 		return row;
 	}
+
+    public IssueTable getIssueTable() {
+        return issueTable;
+    }
+
+    public AreaUtenteController getController() {
+        return this.controller;
+    }
 
 	//DATI DI TEST --ESEMPIO--
     private void caricaIssueInviate() {
