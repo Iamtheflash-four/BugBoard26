@@ -15,6 +15,12 @@ public class LoginController extends Controller
 	{
 		this.frame = new boundary.LoginArea(this);
 	}
+	
+	public LoginController(Controller controller)
+	{
+		super(controller);
+		this.frame = new boundary.LoginArea(this);
+	}
 
     public boolean verificaDatiCampiLogin(String email, String password) {
         return email != null && !email.isBlank() &&

@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -48,7 +47,7 @@ public class DettagliIssueDialog extends JDialog
 		componiGUI(issue);
 		avvolgiScrollPane(mainPanel);
 		setContentPane(scrollMainPanel);
-		this.setVisible(true);
+		setVisible(true);
 	}
 
 	protected void componiGUI(IssueDTO issue) {
@@ -114,15 +113,14 @@ public class DettagliIssueDialog extends JDialog
 		imageNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		JLabel imagesNameLabel = ModernLabel.createLabel("Immagini allegate", Color.BLUE);
 		imageNamePanel.add(imagesNameLabel);
-		for(String image : imageNames)
-		{
-			if(image != null)
-			{
-				imageNamePanel.add(ModernLabel.createLabel(image, Color.BLACK));
-				imageNamePanel.add(Box.createHorizontalStrut(10));
-			}
-			
-		}
+		
+		if(imageNames != null)
+			for(String image : imageNames)
+				if(image != null)
+				{
+					imageNamePanel.add(ModernLabel.createLabel(image, Color.BLACK));
+					imageNamePanel.add(Box.createHorizontalStrut(10));
+				}
 		mainPanel.add(imageNamePanel);
 	}
 	

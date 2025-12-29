@@ -1,20 +1,15 @@
 package controller;
 
-import java.net.ResponseCache;
 import java.util.ArrayList;
-
-import javax.swing.JDialog;
-
 import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import boundary.dialog.SegnalaIssueDialog;
 import dto.IssueDTO;
 import entity.Utente;
 
 public class AreaUtenteController extends Controller
 {	
-	private Utente utente;
+	protected Utente utente;
 	
 	protected AreaUtenteController(Controller controller)
 	{
@@ -23,18 +18,13 @@ public class AreaUtenteController extends Controller
 	
 	public AreaUtenteController(Controller controller, Utente user)
 	{
+		this(controller);
 		this.utente = user;
-		frame = new boundary.PersonalAreaUtente(this, utente);
+		frame = new boundary.personal.PersonalAreaUtente(this, utente);
 	}
 	
-	public void segnalaIssue(Utente utente) {
+	public void showSegnalazioneIssue(Utente utente) {
 		new SegnalaIssueController(this, utente);
-	}
-	
-	public static void main(String[] args)
-	{
-		Utente utente = new Utente(1,"Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", true, "shdfh");
-		new AreaUtenteController(new Controller(), utente);
 	}
 
 	public void switchLogin() {
@@ -60,5 +50,16 @@ public class AreaUtenteController extends Controller
 
 	public void showDettagliIssue(IssueDTO issue) {
 		new DettagliIssueAssegnataController(this, issue, utente );
+	}
+	
+	public Utente getUtente()
+	{
+		return utente;
+	}
+	
+	public static void main(String[] args)
+	{
+		Utente utente = new Utente(1,"Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", true, "shdfh");
+		new AreaUtenteController(new Controller(), utente);
 	}
 }

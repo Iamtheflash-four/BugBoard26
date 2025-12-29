@@ -9,6 +9,6 @@ public class AreaUtenzeController extends Controller
 	{
 		super(controller);
 		this.ute = ute;
-		 frame = new boundary.AreaUtenze_AdminOptions(this, ute);
+		 frame = new boundary.personal.AreaUtenze_AdminOptions(this, ute);
 	}
 }

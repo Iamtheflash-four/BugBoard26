@@ -31,9 +31,9 @@ public class ChangePasswordController extends Controller
     	
     	String token = utente.getToken();
     		
-        if(oldPassword.trim().isEmpty() || newPassword1.trim().isEmpty() || newPassword2.trim().isEmpty())
+        if(		oldPassword.trim().isEmpty() || newPassword1.trim().isEmpty() || 
+        		newPassword2.trim().isEmpty() || newPassword1.length() <8 )
         	return false;
-        
 
         if(newPassword1.equals(newPassword1) )
         	return applyChange(token, oldPassword, newPassword1);

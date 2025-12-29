@@ -8,16 +8,22 @@ import boundary.dialog.DettagliIssueAssegnataDialog;
 import boundary.dialog.DettagliIssueDialog;
 import dto.IssueDTO;
 import entity.Utente;
+import exceptions.BadTokenException;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 public class DettagliIssueAssegnataController extends Controller
 {
-	private Utente utente;
+	protected Utente utente;
 	JDialog dialog;
 	
-	public DettagliIssueAssegnataController(Controller areaUtenteController, IssueDTO issue, Utente utente) {
+	public DettagliIssueAssegnataController(Controller controller, IssueDTO issue, Utente utente) {
+		super(controller);
+		creaDialog(issue);
+	}
+	
+	protected void creaDialog(IssueDTO issue) {
 		dialog = new DettagliIssueAssegnataDialog(this, issue);
 	}
 
@@ -47,10 +53,21 @@ public class DettagliIssueAssegnataController extends Controller
 				.request()
 				.header("Token", utente.getToken())
 				.post(Entity.entity(text, MediaType.TEXT_PLAIN));
+		if(response.getStatus() != 200)
+		{
+			if (response.getStatus() == 401)
+				throw new BadTokenException(response.getStatus() + ": " + response.readEntity(String.class));
+			else
+				throw new Exception(response.getStatus() + ": " + response.readEntity(String.class));
+		}
 	}
 
 	private void checkRisposta(String text) throws Exception {
 		if(text==null || text.equals(""))
 			throw new Exception("La descrizione non può essere vuota");
+	}
+
+	public void showLoginArea() {
+		new LoginController(this);
 	}
 }

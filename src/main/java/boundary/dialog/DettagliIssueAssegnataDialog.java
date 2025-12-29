@@ -13,6 +13,7 @@ import boundary.theme.ModernPanel;
 import boundary.theme.ModernTextField;
 import controller.DettagliIssueAssegnataController;
 import dto.IssueDTO;
+import exceptions.BadTokenException;
 
 public class DettagliIssueAssegnataDialog extends DettagliIssueDialog 
 {
@@ -21,20 +22,22 @@ public class DettagliIssueAssegnataDialog extends DettagliIssueDialog
 	private JScrollPane rispostaPanel;
 	private JPanel buttonPanel;
 	private JButton annullaButton;
-	private DettagliIssueAssegnataController controller;
 
 	public DettagliIssueAssegnataDialog(DettagliIssueAssegnataController controller, IssueDTO issue) 
 	{
 		super(issue);
-		this.controller = controller;
+		addListeners(controller);
 	}
 	
 	@Override
 	protected void componiGUI(IssueDTO issue)
 	{
 		super.componiGUI(issue);
+		
 		rispostaPanel = creaRiespostaField();
-		buttonPanel = creaButtonPanel();
+		buttonPanel = creaFlowLayoutPanel(300, 50);
+		createButtons();
+		addButtons(buttonPanel);
 		
 		mainPanel.add(rispostaPanel);
 		mainPanel.add(buttonPanel);
@@ -47,15 +50,23 @@ public class DettagliIssueAssegnataDialog extends DettagliIssueDialog
 		return pane;
 	}
 	
-	private JPanel creaButtonPanel()
+	protected void createButtons()
 	{
-		JPanel panel = ModernPanel.createWhitePanel(300, 50);
-		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		rispondiButton = creaRispondiButton();
 		annullaButton = creaAnnullaButton();
+	}
+	
+	protected void addButtons(JPanel panel)
+	{
 		panel.add(rispondiButton);
 		panel.add(annullaButton);
-		panel.setVisible(true);
+	}
+	
+	public JPanel creaFlowLayoutPanel(int width, int heigth)
+	{
+		JPanel panel = ModernPanel.createWhitePanel(width, heigth);
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+//		panel.setVisible(true);
 		return panel;
 	}
 	
@@ -63,9 +74,55 @@ public class DettagliIssueAssegnataDialog extends DettagliIssueDialog
 	{
 		JButton button = ModernButton.createNewButtonPainted("Rispondi", 100, 40);
 		button.setVisible(true);
-		button.addActionListener(e->{
+		return button;
+	}
+	
+	private JButton creaAnnullaButton()
+	{
+		JButton button = ModernButton.createNewButtonPainted("Annulla", 100, 40);
+		button.setVisible(false);
+		return button;
+	}
+	
+	private void salvaRisposta(DettagliIssueAssegnataController controller)
+	{
+		String text = this.rispostaField.getText();
+		try {
+			controller.salvaRisposta(text);
+			JOptionPane.showMessageDialog(this, "Risposta salvata con successo", "200: successo", JOptionPane.INFORMATION_MESSAGE);
+		}catch(BadTokenException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+			controller.showLoginArea();
+		}
+		catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
+			
+	}
+	
+	public void addListeners(DettagliIssueAssegnataController controller)
+	{
+		addRispondiEvent(controller);
+		addAnnullaEvent(controller);
+	}
+
+	private void addAnnullaEvent(DettagliIssueAssegnataController controller) 
+	{
+		annullaButton.addActionListener(e->{
+			if(rispostaPanel.isVisible())
+			{
+				rispostaField.setText("");
+				rispostaPanel.setVisible(false);
+				annullaButton.setVisible(false);
+			}		
+		});
+	}
+
+	private void addRispondiEvent(DettagliIssueAssegnataController controller) 
+	{
+		rispondiButton.addActionListener(e->{
 			if(rispostaPanel.isVisible()) {
-				salvaRisposta();
+				salvaRisposta(controller);
 			}
 			else 
 			{
@@ -75,32 +132,5 @@ public class DettagliIssueAssegnataDialog extends DettagliIssueDialog
 				mainPanel.repaint();     // ridisegna la finestra
 			}		
 		});
-		return button;
-	}
-	
-	private JButton creaAnnullaButton()
-	{
-		JButton button = ModernButton.createNewButtonPainted("Annulla", 100, 40);
-		button.setVisible(false);
-		button.addActionListener(e->{
-			if(rispostaPanel.isVisible())
-			{
-				rispostaField.setText("");
-				rispostaPanel.setVisible(false);
-				annullaButton.setVisible(false);
-			}		
-		});
-		return button;
-	}
-	
-	private void salvaRisposta()
-	{
-		String text = this.rispostaField.getText();
-		try {
-			controller.salvaRisposta(text);
-		}catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-		}
-			
 	}
 }

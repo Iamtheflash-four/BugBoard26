@@ -1,9 +1,11 @@
 package boundary.dialog;
 
 import javax.swing.*; 
-import boundary.AreaUtenze_AdminOptions;
 import boundary.theme.ModernButton;
-import boundary.theme.ModernTextField;  
+import boundary.theme.ModernTextField;
+import controller.CreaUtenteController;
+import dto.CreaUtenteDTO;
+
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -12,33 +14,35 @@ import java.awt.Insets;
 public class CreaUtenteDialog extends JDialog
 {
     private JTextField nomeField;
-    private JTextField cognField; 
+    private JTextField cognomeField; 
     private JTextField mailField; 
-    private JPasswordField psswField; 
-    private JButton confermaBtn; 
-    private JButton annullaBtn; 
+    private JPasswordField passwordField; 
+    private JButton confermaButton; 
+    private JButton annullaButton; 
     private JPanel mainPanel;
-    private JPanel btnPanel;
-	private GridBagConstraints gridBag; 
-    
-    public CreaUtenteDialog(AreaUtenze_AdminOptions parent)
-    {
-        super(parent, "Crea nuovo utente", true);
+    private JPanel buttonPanel;
+	private GridBagConstraints gridBag;
+	private CreaUtenteController controller; 
 
+    public CreaUtenteDialog(CreaUtenteController controller, JFrame frame) 
+    {
+    	super(frame, "Crea nuovo utente", true);
+    	this.controller = controller;
         setupButtons();
         creaComponenti();
-
+        
         // background generale bianco
         getContentPane().setBackground(Color.WHITE);
 
         pack();
-        setLocationRelativeTo(parent);
+        setLocationRelativeTo(null);
         add(mainPanel);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }
+        setVisible(true);
+	}
 
-    private void creaComponenti()
+	private void creaComponenti()
     {
         mainPanel = new JPanel(new GridBagLayout());
         mainPanel.setBackground(Color.WHITE);
@@ -47,6 +51,7 @@ public class CreaUtenteDialog extends JDialog
         gridBag.insets = new Insets(10, 10, 10, 10);
         gridBag.anchor = GridBagConstraints.WEST;  
         gridBag.gridy = 0;
+        initializeFields();
     }
     
     private void initializeFields()
@@ -55,14 +60,14 @@ public class CreaUtenteDialog extends JDialog
         nomeField = ModernTextField.createField("Nome", 20);
         addLabelField(mainPanel, gridBag, "Nome:", nomeField);
 
-        cognField = ModernTextField.createField("Cognome", 20);
-        addLabelField(mainPanel, gridBag, "Cognome:",  cognField);
+        cognomeField = ModernTextField.createField("Cognome", 20);
+        addLabelField(mainPanel, gridBag, "Cognome:",  cognomeField);
 
         mailField = ModernTextField.createField("Email", 20);
         addLabelField(mainPanel, gridBag, "Email:", mailField);
 
-        psswField = ModernTextField.createPasswordField();
-        addLabelField(mainPanel, gridBag, "Password:", psswField);
+        passwordField = ModernTextField.createPasswordField();
+        addLabelField(mainPanel, gridBag, "Password:", passwordField);
 
         // Pannello bottoni
         addButtonPanel(mainPanel, gridBag);   
@@ -71,30 +76,16 @@ public class CreaUtenteDialog extends JDialog
     private void setupButtons()
     {
         // Conferma: bottone blu, testo bianco, bordo blu
-        confermaBtn = ModernButton.createNewButtonPainted(
-            "Conferma",
-            Color.BLUE,   // background
-            Color.WHITE,  // testo
-            Color.BLUE,   // bordo
-            160,
-            40
-        );
-
+        confermaButton = ModernButton.createNewButtonPainted("Conferma", Color.BLUE,   Color.WHITE,  Color.BLUE, 160, 40);
+            
         // Annulla: sfondo bianco, testo blu, bordo bianco (quasi invisibile)
-        annullaBtn = ModernButton.createNewButtonPainted(
-            "Annulla",
-            Color.WHITE,  // background
-            Color.BLUE,   // testo
-            Color.WHITE,  // bordo
-            160,
-            40
-        );
-
-        confermaBtn.addActionListener(e -> {
-            // qui aggiungerai la chiamata al controller
-        });
-
-        annullaBtn.addActionListener(e -> dispose());
+        annullaButton = ModernButton.createNewButtonPainted("Chiudi",Color.WHITE,  Color.BLUE, Color.WHITE, 160, 40);
+            
+        confermaButton.addActionListener(e -> {
+            creaUtente();
+        });    
+              
+        annullaButton.addActionListener(e -> dispose());          
     }
 
     // Se ti servirà un DTO, potrai aggiungere questo metodo e il relativo import
@@ -123,11 +114,25 @@ public class CreaUtenteDialog extends JDialog
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.CENTER;
 
-        btnPanel = new JPanel();
-        btnPanel.setBackground(Color.WHITE);
-        btnPanel.add(confermaBtn);
-        btnPanel.add(annullaBtn);
+        buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.add(confermaButton);
+        buttonPanel.add(annullaButton);
 
-        panel.add(btnPanel, gbc);
+        panel.add(buttonPanel, gbc);
+    }
+    
+    public void creaUtente()
+    {
+    	String nome = nomeField.getText();
+    	String cognome = cognomeField.getText();
+    	String email = mailField.getText();
+    	String password = passwordField.getPassword().toString();
+    	CreaUtenteDTO utente = new CreaUtenteDTO(nome, cognome, email, password);
+    	try {
+			controller.creaUtente(utente);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+		}
     }
 }
