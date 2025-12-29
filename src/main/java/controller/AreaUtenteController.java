@@ -57,6 +57,11 @@ public class AreaUtenteController extends Controller
 		return utente;
 	}
 	
+	public String getToken() {
+	    return utente.getToken(); 
+	}
+
+	
 	public static void main(String[] args)
 	{
 		Utente utente = new Utente(1,"Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", true, "shdfh");
