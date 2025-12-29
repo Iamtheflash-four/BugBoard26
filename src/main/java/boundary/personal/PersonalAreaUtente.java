@@ -16,6 +16,10 @@ public class PersonalAreaUtente extends JFrame
 	protected Utente utente;
 	protected AreaIssue areaIssue;
 	
+	protected FiltroPrioritaPanel filtroPrioritaPanel;
+	protected FiltroPrioritaController filtroPrioritaController;
+
+	
 	public PersonalAreaUtente(AreaUtenteController controller, Utente utente)
 	{
 		this.controller = controller; 
@@ -29,7 +33,6 @@ public class PersonalAreaUtente extends JFrame
        // this.setResizable(false);
         
         componiGUI();  
-
         this.setVisible(true);
 	}
 	
@@ -39,14 +42,17 @@ public class PersonalAreaUtente extends JFrame
 	    mainPanel.setBackground(Color.WHITE);
 		
 	    creaNavBar();
-
 	    mainPanel.add(titlePanel);
 
 	    createAreaIssue();    
-	    areaIssue.setVisible(true);
 	    
-	    mainPanel.add(areaIssue); // Aggiungiamo il pannello AreaIssue al contenuto principale
-
+	    filtroPrioritaController = new FiltroPrioritaController(areaIssue);
+	    filtroPrioritaPanel = new FiltroPrioritaPanel(filtroPrioritaController);
+	    mainPanel.add(filtroPrioritaPanel);
+	    
+	    areaIssue.setVisible(true);
+	    mainPanel.add(areaIssue); 
+	    
 	    this.setContentPane(mainPanel);
 	}
 
@@ -58,9 +64,7 @@ public class PersonalAreaUtente extends JFrame
 		  titlePanel = new BarraUtente(utente, controller);
 	}
 	
-
 	public AreaUtenteController getController() {
 	    return controller;
 	}
-
 }
