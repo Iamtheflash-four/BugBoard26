@@ -47,7 +47,6 @@ public class DettagliIssueDialog extends JDialog
 		componiGUI(issue);
 		avvolgiScrollPane(mainPanel);
 		setContentPane(scrollMainPanel);
-		setVisible(true);
 	}
 
 	protected void componiGUI(IssueDTO issue) {
@@ -61,8 +60,6 @@ public class DettagliIssueDialog extends JDialog
 	}
 
 	protected void creaInfoSection(IssueDTO issue) {
-//		infoPanel = ModernPanel.createWhitePanel(400, 800);
-//		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		createInfoHeader(issue);
 		creaDescrizione(issue.getDescrizione());
 		showImmaginiAllegate(issue.getImageNames());
@@ -139,7 +136,7 @@ public class DettagliIssueDialog extends JDialog
 				+ "dadlksajdaj"
 				+ "adsa"
 				+ "dasdsadsadsadashdkjsdhkjsdhkjsdhkv";
-		IssueDTO issue = new IssueDTO(1, "evergren", "bug", "Alta", "Issue Titolo", 
+		IssueDTO issue = new IssueDTO(1, 1, "evergren", "bug", "Alta", "Issue Titolo", 
 				descrizione, new java.util.Date());
 		issue.setImageNames(images);
 		JDialog dialog = new DettagliIssueDialog(issue);

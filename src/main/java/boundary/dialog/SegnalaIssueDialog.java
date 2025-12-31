@@ -122,7 +122,7 @@ public class SegnalaIssueDialog extends JDialog {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 			throw e;
 		}
-        comboBoxProgetto = ModernComboBox.createCombobox(elencoProgetti);
+        comboBoxProgetto = ModernComboBox.createCombobox("Seleziona progetto", elencoProgetti);
 	}
 
 	private void initializeFornPanel() {
@@ -185,14 +185,19 @@ public class SegnalaIssueDialog extends JDialog {
     }
 
 	private void segnalaIssue() {
-		String progetto = (String)comboBoxProgetto.getSelectedItem();
-		String tipo = (String)comboBoxTipo.getSelectedItem();
-		String priorita = (String)comboBoxPriorita.getSelectedItem();
-		String titolo = subjectField.getText();
-		String descrizione = descrizioneField.getText();
-		ArrayList<File> images = imageField.getImages();
 		try {
-			String risultato = controller.segnalaIssue(new Issue(progetto, tipo, priorita, titolo, descrizione, 
+			int progettoIndex = comboBoxProgetto.getSelectedIndex() - 1;
+			if(progettoIndex < 0)
+				throw new Exception("progetto non selezionato");
+			long idProgetto = elencoProgetti.get(progettoIndex).getIdProgetto();
+			String progetto = (String)comboBoxProgetto.getSelectedItem();
+			String tipo = (String)comboBoxTipo.getSelectedItem();
+			String priorita = (String)comboBoxPriorita.getSelectedItem();
+			String titolo = subjectField.getText();
+			String descrizione = descrizioneField.getText();
+			ArrayList<File> images = imageField.getImages();
+		
+			String risultato = controller.segnalaIssue(new Issue(idProgetto, progetto, tipo, priorita, titolo, descrizione, 
 				new Date()), images);
 			JOptionPane.showMessageDialog(this, risultato , "Issue caricata", JOptionPane.INFORMATION_MESSAGE);
 			this.setVisible(true);

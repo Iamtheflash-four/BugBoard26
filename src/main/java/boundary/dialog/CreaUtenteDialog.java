@@ -7,6 +7,7 @@ import controller.CreaUtenteController;
 import dto.CreaUtenteDTO;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -30,11 +31,10 @@ public class CreaUtenteDialog extends JDialog
     	this.controller = controller;
         setupButtons();
         creaComponenti();
-        
+        this.setSize(400, 500);
+        this.setMinimumSize(new Dimension(350, 500));
         // background generale bianco
         getContentPane().setBackground(Color.WHITE);
-
-        pack();
         setLocationRelativeTo(null);
         add(mainPanel);
         setResizable(false);
@@ -129,8 +129,10 @@ public class CreaUtenteDialog extends JDialog
     	String email = mailField.getText();
     	String password = passwordField.getPassword().toString();
     	CreaUtenteDTO utente = new CreaUtenteDTO(nome, cognome, email, password);
+    	
     	try {
 			controller.creaUtente(utente);
+			JOptionPane.showMessageDialog(this, "Utente creato con successo");
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 		}

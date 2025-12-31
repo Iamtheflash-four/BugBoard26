@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
@@ -80,6 +81,14 @@ public class ChangePasswordDialog extends JDialog
 	}
 
 	private void creaForm() {
+		createFormPanel();
+		
+		initializeForm();
+		
+		addComponentsToForm();
+	}
+
+	public void createFormPanel() {
 		formPanel = new JPanel(new GridBagLayout());
 		formPanel.setBackground(Color.WHITE);
 		formPanel.setMaximumSize(new Dimension(500, 400));
@@ -87,24 +96,25 @@ public class ChangePasswordDialog extends JDialog
         gridBag.fill = GridBagConstraints.HORIZONTAL;
 		gridBag.insets = new Insets(5,5,5,5);
 		gridBag.gridy = 0;
-		
+	}
+
+	public void initializeForm() {
 		passwordAttualeLabel = ModernLabel.createLabel("Password attuale");
-		addFormPanel(passwordAttualeLabel);
 		passwordAttualeField = ModernTextField.createPasswordField();
-		addFormPanel(passwordAttualeField);
-		
-		addFormPanel(Box.createVerticalStrut(20));
-		
 		nuovaPasswordLabel1 = ModernLabel.createLabel("Nuova password");
-		addFormPanel(nuovaPasswordLabel1);
 		nuovaPasswordField1 = ModernTextField.createPasswordField();
-		addFormPanel(nuovaPasswordField1);
-		
-		addFormPanel(Box.createVerticalStrut(20));
-		
 		nuovaPasswordLabel2 = ModernLabel.createLabel("Ripeti nuova password");
-		addFormPanel(nuovaPasswordLabel2);
 		nuovaPasswordField2 = ModernTextField.createPasswordField();
+	}
+
+	public void addComponentsToForm() {
+		addFormPanel(passwordAttualeLabel);
+		addFormPanel(passwordAttualeField);		
+		addFormPanel(Box.createVerticalStrut(20));				
+		addFormPanel(nuovaPasswordLabel1);		
+		addFormPanel(nuovaPasswordField1);		
+		addFormPanel(Box.createVerticalStrut(20));				
+		addFormPanel(nuovaPasswordLabel2);		
 		addFormPanel(nuovaPasswordField2);
 		addFormPanel(Box.createVerticalStrut(20));
 	}
@@ -132,12 +142,21 @@ public class ChangePasswordDialog extends JDialog
 
 	private void actionSend()
 	{
-	    String oldPassword = passwordAttualeField.getText().trim();
-	    String newPassword1 = nuovaPasswordField1.getText().trim();
-	    String newPassword2 = nuovaPasswordField2.getText().trim();
+	    String oldPassword  = passwordAttualeField.getPassword().toString();
+	    String newPassword1 = nuovaPasswordField1.getPassword().toString();
+	    String newPassword2 = nuovaPasswordField2.getPassword().toString();
+	    
+	    try {
+			controller.checkPassword(oldPassword, newPassword1, newPassword2);
+			changePassword(oldPassword, newPassword1, newPassword2);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}	   
+	}
 
-	    boolean success = controller.executeChange(utente, oldPassword, newPassword1, newPassword2);
-
+	public void changePassword(String oldPassword, String newPassword1, String newPassword2) 
+	{
+		boolean success = controller.executeChange(utente, oldPassword, newPassword1, newPassword2);
 	    if (success) {
 	        javax.swing.JOptionPane.showMessageDialog(this, "Password cambiata con successo!");
 	        controller.showProfiloDialog(this);

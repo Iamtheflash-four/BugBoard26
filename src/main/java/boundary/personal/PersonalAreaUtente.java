@@ -3,6 +3,11 @@ import controller.*;
 import entity.Utente;
 
 import javax.swing.*;
+
+import boundary.personal.panels.AreaIssue;
+import boundary.personal.panels.BarraUtente;
+import boundary.personal.panels.FiltroPrioritaPanel;
+
 import java.awt.*;
 
 public class PersonalAreaUtente extends JFrame

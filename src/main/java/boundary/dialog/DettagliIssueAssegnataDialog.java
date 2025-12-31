@@ -1,5 +1,6 @@
 package boundary.dialog;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -79,7 +80,7 @@ public class DettagliIssueAssegnataDialog extends DettagliIssueDialog
 	
 	private JButton creaAnnullaButton()
 	{
-		JButton button = ModernButton.createNewButtonPainted("Annulla", 100, 40);
+		JButton button = ModernButton.createNewButtonPainted("Annulla", Color.BLUE, Color.WHITE, Color.BLUE, 100, 40);
 		button.setVisible(false);
 		return button;
 	}

@@ -12,10 +12,11 @@ import entity.Progetto;
 public class ModernComboBox 
 {
 
-	public static JComboBox<String> createCombobox(ArrayList<Progetto> elenco)
+	public static JComboBox<String> createCombobox(String text, ArrayList<Progetto> elenco)
 	{
 		JComboBox<String> comboBox = new JComboBox<String>();
 		styleComboBox(comboBox);
+		comboBox.addItem(text);
 		if(elenco != null)
 			for(Progetto progetto : elenco)
 				comboBox.addItem(progetto.getNome());
@@ -30,7 +31,7 @@ public class ModernComboBox
 
 	private static void styleComboBox(JComboBox<String> comboBox) {
 		comboBox.setSize(120, 40);
-		comboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.WHITE));
+		comboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Arial", Font.PLAIN, 15));
 		

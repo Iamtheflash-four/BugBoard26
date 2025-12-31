@@ -2,7 +2,8 @@ package boundary.personal;
 
 import controller.AreaUtenzeController;
 import entity.Utente;
-import boundary.personal.BarraUtente;
+import boundary.personal.panels.BarraUtente;
+import boundary.personal.panels.BarraUtenteAreaUtenze;
 import boundary.theme.ModernButton;  // ← Utility statica
 
 import javax.swing.*;

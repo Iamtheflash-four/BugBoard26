@@ -16,15 +16,19 @@ import jakarta.ws.rs.core.Response;
 public class DettagliIssueAssegnataController extends Controller
 {
 	protected Utente utente;
+	protected IssueDTO issue;
 	JDialog dialog;
 	
 	public DettagliIssueAssegnataController(Controller controller, IssueDTO issue, Utente utente) {
 		super(controller);
-		creaDialog(issue);
+		this.utente = utente;
+		this.issue = issue;
+		creaDialog();
 	}
 	
-	protected void creaDialog(IssueDTO issue) {
+	protected void creaDialog() {
 		dialog = new DettagliIssueAssegnataDialog(this, issue);
+		dialog.setVisible(true);
 	}
 
 	public String getToken() {
@@ -41,7 +45,7 @@ public class DettagliIssueAssegnataController extends Controller
 				+ "dadlksajdaj"
 				+ "adsa"
 				+ "dasdsadsadsadashdkjsdhkjsdhkjsdhkv";
-		IssueDTO issue = new IssueDTO(1, "evergren", "bug", "Alta", "Issue Titolo", 
+		IssueDTO issue = new IssueDTO(1, 1,  "evergren", "bug", "Alta", "Issue Titolo", 
 				descrizione, new java.util.Date());
 		issue.setImageNames(images);
 		new DettagliIssueAssegnataController(null, issue, new Utente(1, "s","dsa","dd","dd", true, "TOKEeeen"));

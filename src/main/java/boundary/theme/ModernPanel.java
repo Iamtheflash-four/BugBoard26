@@ -14,12 +14,16 @@ public class ModernPanel
 	public static JPanel createWhitePanel(int length, int heigth)
 	{
 		JPanel panel = new JPanel();
+		stylePanel(length, heigth, panel);
+		return panel;
+	}
+
+	public static void stylePanel(int length, int heigth, JPanel panel) {
 		panel.setBackground(Color.WHITE);
 		panel.setSize(length, heigth);
 		panel.setMinimumSize(panel.getSize());
 		panel.setPreferredSize(panel.getSize());
 		panel.setMaximumSize(panel.getSize());
-		return panel;
 	}
 
 	public static JScrollPane avvolgiScrollPane(JComponent descrizioneArea, int base, int heigth) {

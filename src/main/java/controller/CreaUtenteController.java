@@ -18,7 +18,12 @@ public class CreaUtenteController extends Controller
 	public CreaUtenteController(AreaAmministratoreController controller, Utente utente) {
 		super(controller);
 		this.utente = utente;
+		creadDialog();
+	}
+
+	public void creadDialog() {
 		dialog = new CreaUtenteDialog(this, frame);
+		dialog.setVisible(true);
 	}
 
 	public Utente getUtente()
@@ -28,7 +33,7 @@ public class CreaUtenteController extends Controller
 
 	public void creaUtente(CreaUtenteDTO utenteDTO) throws Exception 
 	{
-		if( !checkUtente(utenteDTO) );
+		if( !checkUtente(utenteDTO) )
 			throw new Exception("Campi non compilati");
 			
 		Response response = client.target(USER_SERVER_URL).path("/users")

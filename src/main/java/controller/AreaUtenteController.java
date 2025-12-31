@@ -33,6 +33,7 @@ public class AreaUtenteController extends Controller
 	}
 
 	public void showProfilo(Utente utente) {
+		frame.dispose();
 		new ProfiloController(this, utente);
 	}
 
@@ -42,10 +43,11 @@ public class AreaUtenteController extends Controller
 			.request(MediaType.APPLICATION_JSON)
 			.header("Token", utente.getToken())
 			.get();
+		
 		if(response != null && response.getStatus() == 200)
 			return response.readEntity(new GenericType<ArrayList<IssueDTO>>() {});
 		else
-			throw new Exception("Erroe server: " + response.getStatus());
+			throw new Exception(response.getStatus() + ": " + response.readEntity(String.class));
 	}
 
 	public void showDettagliIssue(IssueDTO issue) {

@@ -22,25 +22,26 @@ public class ChangePasswordController extends Controller
     }
 	
 	public boolean executeChange(Utente utente, String oldPassword, String newPassword1, String newPassword2)
-    {
-    	if(utente.getToken().trim().isEmpty())
-    	{
-    		System.out.println("Invalid token");
-    		return false; 
-    	}
-    	
+    {  	
     	String token = utente.getToken();
     		
-        if(		oldPassword.trim().isEmpty() || newPassword1.trim().isEmpty() || 
-        		newPassword2.trim().isEmpty() || newPassword1.length() <8 )
-        	return false;
-
         if(newPassword1.equals(newPassword1) )
         	return applyChange(token, oldPassword, newPassword1);
         else
         	return false;
         
     }
+
+	public void checkPassword(String oldPassword, String newPassword1, String newPassword2) throws Exception {
+		if(		oldPassword.isEmpty() )
+			throw new Exception("Password non inserita");
+		if( newPassword1.isEmpty() || newPassword2.isEmpty() )
+			throw new Exception("Nuova password non inserita");
+		if(newPassword1.length() <8 )
+			throw new Exception("La assword deve avere almeno 8 caretteri");
+        if( !newPassword2.equals(newPassword1) )
+        	throw new Exception("La nuova password non coincide\n con la nuova password ripetuta");
+	}
 
     private boolean applyChange(String token, String passwordOld, String newPassword) 
     {

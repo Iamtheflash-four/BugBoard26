@@ -1,7 +1,6 @@
 package boundary;
 
 import javax.swing.*;
-import javax.swing.border.MatteBorder;
 
 import boundary.theme.ModernButton;
 import boundary.theme.ModernLabel;
@@ -27,7 +26,6 @@ public class LoginArea extends JFrame
     private JTextField passwordField;
     
     private JButton btnAccedi;
-    private JLabel messageLabel;
     
     public LoginArea(LoginController controller)
     {
@@ -151,17 +149,16 @@ public class LoginArea extends JFrame
 	    // Chiamata al metodo di validazione del controller
 	    if (!controller.verificaDatiCampiLogin(email, password)) 
 		    JOptionPane.showMessageDialog(this, "Campi non compilati");
-	    
-	    // Chiamata al controller per verificare le credenziali nel database
-	    entity.Utente utente;
-		try 
-		{
-			utente = controller.verificaCredenziali(email, password);
-			controller.switchAreaPersonale(utente);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-//			e.printStackTrace();
-		}
-	} //commentato per evitare errori di compilazione
-	
+	    else {
+	    	entity.Utente utente;
+			try 
+			{
+				utente = controller.verificaCredenziali(email, password);
+				controller.switchAreaPersonale(utente);					
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+	//			e.printStackTrace();
+			}
+	    }
+	} 
 }

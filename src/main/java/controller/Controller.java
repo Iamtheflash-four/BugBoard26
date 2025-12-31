@@ -12,7 +12,9 @@ public class Controller
     //protected WebTarget server;
     protected static final String USER_SERVER_URL = "https://bugboardlogin.onrender.com";
     protected static final String ISSUE_SERVER_URL = "https://bugboard26-issue.onrender.com";
-    protected static final String ISSUE_PROGETTI_URL = "http://localhost:8081";
+//    protected static final String ISSUE_PROGETTI_URL = "http://localhost:8081";
+    
+//    protected static final String ISSUE_SERVER_URL = "http://localhost:8082";
 //    private static final String SERVER_URL = "http://localhost:8080";
     
     protected Client client;

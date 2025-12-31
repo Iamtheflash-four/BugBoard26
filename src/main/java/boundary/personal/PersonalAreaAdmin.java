@@ -1,5 +1,7 @@
 package boundary.personal;
 
+import boundary.personal.panels.AreaIssueAdmin;
+import boundary.personal.panels.BarraAdmin;
 import controller.AreaAmministratoreController;
 import controller.AreaUtenteController;
 import entity.Utente;
