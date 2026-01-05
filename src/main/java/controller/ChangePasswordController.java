@@ -6,12 +6,14 @@ import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.util.Arrays;
+
 import javax.swing.JDialog;
 
 import boundary.dialog.ChangePasswordDialog;
 
 public class ChangePasswordController extends Controller
-{
+{ 
 	private Utente utente;
 
     public ChangePasswordController(Controller controller, Utente utente)
@@ -33,13 +35,13 @@ public class ChangePasswordController extends Controller
     }
 
 	public void checkPassword(String oldPassword, String newPassword1, String newPassword2) throws Exception {
-		if(		oldPassword.isEmpty() )
+		if(	oldPassword.length() == 0 )
 			throw new Exception("Password non inserita");
-		if( newPassword1.isEmpty() || newPassword2.isEmpty() )
+		if( newPassword1.length() == 0 || newPassword2.length() == 0 )
 			throw new Exception("Nuova password non inserita");
-		if(newPassword1.length() <8 )
+		if (newPassword1.length() <8 )
 			throw new Exception("La assword deve avere almeno 8 caretteri");
-        if( !newPassword2.equals(newPassword1) )
+        if( newPassword2.equals(newPassword1 )) 
         	throw new Exception("La nuova password non coincide\n con la nuova password ripetuta");
 	}
 

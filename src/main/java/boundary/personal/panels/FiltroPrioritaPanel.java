@@ -43,7 +43,11 @@ public class FiltroPrioritaPanel extends JPanel {
 
     private void filtraPerPriorita() {
         String prioritaSelezionata = (String) comboPriorita.getSelectedItem();
-        controller.applicaFiltroPriorita(prioritaSelezionata);
+        try {
+			controller.applicaFiltroPriorita(prioritaSelezionata);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "Erroe", JOptionPane.ERROR_MESSAGE);
+		}
     }
     
 

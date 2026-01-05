@@ -23,7 +23,8 @@ public class CreaUtenteDialog extends JDialog
     private JPanel mainPanel;
     private JPanel buttonPanel;
 	private GridBagConstraints gridBag;
-	private CreaUtenteController controller; 
+	private CreaUtenteController controller;
+	private JCheckBox adminCheck; 
 
     public CreaUtenteDialog(CreaUtenteController controller, JFrame frame) 
     {
@@ -58,16 +59,19 @@ public class CreaUtenteDialog extends JDialog
     {
     	// Campi input con ModernTextField
         nomeField = ModernTextField.createField("Nome", 20);
-        addLabelField(mainPanel, gridBag, "Nome:", nomeField);
+        addFieldWidthLabel(mainPanel, gridBag, "Nome:", nomeField);
 
         cognomeField = ModernTextField.createField("Cognome", 20);
-        addLabelField(mainPanel, gridBag, "Cognome:",  cognomeField);
+        addFieldWidthLabel(mainPanel, gridBag, "Cognome:",  cognomeField);
 
         mailField = ModernTextField.createField("Email", 20);
-        addLabelField(mainPanel, gridBag, "Email:", mailField);
-
+        addFieldWidthLabel(mainPanel, gridBag, "Email:", mailField);
+        
+        adminCheck = new JCheckBox("Amministratore");
+        addFieldWidthLabel(mainPanel, gridBag, "Amministratore:", adminCheck);
+        
         passwordField = ModernTextField.createPasswordField();
-        addLabelField(mainPanel, gridBag, "Password:", passwordField);
+        addFieldWidthLabel(mainPanel, gridBag, "Password:", passwordField);
 
         // Pannello bottoni
         addButtonPanel(mainPanel, gridBag);   
@@ -79,7 +83,7 @@ public class CreaUtenteDialog extends JDialog
         confermaButton = ModernButton.createNewButtonPainted("Conferma", Color.BLUE,   Color.WHITE,  Color.BLUE, 160, 40);
             
         // Annulla: sfondo bianco, testo blu, bordo bianco (quasi invisibile)
-        annullaButton = ModernButton.createNewButtonPainted("Chiudi",Color.WHITE,  Color.BLUE, Color.WHITE, 160, 40);
+        annullaButton = ModernButton.createNewButtonPainted("Chiudi",Color.WHITE,  Color.BLUE, Color.BLUE, 160, 40);
             
         confermaButton.addActionListener(e -> {
             creaUtente();
@@ -91,7 +95,7 @@ public class CreaUtenteDialog extends JDialog
     // Se ti servirà un DTO, potrai aggiungere questo metodo e il relativo import
     // public CreaUtenteRequestDTO getDatiUtente() { ... }
 
-    private void addLabelField(JPanel panel, GridBagConstraints gbc, String labelText, JComponent field) {
+    private void addFieldWidthLabel(JPanel panel, GridBagConstraints gbc, String labelText, JComponent field) {
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 1;
@@ -127,8 +131,9 @@ public class CreaUtenteDialog extends JDialog
     	String nome = nomeField.getText();
     	String cognome = cognomeField.getText();
     	String email = mailField.getText();
+    	boolean admin = adminCheck.isSelected();
     	String password = passwordField.getPassword().toString();
-    	CreaUtenteDTO utente = new CreaUtenteDTO(nome, cognome, email, password);
+    	CreaUtenteDTO utente = new CreaUtenteDTO(nome, cognome, email, admin, password);
     	
     	try {
 			controller.creaUtente(utente);

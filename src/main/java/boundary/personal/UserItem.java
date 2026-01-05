@@ -20,7 +20,8 @@ public class UserItem extends JPanel
 	
 	public UserItem(UserInfoDTO user)
 	{
-		super();ModernPanel.stylePanel(200, 50, this);
+		super();
+		ModernPanel.stylePanel(200, 50, this);
 		creaLabels(user);
 //		emailPanel = ModernPanel.createWhitePanel(200, 30);
 		this.add(emailLabel, BorderLayout.NORTH);

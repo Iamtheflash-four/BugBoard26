@@ -4,20 +4,20 @@ public class CreaUtenteDTO {
 	private String nome;
 	private String cognome;
 	private String email;
+	private boolean admin;
 	private String password;
 
 	public CreaUtenteDTO() {}
 	
-	public CreaUtenteDTO(String nome, String cognome, String email, String password) {
+	public CreaUtenteDTO(String nome, String cognome, String email, boolean admin, String password) {
 		super();
 		this.nome = nome;
 		this.cognome = cognome;
 		this.email = email;
+		this.admin = admin;
 		this.password = password;
 	}
-
-
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -48,5 +48,13 @@ public class CreaUtenteDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 }

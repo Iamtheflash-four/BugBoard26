@@ -11,13 +11,10 @@ import jakarta.ws.rs.core.GenericType;
 import jakarta.ws.rs.core.Response;
 
 public class DettagliIssueSegnalataController extends DettagliIssueAssegnataController
-{
-	protected IssueDTO issue;
-	
+{	
 	public DettagliIssueSegnalataController(Controller controller, IssueDTO issue, Utente utente) 
 	{
 		super(controller, issue, utente);
-		creaDialog();
 	}
 
 	@Override
@@ -29,9 +26,9 @@ public class DettagliIssueSegnalataController extends DettagliIssueAssegnataCont
 	public ArrayList<UserInfoDTO> getElencoUtenti() throws Exception
 	{
 		ArrayList<UserInfoDTO> elenco;
-		Response response = client.target(ISSUE_PROGETTI_URL).path("elenchi/utenti")
+		Response response = client.target(USER_SERVER_URL).path("elenchi/utenti")
 			.request()
-			.header("progetto", issue.getProgetto())
+			.header("progetto", issue.getIdProgetto())
 			.header("token", utente.getToken())
 			.get();
 		if(response.getStatus() == 200)
@@ -42,7 +39,13 @@ public class DettagliIssueSegnalataController extends DettagliIssueAssegnataCont
 			throw new Exception(response.getStatus() + ": " + response.readEntity(String.class));
 	}
 	
-	public void assegnaIssue() {
+	public void assegnaIssue(long idUtente) 
+	{
+		Response response = client.target(ISSUE_SERVER_URL).path("/issue/assign")
+			.request()
+			.header("token", this.getToken())
+			.header("destinatario", idUtente)
+			.post(null);
 		
 	}
 }

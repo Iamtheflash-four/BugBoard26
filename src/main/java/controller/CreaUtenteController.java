@@ -36,10 +36,10 @@ public class CreaUtenteController extends Controller
 		if( !checkUtente(utenteDTO) )
 			throw new Exception("Campi non compilati");
 			
-		Response response = client.target(USER_SERVER_URL).path("/users")
+		Response response = client.target(USER_SERVER_URL).path("/users/createUser")
 				.request()
 				.header( "Token", utente.getToken() )
-				.put(Entity.entity(utenteDTO, MediaType.APPLICATION_JSON));
+				.put(Entity.json(utenteDTO));
 		
 		if(response.getStatus() != 200)
 			if(response.getStatus() == 403)

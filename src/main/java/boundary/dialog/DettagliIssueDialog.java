@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.Box;
@@ -43,7 +44,7 @@ public class DettagliIssueDialog extends JDialog
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		this.setSize(600, 700);
 		this.setLocationRelativeTo(null);
-		
+		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		componiGUI(issue);
 		avvolgiScrollPane(mainPanel);
 		setContentPane(scrollMainPanel);
@@ -73,7 +74,7 @@ public class DettagliIssueDialog extends JDialog
 		infoTipoPanel = crateInfoBlck("Tipo", issue.getTipo());
 		infoPrioritaPanel = crateInfoBlck("Priorita", issue.getPriorita());
 		infoDataPanel = crateInfoBlck("Data",
-			    new SimpleDateFormat("dd/MM/yyyy").format(issue.getData()));
+			    issue.getData().toString());
 		mainPanel.add(headerPanel);
 	}
 
@@ -137,7 +138,7 @@ public class DettagliIssueDialog extends JDialog
 				+ "adsa"
 				+ "dasdsadsadsadashdkjsdhkjsdhkjsdhkv";
 		IssueDTO issue = new IssueDTO(1, 1, "evergren", "bug", "Alta", "Issue Titolo", 
-				descrizione, new java.util.Date());
+				descrizione, LocalDate.now());
 		issue.setImageNames(images);
 		JDialog dialog = new DettagliIssueDialog(issue);
 	}

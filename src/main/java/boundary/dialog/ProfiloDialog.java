@@ -60,9 +60,7 @@ public class ProfiloDialog extends JDialog
 		emailPanel = creaInfoPanel("Email: ", utente.getEmail());
 		
 		buttonsPanel = creaButtonsPanel();
-		changePasswordButton.addActionListener(e->{
-			controller.showChangePasswordDialog(this, utente);
-		});	
+		addListeners(utente);
 	}
 
 	private JPanel creaButtonsPanel() {
@@ -111,5 +109,15 @@ public class ProfiloDialog extends JDialog
 		panel.add(valueLabel);
 		mainPanel.add(panel);
 		return panel;
+	}
+	
+	private void addListeners(Utente utente)
+	{
+		changePasswordButton.addActionListener(e->{
+			controller.showChangePasswordDialog(this, utente);
+		});	
+		chiudiButton.addActionListener(e->{
+			this.dispose();
+		});	
 	}
 }

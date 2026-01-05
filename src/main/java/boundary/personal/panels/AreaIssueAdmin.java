@@ -1,6 +1,7 @@
 package boundary.personal.panels;
 
 import boundary.personal.IssueTableAdmin;
+import boundary.personal.IssueTableUtente;
 import controller.AreaAmministratoreController;
 
 public class AreaIssueAdmin extends AreaIssue 
@@ -13,7 +14,9 @@ public class AreaIssueAdmin extends AreaIssue
 	@Override
 	public void createTable()
 	{
-		issueTable = new IssueTableAdmin(getController());
+		issueTable = new IssueTableUtente(controller);
+		this.showingRicevute = true;
+		this.switchView();
 	}
 	
 	public AreaAmministratoreController getController() {

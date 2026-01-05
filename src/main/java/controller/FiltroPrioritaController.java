@@ -1,80 +1,81 @@
 package controller;
 
 import dto.IssueDTO;
+import entity.Utente;
 import jakarta.ws.rs.client.Client;
-import jakarta.ws.rs.client.ClientBuilder;
-import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.GenericType;
-import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 
 import boundary.personal.panels.AreaIssue;
 
 
-public class FiltroPrioritaController {
+public class FiltroPrioritaController extends Controller{
     
     private AreaIssue areaIssue;
-    private String backendUrl;
     private String token;
-    private Client client;
     
 
     public FiltroPrioritaController(AreaIssue areaIssue) {
+    	super(areaIssue.getController());
         this.areaIssue = areaIssue;
-        this.backendUrl = "https://bugboard26-issue.onrender.com"; // TODO: Configura con l'URL reale
-        this.client = ClientBuilder.newClient();
         this.token = recuperaToken();
     }
     
-    public void applicaFiltroPriorita(String priorita) {
-        try {
-            // Crea il target dell'endpoint
-            WebTarget target = client.target(backendUrl)
-                    .path("issue/filtraPriorita")
-                    .queryParam("priorita", priorita);
+    public void applicaFiltroPriorita(String priorita) throws Exception {
+    	String path = creaPath();
+        Response response = client.target(ISSUE_SERVER_URL).path("/filtro/priorita")
+        		.request()
+                .header("Token", token)
+                .get();
+        
+        if (response.getStatus() == 200) {
+            // Leggi la risposta come lista di IssueDTO
+            ArrayList<IssueDTO> issueFiltrate = response.readEntity(
+                    new GenericType<ArrayList<IssueDTO>>() {}
+            );
             
-            // Effettua la richiesta GET con il token nell'header
-            Response response = target.request(MediaType.APPLICATION_JSON)
-                    .header("Token", token)
-                    .get();
-            
-            if (response.getStatus() == 200) {
-                // Leggi la risposta come lista di IssueDTO
-                ArrayList<IssueDTO> issueFiltrate = response.readEntity(
-                        new GenericType<ArrayList<IssueDTO>>() {}
-                );
-                
-                // Aggiorna la tabella con le issue filtrate
-                aggiornaTabella(issueFiltrate);
-            } else {
-                System.err.println("Errore nel recupero issue: " + response.getStatus());
-                // TODO: Mostra messaggio di errore all'utente
-            }
-            
-            response.close();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            // TODO: Mostra messaggio di errore all'utente
+            // Aggiorna la tabella con le issue filtrate
+            aggiornaTabella(issueFiltrate);
+        } else {
+            throw new Exception ("Errore nel recupero issue: " + response.getStatus());
         }
+        
+        response.close();
+        
     }
     
    
-    private void aggiornaTabella(ArrayList<IssueDTO> issueFiltrate) {
+    private String creaPath() {
+    	boolean admin = getUtente().isAmministratore();
+    	String path = "/filtro/priorita";
+		if(!admin)
+		{
+			path += "/utente";
+			if(areaIssue.isShowingRicevute())
+				path += "/assegnate";
+			else
+				path += "/segnalate";
+		}
+		else
+			if(!areaIssue.isShowingRicevute())
+				path += "admin/segnalate";
+			else
+				path += "utente/assegnate";
+		return path;
+	}
+
+	private Utente getUtente() {
+		return areaIssue.getController().getUtente();
+	}
+
+	private void aggiornaTabella(ArrayList<IssueDTO> issueFiltrate) {
         // Pulisci la tabella
         areaIssue.getIssueTable().setRowCount(0);
         
         // Aggiungi le nuove righe
         for (IssueDTO issue : issueFiltrate) {
-            Object[] row = new Object[6];
-            row[0] = issue.getProgetto();
-            row[1] = issue.getTipo();
-            row[2] = issue.getPriorita();
-            row[3] = issue.getTitolo();
-            row[4] = issue.getData();
-            row[5] = issue;
-            areaIssue.getIssueTable().addRow(row);
+            areaIssue.getIssueTable().addRow(issue);
         }
     }
     
@@ -84,7 +85,7 @@ public class FiltroPrioritaController {
     }
     
  
-    public void resetFiltro() {
+    public void resetFiltro() throws Exception {
         applicaFiltroPriorita("Tutte");
     }
 }

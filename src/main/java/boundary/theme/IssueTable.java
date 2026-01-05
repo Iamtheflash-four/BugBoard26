@@ -23,20 +23,19 @@ public class IssueTable extends JTable
 	{
 		createModel();
 		this.setModel(tableModel);
-		
+		//Nascondere issue
+		getColumnModel().getColumn(6).setMinWidth(0);
+		getColumnModel().getColumn(6).setMaxWidth(0);
+		getColumnModel().getColumn(6).setPreferredWidth(0);
 		//Personalizza tabella
 		styleTable();
         // Header personalizzato
         createTableHeader();
 	}
 	
-	
-
-	
-
 	public void createModel() 
 	{
-		String[] colonne = { "Progetto", "Priorità", "Tipo", "Titolo", "Data", "Dettagli" };
+		String[] colonne = { "Progetto", "Priorità", "Tipo", "Titolo", "Data", "Dettagli", "Issue" };
 		tableModel = new DefaultTableModel(colonne, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) { return false; }
@@ -69,14 +68,6 @@ public class IssueTable extends JTable
         header.setOpaque(true);
 	}
 
-	
-	
-	//DATI DI TEST --ESEMPIO--
-	public void caricaIssueInviate() {
-        tableModel.addRow(new Object[] { "Progetto Gamma", "" ,"Bassa", "Suggerimento" });
-        tableModel.addRow(new Object[] { "Progetto Delta", "Alta", "Bug" });
-    }
-
 	public String getNomeProgetto(int selectedRow) {
 		return (String) tableModel.getValueAt(selectedRow, 0);
 	}
@@ -89,8 +80,21 @@ public class IssueTable extends JTable
         getColumnModel().getColumn(5).setCellRenderer(dettagliButton);
 	}
 
-	public void addRow(Object[] row) 
+	public void addRow(IssueDTO issue) 
 	{
-		tableModel.addRow(row);
+		Object[] row = new Object[7];
+		row[0] = issue.getProgetto();
+		row[1] = issue.getTipo();
+		row[2] = issue.getPriorita();
+		row[3] = issue.getTipo();
+		row[4] = issue.getData();
+		row[5] = "Dettagli";
+		row[6] = issue;
+		this.tableModel.addRow(row);
+	}
+	
+	public TableModel getTableModel()
+	{
+		return tableModel;
 	}
 }

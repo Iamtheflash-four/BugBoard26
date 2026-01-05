@@ -1,6 +1,7 @@
 package dto;
 
 import java.util.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class IssueDTO extends entity.Issue
@@ -8,9 +9,11 @@ public class IssueDTO extends entity.Issue
 	int idIssue;
 	ArrayList<String> imageNames;
 	
-	public IssueDTO(long idUtente, String progetto, String tipo, String priorita, String titolo, String descrizione, Date data)
+	public IssueDTO() {}
+	
+	public IssueDTO(long idUtente, long idProgetto, String progetto, String tipo, String priorita, String titolo, String descrizione, LocalDate data)
 	{
-		super(progetto, tipo, priorita, titolo, descrizione, data);
+		super(idProgetto, progetto, tipo, priorita, titolo, descrizione, data);
 		this.idIssue = idIssue;
 		this.imageNames = imageNames;
 	}

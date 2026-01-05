@@ -21,8 +21,8 @@ public class PersonalAreaUtente extends JFrame
 	protected Utente utente;
 	protected AreaIssue areaIssue;
 	
-	protected FiltroPrioritaPanel filtroPrioritaPanel;
-	protected FiltroPrioritaController filtroPrioritaController;
+//	protected FiltroPrioritaPanel filtroPrioritaPanel;
+//	protected FiltroPrioritaController filtroPrioritaController;
 
 	
 	public PersonalAreaUtente(AreaUtenteController controller, Utente utente)
@@ -51,9 +51,9 @@ public class PersonalAreaUtente extends JFrame
 
 	    createAreaIssue();    
 	    
-	    filtroPrioritaController = new FiltroPrioritaController(areaIssue);
-	    filtroPrioritaPanel = new FiltroPrioritaPanel(filtroPrioritaController);
-	    mainPanel.add(filtroPrioritaPanel);
+//	    filtroPrioritaController = new FiltroPrioritaController(areaIssue);
+//	    filtroPrioritaPanel = new FiltroPrioritaPanel(filtroPrioritaController);
+//	    mainPanel.add(filtroPrioritaPanel);
 	    
 	    areaIssue.setVisible(true);
 	    mainPanel.add(areaIssue); 

@@ -26,7 +26,7 @@ public class IssueTableUtente extends IssueTable
 		        int row = rowAtPoint(e.getPoint());
 		        int column = columnAtPoint(e.getPoint());
 		        if (column == 5 && row >= 0) {
-		            IssueDTO issue = (IssueDTO) tableModel.getValueAt(row, 5);
+		            IssueDTO issue = (IssueDTO) tableModel.getValueAt(row, 6);
 		            controller.showDettagliIssue(issue);
 		        }
 		    }

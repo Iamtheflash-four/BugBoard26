@@ -33,17 +33,19 @@ public class SegnalaIssueController extends Controller
 
 	public ArrayList<Progetto> getElencoProgetti() throws Exception 
 	{
-		Response response = client.target(ISSUE_PROGETTI_URL).path("elenchi/progetti")
+		Response response = client.target(USER_SERVER_URL).path("elenchi/progetti")
 			.request(MediaType.APPLICATION_JSON)
 		    .header("Token", utente.getToken()) // allega il token
 		    .get();
 		
 		ElencoProgettiResponse elencoResponse = response.readEntity(ElencoProgettiResponse.class);
 		
-		if(response !=null && response.getStatus()==200)
+		if(elencoResponse !=null && response.getStatus()==200)
 			return elencoResponse.getElencoProgetti();
-		else
+		else if (response != null)
 			throw new Exception(elencoResponse.getMessage());
+		else
+			throw new Exception("nessuna connessione");
 	}
 
 	public String segnalaIssue(Issue issue, ArrayList<File> images) throws Exception 

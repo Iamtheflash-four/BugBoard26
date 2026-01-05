@@ -10,6 +10,7 @@ import entity.Progetto;
 import java.awt.*;
 import java.io.File;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -57,7 +58,6 @@ public class SegnalaIssueDialog extends JDialog {
         
         try {
 			componiGUI();
-			setVisible(true);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			this.dispose();
@@ -163,7 +163,7 @@ public class SegnalaIssueDialog extends JDialog {
 	private void addDescrizoneField() {
 		formPanel.add(descrizioneLabel, gridBag);
         gridBag.gridx++;
-        formPanel.add(descrizioneField, gridBag); 
+        formPanel.add(descrizionePanel, gridBag); 
         gridBag.gridy++;
 	}
     
@@ -198,7 +198,7 @@ public class SegnalaIssueDialog extends JDialog {
 			ArrayList<File> images = imageField.getImages();
 		
 			String risultato = controller.segnalaIssue(new Issue(idProgetto, progetto, tipo, priorita, titolo, descrizione, 
-				new Date()), images);
+				LocalDate.now()), images);
 			JOptionPane.showMessageDialog(this, risultato , "Issue caricata", JOptionPane.INFORMATION_MESSAGE);
 			this.setVisible(true);
 			this.dispose();

@@ -142,9 +142,9 @@ public class ChangePasswordDialog extends JDialog
 
 	private void actionSend()
 	{
-	    String oldPassword  = passwordAttualeField.getPassword().toString();
-	    String newPassword1 = nuovaPasswordField1.getPassword().toString();
-	    String newPassword2 = nuovaPasswordField2.getPassword().toString();
+	    String oldPassword  = new String(passwordAttualeField.getPassword());
+	    String newPassword1 = new String(nuovaPasswordField1.getPassword());
+	    String newPassword2 = new String(nuovaPasswordField2.getPassword());
 	    
 	    try {
 			controller.checkPassword(oldPassword, newPassword1, newPassword2);

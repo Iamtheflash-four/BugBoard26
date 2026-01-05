@@ -20,7 +20,6 @@ public class DettagliIssueSegnalataDialog extends DettagliIssueAssegnataDialog
 	private JButton assegnaButton;
 	private JPanel assegnaIssuePanel;
 	private JButton annullaAssegnamentoButton;
-	private JComboBox<String> utentiComboBox;
 	private ArrayList<UserInfoDTO> elencoUtenti;
 	private UtentiMenu menuUtenti;
 	
@@ -46,7 +45,6 @@ public class DettagliIssueSegnalataDialog extends DettagliIssueAssegnataDialog
 		createAssignmentButtons();
 		menuUtenti = new UtentiMenu();
 		menuUtenti.setVisible(false);
-		
 	}
 	
 	protected void createAssignmentButtons() {
@@ -70,10 +68,11 @@ public class DettagliIssueSegnalataDialog extends DettagliIssueAssegnataDialog
 
 	public void addAssegnaEvent(DettagliIssueSegnalataController controller) {
 		assegnaButton.addActionListener(e->{
-			if( !utentiComboBox.isVisible() )
+			if( !menuUtenti.isVisible() )
 			{
 				annullaAssegnamentoButton.setVisible(true);
-				menuUtenti.setVisible(true);
+				menuUtenti.show(assegnaButton, 0, assegnaButton.getHeight());
+
 			}
 			else
 				assegnaIssue();
@@ -87,7 +86,7 @@ public class DettagliIssueSegnalataDialog extends DettagliIssueAssegnataDialog
 			elencoUtenti = controller.getElencoUtenti();
 			if(elencoUtenti == null)
 				JOptionPane.showMessageDialog(this, "Nessun utente nel teamwork del progetto", "Errore", JOptionPane.ERROR_MESSAGE);
-			menuUtenti.loadItems(elencoUtenti);
+			menuUtenti.loadItems(elencoUtenti, controller);
 		}
 		catch (BadTokenException e)
 		{
@@ -97,6 +96,7 @@ public class DettagliIssueSegnalataDialog extends DettagliIssueAssegnataDialog
 		
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
 		}	
 	}
 	

@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
@@ -46,7 +47,7 @@ public class DettagliIssueAssegnataController extends Controller
 				+ "adsa"
 				+ "dasdsadsadsadashdkjsdhkjsdhkjsdhkv";
 		IssueDTO issue = new IssueDTO(1, 1,  "evergren", "bug", "Alta", "Issue Titolo", 
-				descrizione, new java.util.Date());
+				descrizione, LocalDate.now());
 		issue.setImageNames(images);
 		new DettagliIssueAssegnataController(null, issue, new Utente(1, "s","dsa","dd","dd", true, "TOKEeeen"));
 	}

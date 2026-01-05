@@ -28,16 +28,15 @@ public class AreaUtenteController extends Controller
 	}
 
 	public void switchLogin() {
-		frame.dispose();
-		new LoginController();
+		this.frame.dispose();
+		new LoginController(this);
 	}
 
 	public void showProfilo(Utente utente) {
-		frame.dispose();
 		new ProfiloController(this, utente);
 	}
 
-	public ArrayList<IssueDTO> getElencoIssue() throws Exception 
+	public ArrayList<IssueDTO> getElencoIssuAssegnate() throws Exception 
 	{
 		Response response = client.target(ISSUE_SERVER_URL).path("issue/elencoIssueAssegnate")
 			.request(MediaType.APPLICATION_JSON)
@@ -68,5 +67,17 @@ public class AreaUtenteController extends Controller
 	{
 		Utente utente = new Utente(1,"Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", true, "shdfh");
 		new AreaUtenteController(new Controller(), utente);
+	}
+
+	public ArrayList<IssueDTO> getElencoIssueSegnalate() throws Exception {
+		Response response = client.target(ISSUE_SERVER_URL).path("issue/elencoSegnalateUtente")
+				.request(MediaType.APPLICATION_JSON)
+				.header("Token", utente.getToken())
+				.get();
+			
+		if(response != null && response.getStatus() == 200)
+			return response.readEntity(new GenericType<ArrayList<IssueDTO>>() {});
+		else
+			throw new Exception(response.getStatus() + ": " + response.readEntity(String.class));
 	}
 }
