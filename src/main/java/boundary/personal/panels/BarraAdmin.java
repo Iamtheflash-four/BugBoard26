@@ -39,7 +39,6 @@ public class BarraAdmin extends BarraUtente
 	        ManageUserMenu menu = new ManageUserMenu(getController());
 	        menu.show(gestioneUtenzeButton, 0, gestioneUtenzeButton.getHeight());
 	    });
-
 	}
 	
 	public AreaAmministratoreController getController() {

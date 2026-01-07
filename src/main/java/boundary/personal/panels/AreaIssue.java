@@ -59,7 +59,7 @@ public class AreaIssue extends JPanel {
     public void switchView() {
         showingRicevute = !showingRicevute;
         
-        headerPanel.getButtonSwitch().setText(showingRicevute ? "Visualizza Inviate" : "Visualizza Ricevute");
+        headerPanel.getButtonSwitch().setText(showingRicevute ? "Visualizza Segnalate" : "Visualizza Assegnate");
         
         updateTable();
     }

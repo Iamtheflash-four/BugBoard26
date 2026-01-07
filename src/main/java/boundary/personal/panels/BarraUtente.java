@@ -17,6 +17,7 @@ public class BarraUtente extends BarraGenerica
     protected JPanel buttonPanel;
     private JButton logoutButton;
     private JButton profiloButton;
+	private JButton teamButton;
 
 //    private JButton gestioneIssueButton;  // Sempre visibile
 
@@ -30,11 +31,9 @@ public class BarraUtente extends BarraGenerica
         title.setPreferredSize(new Dimension(300, 30));
 
         segnalaIssueButton = ModernButton.createNavbarButton("<html>Segnala<br>issue</html>");
+        teamButton = ModernButton.createNavbarButton("<html>Gestisci<br>team</html>");
         logoutButton = ModernButton.createNavbarButton("Logout");
         profiloButton = ModernButton.createNavbarButton("Profilo 👤");
-
-//        gestioneIssueButton = ModernButton.createNavbarButton("<html>Gestione<br>issue</html>");
-//        gestioneIssueButton.setPreferredSize(new Dimension(160, 30));
 
         addButtonEvents();
         createTitlePanel();
@@ -46,7 +45,7 @@ public class BarraUtente extends BarraGenerica
         buttonPanel.setBackground(Color.WHITE);
 
         buttonPanel.add(segnalaIssueButton);
-//        buttonPanel.add(gestioneIssueButton);
+        buttonPanel.add(teamButton);
         buttonPanel.add(logoutButton);
         buttonPanel.add(profiloButton);
 
@@ -59,10 +58,9 @@ public class BarraUtente extends BarraGenerica
     private void addButtonEvents()
     {
         addSegnalaIssueEvent();
-        addGestioneIssueEvent();
+        addTeamEvent();
         addProfiloEvent();
         addLogoutEvent();
-      
     }
 
     private void addSegnalaIssueEvent() {
@@ -70,10 +68,11 @@ public class BarraUtente extends BarraGenerica
             controller.showSegnalazioneIssue(utente);
         });
     }
-
-    private void addGestioneIssueEvent() {
-        //da impl
-
+    
+    private void addTeamEvent() {
+        segnalaIssueButton.addActionListener(e->{
+            controller.showAreaTeamWork(utente);
+        });
     }
 
     private void addProfiloEvent() {

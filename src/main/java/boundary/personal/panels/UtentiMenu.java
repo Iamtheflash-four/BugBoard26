@@ -33,7 +33,6 @@ public class UtentiMenu extends JPopupMenu
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					assegnaIssue(controller, user.getIdUtente());
-					controller.assegnaIssue(user.getIdUtente());
 				}
 			});
 		}

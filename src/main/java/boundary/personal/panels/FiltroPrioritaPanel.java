@@ -48,8 +48,7 @@ public class FiltroPrioritaPanel extends JPanel {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Erroe", JOptionPane.ERROR_MESSAGE);
 		}
-    }
-    
+    }   
 
     public String getPrioritaSelezionata() {
         return (String) comboPriorita.getSelectedItem();
@@ -58,8 +57,7 @@ public class FiltroPrioritaPanel extends JPanel {
  
     public void setPrioritaSelezionata(String priorita) {
         comboPriorita.setSelectedItem(priorita);
-    }
-    
+    } 
 
     public void resetFiltro() {
         comboPriorita.setSelectedIndex(0); // Seleziona "Tutte"
