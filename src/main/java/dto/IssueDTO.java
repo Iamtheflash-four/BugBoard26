@@ -1,24 +1,25 @@
 package dto;
 
-import java.util.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class IssueDTO extends entity.Issue
 {
-	int idIssue;
-	ArrayList<String> imageNames;
+	private long idIssue;
+	private ArrayList<String> imageNames;
+	private String risposta;
 	
 	public IssueDTO() {}
 	
-	public IssueDTO(long idUtente, long idProgetto, String progetto, String tipo, String priorita, String titolo, String descrizione, LocalDate data)
+	public IssueDTO(long idIssue, long idProgetto, String progetto, String tipo, String priorita, String titolo, String descrizione, LocalDate data)
 	{
 		super(idProgetto, progetto, tipo, priorita, titolo, descrizione, data);
 		this.idIssue = idIssue;
 		this.imageNames = imageNames;
+		this.risposta = null;
 	}
 
-	public int getIdIssue() {
+	public long getIdIssue() {
 		return idIssue;
 	}
 
@@ -32,5 +33,17 @@ public class IssueDTO extends entity.Issue
 
 	public void setImageNames(ArrayList<String> imageNames) {
 		this.imageNames = imageNames;
+	}
+
+	public String getRisposta() {
+		return risposta;
+	}
+
+	public void setIdIssue(long idIssue) {
+		this.idIssue = idIssue;
+	}
+
+	public void setRisposta(String risposta) {
+		this.risposta = risposta;
 	}
 }
