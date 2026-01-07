@@ -38,7 +38,7 @@ public class AreaUtenteController extends Controller
 
 	public ArrayList<IssueDTO> getElencoIssuAssegnate() throws Exception 
 	{
-		Response response = client.target(ISSUE_SERVER_URL).path("issue/elencoIssueAssegnate")
+		Response response = client.target(ISSUE_SERVER_URL).path("issue/utenti/elenchi/assegnazioni")
 			.request(MediaType.APPLICATION_JSON)
 			.header("Token", utente.getToken())
 			.get();
@@ -50,9 +50,16 @@ public class AreaUtenteController extends Controller
 	}
 
 	public void showDettagliIssue(IssueDTO issue) {
-		new DettagliIssueAssegnataController(this, issue, utente );
+		if(getShowingRicevute())
+			new DettagliIssueAssegnataController(this, issue, utente );
+		else
+			new DettagliIssueController(this, issue, utente );
 	}
 	
+	public boolean getShowingRicevute() {
+		return ((boundary.personal.PersonalAreaUtente) frame).getAreaIssue().isShowingRicevute();
+	}
+
 	public Utente getUtente()
 	{
 		return utente;
@@ -70,7 +77,7 @@ public class AreaUtenteController extends Controller
 	}
 
 	public ArrayList<IssueDTO> getElencoIssueSegnalate() throws Exception {
-		Response response = client.target(ISSUE_SERVER_URL).path("issue/elencoSegnalateUtente")
+		Response response = client.target(ISSUE_SERVER_URL).path("issue/utente/elenchi/segnalazioni")
 				.request(MediaType.APPLICATION_JSON)
 				.header("Token", utente.getToken())
 				.get();
@@ -79,5 +86,9 @@ public class AreaUtenteController extends Controller
 			return response.readEntity(new GenericType<ArrayList<IssueDTO>>() {});
 		else
 			throw new Exception(response.getStatus() + ": " + response.readEntity(String.class));
+	}
+
+	public void showAreaTeamWork(Utente utente) {
+		new AreaTeamWorkController(this, utente);
 	}
 }

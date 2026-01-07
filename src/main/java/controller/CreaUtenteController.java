@@ -19,11 +19,11 @@ public class CreaUtenteController extends Controller
 		super(controller);
 		this.utente = utente;
 		creadDialog();
+		dialog.setVisible(true);
 	}
 
 	public void creadDialog() {
-		dialog = new CreaUtenteDialog(this, frame);
-		dialog.setVisible(true);
+		dialog = new CreaUtenteDialog(this, frame);	
 	}
 
 	public Utente getUtente()

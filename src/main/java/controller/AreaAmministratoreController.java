@@ -15,7 +15,7 @@ public class AreaAmministratoreController extends AreaUtenteController
 	{
 		super(controller);
 		this.utente = utente;
-		new PersonalAreaAdmin(this, utente);
+		frame = new PersonalAreaAdmin(this, utente);
 	}
 	
 	public void showCreazioneUtente(Utente utente) {
@@ -24,12 +24,15 @@ public class AreaAmministratoreController extends AreaUtenteController
 	
 	@Override
 	public void showDettagliIssue(IssueDTO issue)  {
-		new DettagliIssueSegnalataController(this, issue, utente);
+		if(getShowingRicevute())
+			new DettagliIssueSegnalataController(this, issue, utente);
+		else
+			new DettagliIssueController(this, issue, utente);
 	}
 	
 	@Override
 	public ArrayList<IssueDTO> getElencoIssueSegnalate() throws Exception {
-		Response response = client.target(ISSUE_SERVER_URL).path("issue/elencoIssueSegnalateAdmin")
+		Response response = client.target(ISSUE_SERVER_URL).path("issue/admin/elenchi/segnalazioni")
 				.request(MediaType.APPLICATION_JSON)
 				.header("Token", utente.getToken())
 				.get();
@@ -44,5 +47,9 @@ public class AreaAmministratoreController extends AreaUtenteController
 	{
 		Utente utente = new Utente(1,"Sasy", "Correra", "s.correra@studenti.unina.it", "nooo", true, "shdfh");
 		new AreaAmministratoreController(new Controller(), utente);
+	}
+
+	public void showCreaTeamWork(Utente utente) {
+		new CreaTeamWorkController(this, utente);
 	}
 }

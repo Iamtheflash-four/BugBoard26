@@ -28,6 +28,11 @@ public class SegnalaIssueController extends Controller
 	{
 		super(controller);
 		this.utente = utente;
+		creaDialog();
+		dialog.setVisible(true);
+	}
+
+	protected void creaDialog() {
 		dialog = new SegnalaIssueDialog(frame, this);
 	}
 

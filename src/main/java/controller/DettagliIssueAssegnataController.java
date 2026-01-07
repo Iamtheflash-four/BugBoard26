@@ -9,55 +9,40 @@ import boundary.dialog.DettagliIssueAssegnataDialog;
 import boundary.dialog.DettagliIssueDialog;
 import dto.IssueDTO;
 import entity.Utente;
+import dto.RispostaIssueDTO;
 import exceptions.BadTokenException;
 import jakarta.ws.rs.client.Entity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
-public class DettagliIssueAssegnataController extends Controller
+public class DettagliIssueAssegnataController extends DettagliIssueController
 {
-	protected Utente utente;
-	protected IssueDTO issue;
 	JDialog dialog;
 	
 	public DettagliIssueAssegnataController(Controller controller, IssueDTO issue, Utente utente) {
-		super(controller);
+		super(controller, issue, utente);
 		this.utente = utente;
 		this.issue = issue;
 		creaDialog();
 	}
 	
 	protected void creaDialog() {
-		dialog = new DettagliIssueAssegnataDialog(this, issue);
+		dialog = new DettagliIssueAssegnataDialog(frame, this, issue);
 		dialog.setVisible(true);
 	}
 
 	public String getToken() {
 		return utente.getToken();
 	}
-	
-	public static void main(String[] args)
-	{
-		ArrayList<String> images = new ArrayList<String>();
-		images.add("Ciao.png");  images.add("on so.jpg"); 
-		String descrizione = "dhdahdahd hsahsahdk adh"
-				+ "askjhdaks s"
-				+ "ahdkjahdkaadsajhcsckjs \n"
-				+ "dadlksajdaj"
-				+ "adsa"
-				+ "dasdsadsadsadashdkjsdhkjsdhkjsdhkv";
-		IssueDTO issue = new IssueDTO(1, 1,  "evergren", "bug", "Alta", "Issue Titolo", 
-				descrizione, LocalDate.now());
-		issue.setImageNames(images);
-		new DettagliIssueAssegnataController(null, issue, new Utente(1, "s","dsa","dd","dd", true, "TOKEeeen"));
-	}
 
 	public void salvaRisposta(String text) throws Exception {
 		checkRisposta(text);
-		Response response = client.target(this.ISSUE_SERVER_URL).path("")
+		RispostaIssueDTO risposta = new RispostaIssueDTO(issue.getIdIssue(), text);
+		Response response = client.target(this.ISSUE_SERVER_URL).path("/issue/risposte")
 				.request()
 				.header("Token", utente.getToken())
-				.post(Entity.entity(text, MediaType.TEXT_PLAIN));
+				.post(Entity.entity(risposta, MediaType.APPLICATION_JSON));
+		
 		if(response.getStatus() != 200)
 		{
 			if (response.getStatus() == 401)

@@ -2,9 +2,11 @@ package controller;
 
 import javax.swing.JFrame;
 
+import exceptions.BadTokenException;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Response;
 
 public class Controller 
 {
@@ -28,4 +30,16 @@ public class Controller
         this.client = controller.client;
         this.frame = controller.frame;
     }
+    
+    public void elaboraErrore(Response response) throws Exception 
+	{
+		if(response == null)
+			throw new Exception("Errore connesione");
+		else 
+		{
+			if(response.getStatus() == 401)
+				throw new BadTokenException("401:  token non valido o scaduto");
+			throw new Exception(response.getStatus() + ": " + response.readEntity(String.class));
+		}
+	}
 }

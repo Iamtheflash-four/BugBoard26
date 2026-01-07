@@ -9,13 +9,11 @@ import java.util.ArrayList;
 
 import boundary.personal.panels.AreaIssue;
 
-
 public class FiltroPrioritaController extends Controller{
     
     private AreaIssue areaIssue;
     private String token;
     
-
     public FiltroPrioritaController(AreaIssue areaIssue) {
     	super(areaIssue.getController());
         this.areaIssue = areaIssue;
@@ -24,9 +22,10 @@ public class FiltroPrioritaController extends Controller{
     
     public void applicaFiltroPriorita(String priorita) throws Exception {
     	String path = creaPath();
-        Response response = client.target(ISSUE_SERVER_URL).path("/filtro/priorita")
+        Response response = client.target(ISSUE_SERVER_URL).path(path)
         		.request()
                 .header("Token", token)
+                .header("priorita", priorita)
                 .get();
         
         if (response.getStatus() == 200) {
@@ -37,18 +36,15 @@ public class FiltroPrioritaController extends Controller{
             
             // Aggiorna la tabella con le issue filtrate
             aggiornaTabella(issueFiltrate);
-        } else {
-            throw new Exception ("Errore nel recupero issue: " + response.getStatus());
-        }
-        
-        response.close();
-        
+        } else 
+        	this.elaboraErrore(response);
+        response.close();       
     }
     
    
     private String creaPath() {
     	boolean admin = getUtente().isAmministratore();
-    	String path = "/filtro/priorita";
+    	String path = "/issue/filtro/priorita";
 		if(!admin)
 		{
 			path += "/utente";
@@ -59,9 +55,9 @@ public class FiltroPrioritaController extends Controller{
 		}
 		else
 			if(!areaIssue.isShowingRicevute())
-				path += "admin/segnalate";
+				path += "/admin/segnalate";
 			else
-				path += "utente/assegnate";
+				path += "/utente/assegnate";
 		return path;
 	}
 
@@ -78,13 +74,11 @@ public class FiltroPrioritaController extends Controller{
             areaIssue.getIssueTable().addRow(issue);
         }
     }
-    
-    
+        
     private String recuperaToken() {
         return areaIssue.getController().getToken();
     }
     
- 
     public void resetFiltro() throws Exception {
         applicaFiltroPriorita("Tutte");
     }

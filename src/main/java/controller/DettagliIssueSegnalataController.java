@@ -19,7 +19,7 @@ public class DettagliIssueSegnalataController extends DettagliIssueAssegnataCont
 
 	@Override
 	protected void creaDialog() {
-		dialog = new DettagliIssueSegnalataDialog(this, issue);
+		dialog = new DettagliIssueSegnalataDialog(frame, this, issue);
 		dialog.setVisible(true);
 	}
 	
@@ -39,13 +39,16 @@ public class DettagliIssueSegnalataController extends DettagliIssueAssegnataCont
 			throw new Exception(response.getStatus() + ": " + response.readEntity(String.class));
 	}
 	
-	public void assegnaIssue(long idUtente) 
+	public void assegnaIssue(long idUtente) throws Exception 
 	{
 		Response response = client.target(ISSUE_SERVER_URL).path("/issue/assign")
 			.request()
 			.header("token", this.getToken())
+			.header("idIssue", issue.getIdIssue())
 			.header("destinatario", idUtente)
 			.post(null);
 		
+		if(response == null ||  response.getStatus() != 200)
+			elaboraErrore(response);
 	}
 }
