@@ -11,6 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import controller.AreaUtenteController;
 import dto.IssueDTO;
@@ -18,6 +19,7 @@ import dto.IssueDTO;
 public class IssueTable extends JTable 
 {
 	protected DefaultTableModel tableModel;
+	protected TableRowSorter sorter;
 	
 	public IssueTable()
 	{
@@ -31,6 +33,7 @@ public class IssueTable extends JTable
 		styleTable();
         // Header personalizzato
         createTableHeader();
+        createTableSorter();
 	}
 	
 	public void createModel() 
@@ -40,6 +43,14 @@ public class IssueTable extends JTable
 			@Override
 			public boolean isCellEditable(int row, int column) { return false; }
 		};
+	}
+	
+	public void createTableSorter()
+	{
+		sorter = new TableRowSorter<>(tableModel);
+		this.setRowSorter(sorter);
+		sorter.setSortable(6, false);
+		sorter.setSortable(5, false);
 	}
 	
 	public void styleTable() {
@@ -86,7 +97,7 @@ public class IssueTable extends JTable
 		row[0] = issue.getProgetto();
 		row[1] = issue.getTipo();
 		row[2] = issue.getPriorita();
-		row[3] = issue.getTipo();
+		row[3] = issue.getTitolo();
 		row[4] = issue.getData();
 		row[5] = "Dettagli";
 		row[6] = issue;

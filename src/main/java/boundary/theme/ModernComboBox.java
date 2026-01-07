@@ -31,12 +31,11 @@ public class ModernComboBox
 
 	private static void styleComboBox(JComboBox<String> comboBox) {
 		comboBox.setSize(120, 40);
-		comboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.BLUE));
+		comboBox.setBorder(new MatteBorder(2, 2, 2, 2, Color.WHITE));
 		comboBox.setBackground(Color.WHITE);
 		comboBox.setFont(new Font("Arial", Font.PLAIN, 15));
 		
 		comboBox.setPreferredSize(comboBox.getSize());
 		comboBox.setMaximumSize(comboBox.getSize());
 	}
-
 }
