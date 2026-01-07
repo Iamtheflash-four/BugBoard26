@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.MatteBorder;
 
 import boundary.theme.ModernLabel;
 import boundary.theme.ModernPanel;
@@ -22,6 +23,7 @@ public class UserItem extends JPanel
 	{
 		super();
 		ModernPanel.stylePanel(200, 50, this);
+		setBorder(new MatteBorder(2, 0, 2, 0, Color.GRAY));
 		creaLabels(user);
 //		emailPanel = ModernPanel.createWhitePanel(200, 30);
 		this.add(emailLabel, BorderLayout.NORTH);

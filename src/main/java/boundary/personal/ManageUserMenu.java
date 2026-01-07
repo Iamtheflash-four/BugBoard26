@@ -43,8 +43,8 @@ public class ManageUserMenu extends JPopupMenu
 		addUtenteOption.addActionListener(e->{
 			controller.showCreazioneUtente(controller.getUtente());
 		});
-//		visualizzaIssueSegnalateOption.addActionListener(e->{
-//			controller.
-//		});;
+		addTeamOption.addActionListener(e->{
+			controller.showCreaTeamWork(controller.getUtente());
+		});;
 	}
 }

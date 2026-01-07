@@ -72,4 +72,8 @@ public class PersonalAreaUtente extends JFrame
 	public AreaUtenteController getController() {
 	    return controller;
 	}
+
+	public AreaIssue getAreaIssue() {
+		return areaIssue;
+	}
 }
