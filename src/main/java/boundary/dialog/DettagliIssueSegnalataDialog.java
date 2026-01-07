@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -23,8 +24,8 @@ public class DettagliIssueSegnalataDialog extends DettagliIssueAssegnataDialog
 	private ArrayList<UserInfoDTO> elencoUtenti;
 	private UtentiMenu menuUtenti;
 	
-	public DettagliIssueSegnalataDialog(DettagliIssueSegnalataController controller, IssueDTO issue) {
-		super(controller, issue);
+	public DettagliIssueSegnalataDialog(JFrame frame, DettagliIssueSegnalataController controller, IssueDTO issue) {
+		super(frame, controller, issue);
 		createButtons();
 		addAssignmentPanel();
 		mainPanel.add(assegnaIssuePanel);
@@ -72,7 +73,6 @@ public class DettagliIssueSegnalataDialog extends DettagliIssueAssegnataDialog
 			{
 				annullaAssegnamentoButton.setVisible(true);
 				menuUtenti.show(assegnaButton, 0, assegnaButton.getHeight());
-
 			}
 			else
 				assegnaIssue();

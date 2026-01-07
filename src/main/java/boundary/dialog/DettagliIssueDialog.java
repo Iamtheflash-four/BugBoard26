@@ -2,9 +2,13 @@ package boundary.dialog;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -21,6 +26,7 @@ import javax.swing.JTextArea;
 import boundary.theme.ModernLabel;
 import boundary.theme.ModernPanel;
 import boundary.theme.TitlePanel;
+import controller.DettagliIssueController;
 import dto.IssueDTO;
 
 public class DettagliIssueDialog extends JDialog
@@ -36,16 +42,19 @@ public class DettagliIssueDialog extends JDialog
 	protected JPanel imgeNAmePanel;
 	protected JPanel imageNamePanel;
 	protected JScrollPane scrollMainPanel;
+	private JTextArea rispostaArea;
+	private JTextArea descrizioneArea;
 
-	public DettagliIssueDialog(IssueDTO issue)
+	public DettagliIssueDialog(JFrame frame, DettagliIssueController controller, IssueDTO issue)
 	{
-		super(new JFrame(), "InfoIssue", true);
+		super(frame, "InfoIssue", true);
 		mainPanel = ModernPanel.createWhitePanel(450, 600);
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		this.setSize(600, 700);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		componiGUI(issue);
+		showImmaginiAllegate(issue.getImageNames(), controller);
 		avvolgiScrollPane(mainPanel);
 		setContentPane(scrollMainPanel);
 	}
@@ -62,8 +71,9 @@ public class DettagliIssueDialog extends JDialog
 
 	protected void creaInfoSection(IssueDTO issue) {
 		createInfoHeader(issue);
-		creaDescrizione(issue.getDescrizione());
-		showImmaginiAllegate(issue.getImageNames());
+		creaTextArea(issue.getDescrizione(), descrizioneArea);
+		if(issue.getRisposta() != null && !issue.getRisposta().equals(""))
+			showRisposta(issue);
 	}
 
 	protected void createInfoHeader(IssueDTO issue) {
@@ -89,57 +99,72 @@ public class DettagliIssueDialog extends JDialog
 		return panel;
 	}
 	
-	protected void creaDescrizione(String descrizione)
+	protected void creaTextArea(String text, JTextArea area)
 	{
-		JTextArea descrizioneArea = new JTextArea(descrizione);
-		descrizioneArea.setFont(new Font("Arial", Font.ITALIC, 15));
-		descrizioneArea.setLineWrap(true);		//va a capo se è troppo lungo
-		descrizioneArea.setWrapStyleWord(true);	//non spezzare la parola se va a capo
-		descrizioneArea.setEditable(false);
-		descrizioneArea.setBorder(null);
-		descrizioneArea.setBackground(mainPanel.getBackground());
-		descrizioneArea.setRows(10);
-		descrizioneArea.setColumns(50);
-		descrizioneArea.setAlignmentX(Component.CENTER_ALIGNMENT);
-		descrizioneArea.setMaximumSize(new Dimension(300, 500));
-		JScrollPane descrizionePanel = ModernPanel.avvolgiScrollPane(descrizioneArea, 400, 200);
-		mainPanel.add(descrizionePanel);
+		area = new JTextArea(text);
+		area.setFont(new Font("Arial", Font.ITALIC, 15));
+		area.setLineWrap(true);		//va a capo se è troppo lungo
+		area.setWrapStyleWord(true);	//non spezzare la parola se va a capo
+		area.setEditable(false);
+		area.setBorder(null);
+		area.setBackground(mainPanel.getBackground());
+		area.setRows(10);
+		area.setColumns(50);
+		area.setAlignmentX(Component.CENTER_ALIGNMENT);
+		area.setMaximumSize(new Dimension(300, 500));
+		JScrollPane areaPanel = ModernPanel.avvolgiScrollPane(area, 400, 200);
+		mainPanel.add(areaPanel);
 	}
 
-	protected void showImmaginiAllegate(ArrayList<String> imageNames) {
+	protected void showImmaginiAllegate(ArrayList<String> imageNames, DettagliIssueController controller) {
 		imageNamePanel = ModernPanel.createWhitePanel(300, 50);
 		imageNamePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		JLabel imagesNameLabel = ModernLabel.createLabel("Immagini allegate", Color.BLUE);
 		imageNamePanel.add(imagesNameLabel);
 		
-		if(imageNames != null)
+		if(imageNames != null) {
 			for(String image : imageNames)
-				if(image != null)
-				{
-					imageNamePanel.add(ModernLabel.createLabel(image, Color.BLACK));
-					imageNamePanel.add(Box.createHorizontalStrut(10));
-				}
+				addImage(image, controller);
+		}
+		else {
+			JLabel emptyLabel = ModernLabel.createBoldLabel("Nessuna immagine", Color.red);
+			imageNamePanel.add(emptyLabel);
+		}
 		mainPanel.add(imageNamePanel);
+	}
+
+	protected void addImage(String image, DettagliIssueController controller) {
+		if(image != null)
+		{
+			JLabel imageLabel = ModernLabel.createLabel(image, Color.BLACK); 
+			imageLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); 
+			imageLabel.addMouseListener(new MouseAdapter() { 
+				@Override public void mouseClicked(MouseEvent e){ 
+					scaricaImmagine(imageLabel, controller); 	
+				}
+			});
+			imageNamePanel.add(imageLabel); 
+			imageNamePanel.add(Box.createHorizontalStrut(10));
+		}		
+	}
+	
+	protected void scaricaImmagine(JLabel imageLabel, DettagliIssueController controller) {
+		String nome = imageLabel.getText();
+		try {
+			Path path = controller.scaricaImmagine(nome);
+			JOptionPane.showMessageDialog(this, "Scaricato in:\n " + path.toString());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), "erroe", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	protected void showRisposta(IssueDTO issue)
+	{
+		creaTextArea(issue.getRisposta(), rispostaArea);
 	}
 	
 	protected void avvolgiScrollPane(JPanel panel)
 	{
 		scrollMainPanel = ModernPanel.avvolgiScrollPane(panel, 500, 600);
-	}
-	
-	public static void main(String[] args)
-	{
-		ArrayList<String> images = new ArrayList<String>();
-		images.add("Ciao.png");  images.add("on so.jpg"); 
-		String descrizione = "dhdahdahd hsahsahdk adh"
-				+ "askjhdaks s"
-				+ "ahdkjahdkaadsajhcsckjs \n"
-				+ "dadlksajdaj"
-				+ "adsa"
-				+ "dasdsadsadsadashdkjsdhkjsdhkjsdhkv";
-		IssueDTO issue = new IssueDTO(1, 1, "evergren", "bug", "Alta", "Issue Titolo", 
-				descrizione, LocalDate.now());
-		issue.setImageNames(images);
-		JDialog dialog = new DettagliIssueDialog(issue);
 	}
 }

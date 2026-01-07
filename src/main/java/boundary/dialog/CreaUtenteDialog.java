@@ -40,7 +40,6 @@ public class CreaUtenteDialog extends JDialog
         add(mainPanel);
         setResizable(false);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setVisible(true);
 	}
 
 	private void creaComponenti()
@@ -67,7 +66,8 @@ public class CreaUtenteDialog extends JDialog
         mailField = ModernTextField.createField("Email", 20);
         addFieldWidthLabel(mainPanel, gridBag, "Email:", mailField);
         
-        adminCheck = new JCheckBox("Amministratore");
+        adminCheck = new JCheckBox();
+        adminCheck.setBackground(Color.WHITE);
         addFieldWidthLabel(mainPanel, gridBag, "Amministratore:", adminCheck);
         
         passwordField = ModernTextField.createPasswordField();

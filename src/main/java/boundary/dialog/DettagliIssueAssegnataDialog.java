@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,9 +25,9 @@ public class DettagliIssueAssegnataDialog extends DettagliIssueDialog
 	private JPanel buttonPanel;
 	private JButton annullaButton;
 
-	public DettagliIssueAssegnataDialog(DettagliIssueAssegnataController controller, IssueDTO issue) 
+	public DettagliIssueAssegnataDialog(JFrame frame, DettagliIssueAssegnataController controller, IssueDTO issue) 
 	{
-		super(issue);
+		super(frame, controller, issue);
 		addListeners(controller);
 	}
 	
@@ -98,7 +99,6 @@ public class DettagliIssueAssegnataDialog extends DettagliIssueDialog
 		catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 		}
-			
 	}
 	
 	public void addListeners(DettagliIssueAssegnataController controller)
