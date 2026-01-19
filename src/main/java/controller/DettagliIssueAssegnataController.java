@@ -17,18 +17,16 @@ import jakarta.ws.rs.core.Response;
 
 public class DettagliIssueAssegnataController extends DettagliIssueController
 {
-	JDialog dialog;
-	
 	public DettagliIssueAssegnataController(Controller controller, IssueDTO issue, Utente utente) {
 		super(controller, issue, utente);
 		this.utente = utente;
 		this.issue = issue;
-		creaDialog();
+		creaDialog(issue);
 	}
 	
-	protected void creaDialog() {
+	@Override
+	protected void creaDialog(IssueDTO issue) {
 		dialog = new DettagliIssueAssegnataDialog(frame, this, issue);
-		dialog.setVisible(true);
 	}
 
 	public String getToken() {

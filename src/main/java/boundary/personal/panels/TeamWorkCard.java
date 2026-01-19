@@ -28,16 +28,23 @@ public class TeamWorkCard extends JPanel
 		ModernPanel.stylePanel(400, 150, this);
 		this.setBorder(new MatteBorder(2, 0, 2, 0, Color.GRAY));
 		initializeComponents(team);
+		addComponents();
 		addListeners(controller, team);
 	}
 
 	private void initializeComponents(TeamDTO team) 
 	{
+		System.out.println("Nome: " + team.getNome());
 		nomeTeamLabel = ModernLabel.createLabel(team.getNome(), new Font("Arial", Font.PLAIN, 12 ), Color.BLACK);
 		aggiungiProgettoButton = ModernButton.createNewButtonPainted("<html>Aggiungi<br>progetto</html>", 100, 30);
 		aggiungiUtenteButton = ModernButton.createNewButtonPainted("<html>Aggiungi<br>utente</html>", 100, 30);
+	}
 	
-	
+	protected void addComponents()
+	{
+		this.add(nomeTeamLabel);
+		this.add(aggiungiProgettoButton);
+		this.add(aggiungiUtenteButton);
 	}
 	
 	protected void addListeners(AreaTeamWorkController controller, TeamDTO team)

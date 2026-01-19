@@ -151,7 +151,7 @@ public class DettagliIssueDialog extends JDialog
 	protected void scaricaImmagine(JLabel imageLabel, DettagliIssueController controller) {
 		String nome = imageLabel.getText();
 		try {
-			Path path = controller.scaricaImmagine(nome);
+			Path path = controller.scaricaImmagine(nome).toAbsolutePath();
 			JOptionPane.showMessageDialog(this, "Scaricato in:\n " + path.toString());
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "erroe", JOptionPane.ERROR_MESSAGE);

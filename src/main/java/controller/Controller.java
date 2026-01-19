@@ -16,7 +16,7 @@ public class Controller
     protected static final String ISSUE_SERVER_URL = "https://bugboard26-issue.onrender.com";
     
 //    protected static final String ISSUE_SERVER_URL = "http://localhost:8082";
-//    private static final String SERVER_URL = "http://localhost:8080";
+//    protected static final String USER_SERVER_URL = "http://localhost:8080";
     
     protected Client client;
     protected JFrame frame;

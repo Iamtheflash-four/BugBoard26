@@ -25,14 +25,15 @@ public class CreaTeamWorkController extends Controller{
 	public void creaTeamWork(String nomeTeamWork, String emailResponsabile) throws Exception {
 		checkCreazioneValues(nomeTeamWork,emailResponsabile);
 		
-		Response response = client.target(ISSUE_SERVER_URL).path("/teamwork/creazione")
+		Response response = client.target(USER_SERVER_URL).path("teamwork/creazione")
 			.request()
 			.header("token", utente.getToken())
 			.header("nome", nomeTeamWork)
 			.header("email", emailResponsabile)
 			.put(Entity.text(""));
 		
-		elaboraErrore(response);
+		if(response.getStatus() != 201)
+			elaboraErrore(response);
 	}
 
 	private void checkCreazioneValues(String nomeTeamWork, String emailResponsabile) throws Exception {

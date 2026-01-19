@@ -44,6 +44,7 @@ public class AddUtenteDialog extends JDialog
 		createPanels();
 		createComponents();	
 		addComponents();
+		this.setContentPane(mainPanel);
 	}
 
 	protected void createPanels() {
@@ -68,7 +69,7 @@ public class AddUtenteDialog extends JDialog
 		buttonPanel.add(confermaButton);
 		buttonPanel.add(closeButton);
 		mainPanel.add(formPanel);
-		mainPanel.add(closeButton);
+		mainPanel.add(buttonPanel);
 	}
 	
 	protected void addListeners(AreaTeamWorkController controller)
@@ -86,6 +87,7 @@ public class AddUtenteDialog extends JDialog
 		String email = utenteField.getText();
 		try {
 			controller.addUser(email, idTeam);
+			JOptionPane.showMessageDialog(this, "Utente aggiunto", "Errore", JOptionPane.ERROR_MESSAGE);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 		}

@@ -18,9 +18,8 @@ public class DettagliIssueSegnalataController extends DettagliIssueAssegnataCont
 	}
 
 	@Override
-	protected void creaDialog() {
+	protected void creaDialog(IssueDTO issue) {
 		dialog = new DettagliIssueSegnalataDialog(frame, this, issue);
-		dialog.setVisible(true);
 	}
 	
 	public ArrayList<UserInfoDTO> getElencoUtenti() throws Exception

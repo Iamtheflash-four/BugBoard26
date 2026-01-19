@@ -70,7 +70,7 @@ public class BarraUtente extends BarraGenerica
     }
     
     private void addTeamEvent() {
-        segnalaIssueButton.addActionListener(e->{
+        teamButton.addActionListener(e->{
             controller.showAreaTeamWork(utente);
         });
     }

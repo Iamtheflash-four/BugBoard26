@@ -44,6 +44,7 @@ public class AreaTeamWorkController extends Controller
 
 	public void showAddProject(long idTeam) {
 		JDialog dialog = new AddProgettoDialog(this.dialog, this, idTeam);
+		dialog.setVisible(true);
 	}
 
 	public void addProject(String nomeProgetto, long idTeam) throws Exception {
@@ -59,6 +60,7 @@ public class AreaTeamWorkController extends Controller
 
 	public void showAddUser(long idTeam) {
 		JDialog dialog = new AddUtenteDialog(this.dialog, this, idTeam);
+		dialog.setVisible(true);
 	}
 
 	public void addUser(String email, long idTeam) throws Exception {

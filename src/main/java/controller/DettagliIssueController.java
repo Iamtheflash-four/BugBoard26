@@ -24,12 +24,16 @@ public class DettagliIssueController extends Controller
 		dialog.setVisible(true);
 	}
 
-	private void creaDialog(IssueDTO issue) {
+	protected void creaDialog(IssueDTO issue) {
 		dialog = new boundary.dialog.DettagliIssueDialog(frame, this, issue);
 	}
 
+	public void showDialog() {
+		dialog.setVisible(true);
+	}
+	
 	public Path scaricaImmagine(String imageName) throws Exception {
-	    Response response = client.target(ISSUE_SERVER_URL).path("7issue/immagini/download")
+	    Response response = client.target(ISSUE_SERVER_URL).path("issue/immagini/download")
 	    		.request()
 	    		.header("idIssue", issue.getIdIssue())
 	            .header("nome", imageName)	            
@@ -42,7 +46,7 @@ public class DettagliIssueController extends Controller
 	    byte[] data = response.readEntity(byte[].class);
         Path output = Paths.get("download/" + imageName);
         Files.createDirectories(output.getParent());
-        Files.write(output, data);	       
+        Files.write(output, data);
 	    return output;
 	}
 }

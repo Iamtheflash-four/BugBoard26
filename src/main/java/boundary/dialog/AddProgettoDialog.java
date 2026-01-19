@@ -44,6 +44,7 @@ public class AddProgettoDialog extends JDialog
 		createPanels();
 		createComponents();	
 		addComponents();
+		this.setContentPane(mainPanel);
 	}
 
 	protected void createPanels() {
@@ -68,7 +69,7 @@ public class AddProgettoDialog extends JDialog
 		buttonPanel.add(confermaButton);
 		buttonPanel.add(closeButton);
 		mainPanel.add(formPanel);
-		mainPanel.add(closeButton);
+		mainPanel.add(buttonPanel);
 	}
 	
 	protected void addListeners(AreaTeamWorkController controller)
@@ -86,6 +87,7 @@ public class AddProgettoDialog extends JDialog
 		String nomeProgetto = progettoField.getText();
 		try {
 			controller.addProject(nomeProgetto, idTeam);
+			JOptionPane.showMessageDialog(this, "Progetto aggiunto", "Errore", JOptionPane.INFORMATION_MESSAGE);
 		}catch (Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 		}

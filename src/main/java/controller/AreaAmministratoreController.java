@@ -24,7 +24,7 @@ public class AreaAmministratoreController extends AreaUtenteController
 	
 	@Override
 	public void showDettagliIssue(IssueDTO issue)  {
-		if(getShowingRicevute())
+		if(!getShowingRicevute())
 			new DettagliIssueSegnalataController(this, issue, utente);
 		else
 			new DettagliIssueController(this, issue, utente);

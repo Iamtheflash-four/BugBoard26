@@ -18,6 +18,7 @@ import boundary.personal.panels.TeamWorkCard;
 import boundary.theme.ModernButton;
 import boundary.theme.ModernLabel;
 import boundary.theme.ModernPanel;
+import boundary.theme.TitlePanel;
 import controller.AreaTeamWorkController;
 import dto.TeamDTO;
 
@@ -27,6 +28,7 @@ public class AreaTeamWorkDialog extends JDialog
 	private JPanel teamworkPanel;
 	private JButton closeButton;
 	private ArrayList<TeamDTO> elencoTeam;
+	private TitlePanel title;
 
 	public AreaTeamWorkDialog(JFrame frame, AreaTeamWorkController controller) 
 	{
@@ -44,11 +46,12 @@ public class AreaTeamWorkDialog extends JDialog
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		creaHeader();
 		inizializzaElencoTeamPanel();
-		
+		mainPanel.add(title);
+		mainPanel.add(teamworkPanel);		
 	}
 
 	protected void creaHeader() {
-		JPanel title = new boundary.theme.TitlePanel("Elenco team");
+		title = new boundary.theme.TitlePanel("Elenco team");
 		closeButton = ModernButton.createNavbarButton("chiudi");
 		
 		title.add(Box.createHorizontalStrut(5));
@@ -57,7 +60,7 @@ public class AreaTeamWorkDialog extends JDialog
 	
 	private void inizializzaElencoTeamPanel() {
 		teamworkPanel = ModernPanel.createWhitePanel(500, 500);
-		mainPanel.setLayout(new BoxLayout(teamworkPanel, BoxLayout.Y_AXIS));
+		teamworkPanel.setLayout(new BoxLayout(teamworkPanel, BoxLayout.Y_AXIS));
 	}
 
 	private void creaElencoTeam(AreaTeamWorkController controller) {

@@ -180,6 +180,7 @@ public class SegnalaIssueDialog extends JDialog {
     private void addEvents()
     {
     	sendButton.addActionListener(e->{
+//    		if(this.imageField.getImageNames() != null)
     		segnalaIssue();
     	});
     }
@@ -196,7 +197,6 @@ public class SegnalaIssueDialog extends JDialog {
 			String titolo = subjectField.getText();
 			String descrizione = descrizioneField.getText();
 			ArrayList<File> images = imageField.getImages();
-		
 			String risultato = controller.segnalaIssue(new Issue(idProgetto, progetto, tipo, priorita, titolo, descrizione, 
 				LocalDate.now()), images);
 			JOptionPane.showMessageDialog(this, risultato , "Issue caricata", JOptionPane.INFORMATION_MESSAGE);
@@ -204,7 +204,6 @@ public class SegnalaIssueDialog extends JDialog {
 			this.dispose();
 		}catch(Exception e) {
 			JOptionPane.showMessageDialog(this, e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-			e.printStackTrace();
 		}
 	}
 	
