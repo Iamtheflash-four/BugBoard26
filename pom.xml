@@ -72,4 +72,5 @@
     <name>Sonatype Nexus Snapshots</name>
     <url>https://jakarta.oss.sonatype.org/content/repositories/snapshots/</url>
 </snapshotRepository>
+
 </project>
